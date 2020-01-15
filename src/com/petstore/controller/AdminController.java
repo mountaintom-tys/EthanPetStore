@@ -5,6 +5,7 @@ import com.petstore.entity.Admins;
 import com.petstore.entity.Goods;
 import com.petstore.service.AdminService;
 import com.petstore.service.GoodService;
+import com.petstore.service.TypeService;
 import com.petstore.util.UploadUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -31,6 +32,8 @@ public class AdminController {
     private AdminService adminService;
     @Autowired
     private GoodService goodService;
+    @Autowired
+    private TypeService typeService;
 
     /**
      * 管理员登录
@@ -74,29 +77,41 @@ public class AdminController {
      */
     @RequestMapping("/goodList")
     public String goodList(@RequestParam(required = false, defaultValue = "0") byte type, HttpServletRequest request, HttpServletResponse response,
-                           @RequestParam(required = false,defaultValue = "1")int page) {
+                           @RequestParam(required = false, defaultValue = "1") int page) {
         if (type != 0) {
             response.setCharacterEncoding("UTF-8");
             response.setContentType("application/json;charset=utf-8");
-            Map<String, Object> map=goodService.getList(type,page,rows);
-            reponseToJson(response,map);
+            Map<String, Object> map = goodService.getList(type, page, rows);
+            reponseToJson(response, map);
         }
         return "goodList.jsp";
     }
 
-    public void reponseToJson(HttpServletResponse response,Map<String, Object> map){
-        PrintWriter writer= null;
+    public void reponseToJson(HttpServletResponse response, Map<String, Object> map) {
+        PrintWriter writer = null;
         try {
             writer = response.getWriter();
             writer.write(JSON.toJSONString(map));
             writer.flush();
         } catch (IOException e) {
             e.printStackTrace();
-        }finally {
-            if(writer!=null){
+        } finally {
+            if (writer != null) {
                 writer.close();
             }
         }
+    }
+
+    /**
+     * 产品添加
+     *
+     * @param request
+     * @return
+     */
+    @RequestMapping("/goodAdd")
+    public String goodAdd(HttpServletRequest request) {
+        request.setAttribute("typeList", typeService.getList());
+        return "goodAdd.jsp";
     }
 
     /**
@@ -141,6 +156,39 @@ public class AdminController {
         } else {
             map.put("code", 1);
         }
-        reponseToJson(res,map);
+        reponseToJson(res, map);
+    }
+
+    /**
+     * 产品更新
+     *
+     * @param id
+     * @param request
+     * @return
+     */
+    @RequestMapping("/goodEdit")
+    public String goodEdit(int id, HttpServletRequest request) {
+        request.setAttribute("typeList", typeService.getList());
+        request.setAttribute("good", goodService.get(id));
+        return "goodEdit.jsp";
+    }
+
+    /**
+     * 产品更新
+     * @return
+     */
+    @RequestMapping("/goodUpdate")
+    public String goodUpdate(Goods good, HttpServletRequest request) {
+        Goods gooddb = goodService.get(good.getId());
+        if (gooddb.equals(good)) {
+            request.setAttribute("msg", "未修改任何数据！");
+        } else {
+            if (goodService.update(good)) {
+                request.setAttribute("msg", "更新成功！");
+            } else {
+                request.setAttribute("msg", "更新失败！");
+            }
+        }
+        return "goodEdit?id=" + good.getId();
     }
 }

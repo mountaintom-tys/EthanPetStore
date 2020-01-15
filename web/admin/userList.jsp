@@ -1,4 +1,4 @@
-<%--
+<%@ page import="com.petstore.util.Constants" %><%--
   Created by IntelliJ IDEA.
   User: ethant
   Date: 01/13/20
@@ -8,7 +8,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title>Title</title>
+    <title><%=Constants.WEB_TITLE_NAME%></title>
 </head>
 <BODY>
 <%@include file="header.jsp" %>

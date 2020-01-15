@@ -35,6 +35,7 @@
 
 	<!--静态资源不拦截 -->
 	<mvc:resources mapping="/resources/**" location="/resources/" />
+	<mvc:resources mapping="/upload/**" location="/upload/" />
 
 
 </beans>

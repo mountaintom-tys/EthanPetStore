@@ -31,13 +31,14 @@
     <div class="site-content">
         <div class="site-text site-block">
             <fieldset class="layui-elem-field layui-field-title site-title">
-                <legend><a name="bgcolor">新增宠物</a></legend>
+                <legend><a name="bgcolor">修改信息</a></legend>
             </fieldset>
-            <form class="layui-form" action="goodSave">
+            <form class="layui-form" action="goodUpdate">
                 <div class="layui-form-item">
                     <label class="layui-form-label">名称</label>
                     <div class="layui-input-block">
-                        <input type="text" name="name" required lay-verify="required" placeholder="请输入名称"
+                        <input type="hidden" name="id" value="${good.id}">
+                        <input type="text" name="name" required lay-verify="required" value="${good.name}" placeholder="请输入名称"
                                autocomplete="off"
                                class="layui-input">
                     </div>
@@ -45,21 +46,21 @@
                 <div class="layui-form-item">
                     <label class="layui-form-label">价格</label>
                     <div class="layui-input-inline">
-                        <input type="text" name="price" required lay-verify="required|number" placeholder="请输入价格"
+                        <input type="text" name="price" required lay-verify="required|number" value="${good.price}" placeholder="请输入价格"
                                autocomplete="off" class="layui-input">
                     </div>
-                    <div class="layui-form-mid layui-word-aux">辅助文字</div>
+                    <div class="layui-form-mid layui-word-aux">单位：元</div>
                 </div>
                 <div class="layui-form-item layui-form-text">
                     <label class="layui-form-label">介绍</label>
                     <div class="layui-input-block">
-                        <textarea name="intro" placeholder="请输入介绍" class="layui-textarea"></textarea>
+                        <textarea name="intro"  placeholder="请输入介绍" class="layui-textarea">${good.intro}</textarea>
                     </div>
                 </div>
                 <div class="layui-form-item">
                     <label class="layui-form-label">库存</label>
                     <div class="layui-input-inline">
-                        <input type="text" name="stock" required lay-verify="required|number" placeholder="请输入库存"
+                        <input type="text" name="stock" required lay-verify="required|number" value="${good.stock}" placeholder="请输入库存"
                                autocomplete="off" class="layui-input">
                     </div>
                 </div>
@@ -69,9 +70,9 @@
                         <button type="button" class="layui-btn" id="img">
                             <i class="layui-icon">&#xe67c;</i>上传图片
                         </button>
-                        <input type="hidden" id="img_url" name="cover" value=""/>
+                        <input type="hidden" id="img_url" name="cover" value="${good.cover}"/>
                         <div class="layui-upload-list">
-                            <img class="layui-upload-img" width="100px" height="80px" id="demo1"/>
+                            <img class="layui-upload-img" src="../${good.cover}" width="100px" height="80px" id="demo1"/>
                             <p id="demoText"></p>
                         </div>
                         <div class="layui-form-mid layui-word-aux">推荐尺寸：500 * 500</div>
@@ -83,15 +84,16 @@
                         <select name="typeId" lay-verify="required">
                             <option value=""></option>
                             <c:forEach var="type" items="${typeList}">
-                                <option value="${type.id}">${type.name}</option>
+                                <c:if test="${type.id==good.type.id}"><option selected value="${type.id}">${type.name}</option></c:if>
+                                <c:if test="${type.id!=good.type.id}"><option value="${type.id}">${type.name}</option></c:if>
                             </c:forEach>
                         </select>
                     </div>
                 </div>
                 <div class="layui-form-item">
                     <div class="layui-input-block">
-                        <button class="layui-btn" lay-submit lay-filter="formDemo">立即提交</button>
-                        <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+                        <button class="layui-btn" lay-submit lay-filter="formDemo">提交修改</button>
+                        <button type="button" onclick="javascript:location.reload();" class="layui-btn layui-btn-primary">重置</button>
                     </div>
                 </div>
             </form>
@@ -99,10 +101,14 @@
     </div>
 </div>
 <script>
+
     //Demo
     layui.use(['form','upload'], function () {
         var form = layui.form,upload=layui.upload,$=layui.$;
-
+        var msg="${msg}";
+        if(msg!=null && msg.trim()!="" && msg!=undefined){
+            layer.msg(msg);
+        }
         var uploadInst = upload.render({
             elem: '#img' //绑定元素
             ,url: '../admin/uploadFile' //上传接口

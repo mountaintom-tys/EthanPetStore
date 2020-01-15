@@ -13,7 +13,7 @@
     <result column="type_id" property="typeId" jdbcType="INTEGER" />
   </resultMap>
   <sql id="Base_Column_List" >
-    id, name, cover, image1, image2, price, intro, stock, type_id
+    id, name, cover, price, intro, stock, type_id
   </sql>
   <select id="selectById" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
@@ -126,8 +126,6 @@
     update goods
     set name = #{name,jdbcType=VARCHAR},
       cover = #{cover,jdbcType=VARCHAR},
-      image1 = #{image1,jdbcType=VARCHAR},
-      image2 = #{image2,jdbcType=VARCHAR},
       price = #{price,jdbcType=INTEGER},
       intro = #{intro,jdbcType=VARCHAR},
       stock = #{stock,jdbcType=INTEGER},
