@@ -78,4 +78,13 @@ public class GoodService {
     public boolean update(Goods good) {
         return goodDao.updateById(good)>0;
     }
+
+    /**
+     * 删除商品
+     * @param id
+     * @return
+     */
+    public boolean delete(int id) {
+        return goodDao.deleteById(id)>0;
+    }
 }

@@ -1,0 +1,14 @@
+.layui-table-view .layui-table[lay-size=lg] .layui-table-cell{
+
+    text-align:center;
+
+    height: auto;
+
+    white-space: normal;
+
+}
+.layui-table img{
+
+    max-width:190px;
+    max-height:200px;
+}

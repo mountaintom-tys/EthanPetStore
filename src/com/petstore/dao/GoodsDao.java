@@ -7,6 +7,8 @@ import org.apache.ibatis.annotations.Select;
 import java.util.List;
 
 public interface GoodsDao {
+    int deleteById(Integer id);
+
     int insert(Goods record);
 
     Goods selectById(Integer id);

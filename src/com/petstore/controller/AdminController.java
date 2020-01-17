@@ -191,4 +191,35 @@ public class AdminController {
         }
         return "goodEdit?id=" + good.getId();
     }
+
+    /**
+     * 产品删除
+     * @param id
+     * @return
+     */
+    @RequestMapping("/goodDelete")
+    public String goodDelete(int id,String cover){
+        goodService.delete(id);
+        UploadUtil.fileDelete(cover);
+        return "redirect:goodList";
+    }
+
+    /**
+     * 类目列表
+     * @param request
+     * @return
+     */
+    @RequestMapping("/typeList")
+    public String typeList(@RequestParam(required = false, defaultValue = "0") byte type,HttpServletRequest request,HttpServletResponse response){
+        if(type!=0){
+            response.setCharacterEncoding("UTF-8");
+            response.setContentType("application/json;charset=utf-8");
+            Map<String, Object> map = new HashMap<>();
+            map.put("code", 0);
+            map.put("msg", "");
+            map.put("data",typeService.getList());
+            reponseToJson(response, map);
+        }
+        return "typeList.jsp";
+    }
 }
