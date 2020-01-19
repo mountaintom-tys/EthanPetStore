@@ -37,10 +37,11 @@ public class GoodService {
     public Map<String, Object> getList(byte type, int page, int rows) {
         Map<String, Object> map = new HashMap<>();
         if (type == 1) {
+            List<Goods> goodList=goodDao.getList();
             map.put("code", 0);
             map.put("msg", "");
-            map.put("count", 1000);
-            map.put("data",packToList(goodDao.getList(rows * (page - 1), rows)));
+            map.put("count", goodList.size());
+            map.put("data",packToList(goodList));
             return map;
         }
         return null;

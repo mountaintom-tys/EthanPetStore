@@ -9,6 +9,10 @@ public class Admins {
     
     private String passwordNew;
 
+    private String securityQuestion;
+
+    private String securityAnswer;
+
     public String getPasswordNew() {
 		return passwordNew;
 	}
@@ -39,5 +43,20 @@ public class Admins {
 
     public void setPassword(String password) {
         this.password = password == null ? null : password.trim();
+    }
+    public String getSecurityQuestion() {
+        return securityQuestion;
+    }
+
+    public void setSecurityQuestion(String securityQuestion) {
+        this.securityQuestion = securityQuestion;
+    }
+
+    public String getSecurityAnswer() {
+        return securityAnswer;
+    }
+
+    public void setSecurityAnswer(String securityAnswer) {
+        this.securityAnswer = securityAnswer;
     }
 }

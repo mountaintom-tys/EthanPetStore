@@ -1,6 +1,7 @@
 package com.petstore.service;
 
 import com.petstore.dao.AdminsDao;
+import com.petstore.entity.Admins;
 import com.petstore.util.SafeUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,5 +21,9 @@ public class AdminService {
     * */
     public boolean checkUser(String username,String password){
         return adminDao.getByUsernameAndPassword(username, SafeUtil.encode(password))!=null;
+    }
+
+    public Admins getByUserName(String username) {
+        return adminDao.getByUserName(username);
     }
 }

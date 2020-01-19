@@ -28,4 +28,29 @@ public class TypeService {
     public List<Types> getList() {
         return typeDao.getList();
     }
+
+    /**
+     * 添加
+     * @param type
+     */
+    public Integer add(Types type) {
+        return typeDao.insert(type);
+    }
+
+    /**
+     * 更新
+     * @param type
+     */
+    public boolean update(Types type) {
+        return typeDao.updateById(type)>0;
+    }
+
+    /**
+     * 删除
+     * @param id
+     * @return
+     */
+    public boolean delete(int id) {
+        return typeDao.deleteById(id)>0;
+    }
 }

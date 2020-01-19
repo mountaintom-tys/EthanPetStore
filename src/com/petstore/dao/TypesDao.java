@@ -9,6 +9,12 @@ public interface TypesDao {
 
     Types selectById(Integer typeId);
 
+    Integer insert(Types type);
+
+    int updateById(Types type);
+
+    int deleteById(Integer id);
+
     // 以上为mybatis generator自动生成接口, 具体实现在mapper.xml中
 
     // ------------------------------------------------------------
@@ -21,4 +27,7 @@ public interface TypesDao {
      */
     @Select("select * from types order by id desc")
     List<Types> getList();
+
+
+
 }

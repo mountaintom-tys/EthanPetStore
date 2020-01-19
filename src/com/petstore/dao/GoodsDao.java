@@ -22,12 +22,10 @@ public interface GoodsDao {
 
     /**
      * 获取列表
-     * @param i
-     * @param rows
      * @return
      */
-    @Select("select * from goods order by id desc limit #{begin},#{size}")
-    public List<Goods> getList(@Param("begin") int i,@Param("size") int rows);
+    @Select("select * from goods order by id desc")
+    List<Goods> getList();
 
 
 

@@ -15,4 +15,12 @@ public interface AdminsDao {
     * */
     @Select("select * from admins where username=#{username} and password=#{password}")
     public Admins getByUsernameAndPassword(@Param("username")String username,@Param("password")String password);
+
+    /**
+     * 通过用户名查找
+     * @param username
+     * @return
+     */
+    @Select("select * from admins where username=#{username}")
+    Admins getByUserName(String username);
 }

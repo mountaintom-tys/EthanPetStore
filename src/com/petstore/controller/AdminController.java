@@ -3,6 +3,7 @@ package com.petstore.controller;
 import com.alibaba.fastjson.JSON;
 import com.petstore.entity.Admins;
 import com.petstore.entity.Goods;
+import com.petstore.entity.Types;
 import com.petstore.service.AdminService;
 import com.petstore.service.GoodService;
 import com.petstore.service.TypeService;
@@ -20,6 +21,7 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Controller
@@ -48,6 +50,18 @@ public class AdminController {
         }
         request.setAttribute("msg", "用户名或密码错误!");
         return "login.jsp";
+    }
+
+    /**
+     *管理员修改自己密码
+     * @param request
+     * @param session
+     * @return
+     */
+    @RequestMapping("/adminRe")
+    public String adminRe(HttpServletRequest request,HttpSession session){
+        request.setAttribute("admin",adminService.getByUserName(String.valueOf(session.getAttribute("username"))));
+        return "adminReset.jsp";
     }
 
     /**
@@ -215,11 +229,47 @@ public class AdminController {
             response.setCharacterEncoding("UTF-8");
             response.setContentType("application/json;charset=utf-8");
             Map<String, Object> map = new HashMap<>();
+            List<Types> typeList=typeService.getList();
             map.put("code", 0);
             map.put("msg", "");
-            map.put("data",typeService.getList());
+            map.put("count",typeList.size());
+            map.put("data",typeList);
             reponseToJson(response, map);
         }
         return "typeList.jsp";
     }
+
+    /**
+     * 新增类目
+     * @param type
+     * @return
+     */
+    @RequestMapping("/typeAdd")
+    public String typeAdd(Types type){
+        typeService.add(type);
+        return "redirect:typeList";
+    }
+
+    /**
+     * 更新类目
+     * @param type
+     * @return
+     */
+    @RequestMapping("/typeEdit")
+    public String typeEdit(Types type){
+        typeService.update(type);
+        return "redirect:typeList";
+    }
+
+    /**
+     * 删除类目
+     * @param id
+     * @return
+     */
+    @RequestMapping("/typeDelete")
+    public String typeDelete(int id){
+        typeService.delete(id);
+        return "redirect:typeList";
+    }
+
 }
