@@ -1,5 +1,7 @@
 package com.petstore.entity;
 
+import org.springframework.util.StringUtils;
+
 public class Admins {
     private Integer id;
 
@@ -58,5 +60,45 @@ public class Admins {
 
     public void setSecurityAnswer(String securityAnswer) {
         this.securityAnswer = securityAnswer;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if(this == obj){
+            return true;//地址相等
+        }
+        if(obj == null){
+            return false;//非空性：对于任意非空引用x，x.equals(null)应该返回false。
+        }
+        if(obj instanceof Admins){
+            Admins other = (Admins) obj;
+            //需要比较的字段相等，则这两个对象相等
+            if(equalsStr(this.username, other.username)
+                    && equalsStr(this.password, other.password)&&equalsStr(this.passwordNew,other.passwordNew)
+                    &&this.securityQuestion.equals(other.securityQuestion)&&this.securityAnswer.equals(other.securityAnswer)){
+                return true;
+            }
+        }
+        return false;
+    }
+    private boolean equalsStr(String str1, String str2){
+        if(StringUtils.isEmpty(str1) && StringUtils.isEmpty(str2)){
+            return true;
+        }
+        if(!StringUtils.isEmpty(str1) && str1.equals(str2)){
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    public int hashCode() {
+        int result=17;
+        result=31*result+(username==null?0:username.hashCode());
+        result=31*result+(password==null?0:password.hashCode());
+        result=31*result+(passwordNew==null?0:passwordNew.hashCode());
+        result=31*result+(securityQuestion==null?0:securityQuestion.hashCode());
+        result=31*result+(securityAnswer==null?0:securityAnswer.hashCode());
+        return result;
     }
 }

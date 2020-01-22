@@ -8,9 +8,24 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title><%=Constants.WEB_TITLE_NAME%>
-    </title>
+    <title><%=Constants.WEB_TITLE_NAME%></title>
+</head>
+<BODY>
+<%@include file="header.jsp" %>
 
+
+<div style="padding-left: 100px">
+    <br>
+    <div>
+        <div class="layui-input-inline">
+            <input type="text" id="typeName" required lay-verify="required" placeholder="请输入名称"
+                   autocomplete="off"
+                   class="layui-input">
+        </div>
+        <a class="layui-btn layui-btn-lg" onclick="typeAdd(this)" href="javascript:;">添加类目</a></div>
+    <br>
+    <table id="demo" lay-filter="typeList"></table>
+    <link href="../resources/css/myCss.css" rel="stylesheet" type="text/css">
     <script>
         var typeListDb;
         //检查类目名是符合要求
@@ -35,25 +50,6 @@
                 obj.href = "typeAdd?name=" + typeName.value;
             }
         }
-    </script>
-</head>
-<BODY>
-<%@include file="header.jsp" %>
-
-
-<div style="padding-left: 100px">
-    <br>
-    <div>
-        <div class="layui-input-inline">
-            <input type="text" id="typeName" required lay-verify="required" placeholder="请输入名称"
-                   autocomplete="off"
-                   class="layui-input">
-        </div>
-        <a class="layui-btn layui-btn-lg" onclick="typeAdd(this)" href="javascript:;">添加类目</a></div>
-    <br>
-    <table id="demo" lay-filter="typeList"></table>
-    <link href="../resources/css/myCss.css" rel="stylesheet" type="text/css">
-    <script>
         layui.use(['table', 'layer'], function () {
             var table = layui.table,$ = layui.$;
             //第一个实例

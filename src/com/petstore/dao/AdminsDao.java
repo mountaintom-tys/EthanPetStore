@@ -6,6 +6,12 @@ import org.apache.ibatis.annotations.Select;
 
 public interface AdminsDao {
 
+    int updateById(Admins adminNew);
+
+    // 以上为mybatis generator自动生成接口, 具体实现在mapper.xml中
+
+    // ------------------------------------------------------------
+
     //以下方法使用mybatis注解实现
     /*
     * 通过用户名和密码查找
@@ -23,4 +29,5 @@ public interface AdminsDao {
      */
     @Select("select * from admins where username=#{username}")
     Admins getByUserName(String username);
+
 }

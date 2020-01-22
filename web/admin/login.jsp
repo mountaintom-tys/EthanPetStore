@@ -80,7 +80,7 @@
         <c:if test="${msg!=null}">
             <div style="color: #FF5722;margin-left: 135px">${msg}</div>
         </c:if>
-        <button class="close" title="关闭">X</button>
+        <br>
         <div class="layui-form-mid layui-word-aux" style="margin:0px 0px 30px 100px">
             <h2>登录后台管理系统</h2>
         </div>

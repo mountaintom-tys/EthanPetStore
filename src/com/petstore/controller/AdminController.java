@@ -7,6 +7,7 @@ import com.petstore.entity.Types;
 import com.petstore.service.AdminService;
 import com.petstore.service.GoodService;
 import com.petstore.service.TypeService;
+import com.petstore.util.SafeUtil;
 import com.petstore.util.UploadUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -53,7 +54,18 @@ public class AdminController {
     }
 
     /**
-     *管理员修改自己密码
+     * 退出
+     * @param session
+     * @return
+     */
+    @RequestMapping("/logout")
+    public String logout(HttpSession session){
+        session.removeAttribute("username");
+        return "login.jsp";
+    }
+
+    /**
+     *管理员进入修改信息页面
      * @param request
      * @param session
      * @return
@@ -64,6 +76,41 @@ public class AdminController {
         return "adminReset.jsp";
     }
 
+    /**
+     * 管理员修改自己的信息
+     * @param adminNew
+     * @param request
+     * @param session
+     * @return
+     */
+    @RequestMapping("/adminReset")
+    public String adminReset(Admins adminNew,HttpServletRequest request,HttpSession session){
+        adminNew.setPassword(SafeUtil.encode(adminNew.getPassword()));
+        adminNew.setPasswordNew(SafeUtil.encode(adminNew.getPasswordNew()));
+        Admins admin = adminService.getByUserName(String.valueOf(session.getAttribute("username")));
+        admin.setPasswordNew(admin.getPassword());
+        if(!admin.getPassword().equals(adminNew.getPassword())){
+            request.setAttribute("msg","原密码不正确，请重新输入！");
+            return "adminRe";
+        }
+        if(admin.equals(adminNew)){
+            request.setAttribute("msg","未作任何修改！");
+            return "adminRe";
+        }
+        if(adminService.isExist(adminNew)){
+            request.setAttribute("msg","用户名已存在！");
+            return "adminRe";
+        }
+        adminNew.setSecurityAnswer(SafeUtil.encode(adminNew.getSecurityAnswer()));
+        if(adminService.update(adminNew)){
+            session.setAttribute("username",adminNew.getUsername());
+            request.setAttribute("msg","信息修改成功！");
+            return "adminRe";
+        }
+        request.setAttribute("msg","信息修改失败！");
+        return "adminRe";
+
+    }
     /**
      * 订单列表
      *

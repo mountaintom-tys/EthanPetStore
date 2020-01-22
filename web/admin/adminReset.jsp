@@ -24,7 +24,7 @@
         }
     </style>
 </head>
-<body>
+<BODY>
 <%@include file="header.jsp" %>
 <div class="layui-main site-inline">
     <div class="site-content">
@@ -32,12 +32,12 @@
             <fieldset class="layui-elem-field layui-field-title site-title">
                 <legend><a name="bgcolor">修改信息</a></legend>
             </fieldset>
-            <form class="layui-form" action="adminReset">
+            <form class="layui-form" action="adminReset" method="post">
                 <div class="layui-form-item">
                     <label class="layui-form-label">用户名</label>
                     <div class="layui-input-block">
                         <input type="hidden" name="id" value="${admin.id}">
-                        <input type="text" name="name" required lay-verify="required" value="${admin.username}" placeholder="请输入名称"
+                        <input type="text" name="username" required lay-verify="required" value="${admin.username}" placeholder="请输入名称"
                                autocomplete="off"
                                class="layui-input">
                     </div>
@@ -45,28 +45,28 @@
                 <div class="layui-form-item">
                     <label class="layui-form-label">原密码</label>
                     <div class="layui-input-inline">
-                        <input type="password" name="password" required lay-verify="required|number" value="" placeholder="请输入原密码"
+                        <input type="password" name="password" required lay-verify="required" value="" placeholder="请输入原密码"
                                autocomplete="off" class="layui-input">
                     </div>
                 </div>
                 <div class="layui-form-item">
                     <label class="layui-form-label">新密码</label>
                     <div class="layui-input-inline">
-                        <input type="password" name="passwordNew" required lay-verify="required|number" value="" placeholder="请输入新密码"
+                        <input type="password" name="passwordNew" required lay-verify="required" value="" placeholder="请输入新密码"
                                autocomplete="off" class="layui-input">
                     </div>
                 </div>
                 <div class="layui-form-item">
                     <label class="layui-form-label">密保问题</label>
-                    <div class="layui-input-inline">
-                        <input type="text" name="securityQuestion" required lay-verify="required|number" value="${admin.securityQuestion}" placeholder="请输入密保问题"
+                    <div class="layui-input-block">
+                        <input type="text" name="securityQuestion" required lay-verify="required" value="${admin.securityQuestion}" placeholder="请输入密保问题"
                                autocomplete="off" class="layui-input">
                     </div>
                 </div>
                 <div class="layui-form-item">
                     <label class="layui-form-label">密保答案</label>
                     <div class="layui-input-inline">
-                        <input type="password" name="securityAnswer" required lay-verify="required|number" value="" placeholder="请输入密保答案"
+                        <input type="password" name="securityAnswer" required lay-verify="required" value="${admin.securityAnswer}" placeholder="请输入密保答案"
                                autocomplete="off" class="layui-input">
                     </div>
                 </div>
@@ -81,10 +81,14 @@
     </div>
 </div>
 <script>
-    var msg="${msg}";
-    if(msg!=null && msg.trim()!="" && msg!=undefined){
-        layer.msg(msg);
-    }
+    layui.use(['form','layer'], function(){
+        var form = layui.form,$=layui.$,layer=layui.layer;
+        var msg="${msg}";
+        if(msg!=null && msg.trim()!="" && msg!=undefined){
+            layer.msg(msg);
+        }
+    });
+
 </script>
-</body>
+</BODY>
 </html>

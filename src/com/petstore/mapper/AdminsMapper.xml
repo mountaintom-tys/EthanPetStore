@@ -63,7 +63,9 @@
   <update id="updateById" parameterType="com.petstore.entity.Admins" >
     update admins
     set username = #{username,jdbcType=VARCHAR},
-      password = #{password,jdbcType=VARCHAR}
+      password = #{password,jdbcType=VARCHAR},
+      security_question = #{securityQuestion,jdbcType=VARCHAR},
+      security_answer = #{securityAnswer,jdbcType=VARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
 </mapper>
