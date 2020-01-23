@@ -1,5 +1,8 @@
 package com.petstore.entity;
 
+/**
+ * 用户
+ */
 public class Users {
     private Integer id;
 

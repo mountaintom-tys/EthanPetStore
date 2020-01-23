@@ -1,5 +1,8 @@
 package com.petstore.entity;
 
+/**
+ * 类目
+ */
 public class Types {
     private Integer id;
     private String name;

@@ -2,6 +2,9 @@ package com.petstore.entity;
 
 import org.springframework.util.StringUtils;
 
+/**
+ * 商品
+ */
 public class Goods {
     private Integer id;
     private String name;

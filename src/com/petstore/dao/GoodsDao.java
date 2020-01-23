@@ -24,9 +24,22 @@ public interface GoodsDao {
      * 获取列表
      * @return
      */
-    @Select("select * from goods order by id desc")
-    List<Goods> getList();
+    @Select("select * from goods order by id desc limit #{begin},#{size}")
+    List<Goods> getList(@Param("begin")int begin,@Param("size")int size);
 
 
+    /**
+     * 获取总数
+     * @return
+     */
+    @Select("select count(*) from goods")
+    long getTotal();
 
+    /**
+     * 通过类型获取总数
+     * @param type
+     * @return
+     */
+    @Select("select count(*) from goods where type_id=#{type}")
+    long getTotalByType(byte type);
 }

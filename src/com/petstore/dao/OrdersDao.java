@@ -1,20 +1,12 @@
 package com.petstore.dao;
 
-import com.petstore.entity.Types;
+import com.petstore.entity.Orders;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 
 import java.util.List;
 
-public interface TypesDao extends Total{
-
-    Types selectById(Integer typeId);
-
-    Integer insert(Types type);
-
-    int updateById(Types type);
-
-    int deleteById(Integer id);
+public interface OrdersDao {
 
     // 以上为mybatis generator自动生成接口, 具体实现在mapper.xml中
 
@@ -22,19 +14,14 @@ public interface TypesDao extends Total{
 
     // 以下方法使用mybatis注解实现
 
-    /**
-     * 获取列表
-     * @return
-     */
-    @Select("select * from types order by id desc limit #{begin},#{size}")
-    List<Types> getList(@Param("begin")int begin,@Param("size")int size);
-
+    @Select("select * from orders order by id desc limit #{begin},#{size}")
+    List<Orders> getList(@Param("begin")int begin,@Param("size")int size);
 
     /**
      * 获取总数
      * @return
      */
-    @Select("select count(*) from types")
+    @Select("select count(*) from orders")
     long getTotal();
 
     /**
@@ -42,7 +29,6 @@ public interface TypesDao extends Total{
      * @param status
      * @return
      */
-    @Select("select count(*) from types where status=#{status}")
+    @Select("select count(*) from orders where status=#{status}")
     long getTotalByStatus(byte status);
-
 }

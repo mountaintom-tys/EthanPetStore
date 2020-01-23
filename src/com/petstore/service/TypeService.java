@@ -5,12 +5,16 @@ import com.petstore.entity.Types;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class TypeService {
     @Autowired
     private TypesDao typeDao;
+    @Autowired
+    private TotalService<TypesDao> totalService;
 
     /**
      * 通过id查询
@@ -25,9 +29,17 @@ public class TypeService {
      * 获取列表
      * @return
      */
-    public List<Types> getList() {
-        return typeDao.getList();
+    public Map<String, Object> getList(byte type,int page,int limit) {
+        Map<String, Object> map = new HashMap<>();
+        if(type==1){
+            List<Types> typeList=typeDao.getList(limit*(page-1),limit);
+            map=totalService.getMap(map,type,typeDao);
+            map.put("data",typeList);
+            return map;
+        }
+        return null;
     }
+
 
     /**
      * 添加

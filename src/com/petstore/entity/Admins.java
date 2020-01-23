@@ -2,6 +2,9 @@ package com.petstore.entity;
 
 import org.springframework.util.StringUtils;
 
+/**
+ * 管理员
+ */
 public class Admins {
     private Integer id;
 

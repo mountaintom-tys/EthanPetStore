@@ -31,6 +31,8 @@
                 , height: 600
                 , url: '../admin/goodList?type=1' //数据接口
                 , page: true //开启分页
+                , limit:1
+                , limits:[1,2,3]
                 , cols: [[ //表头
                     {field: 'id', title: 'ID', width: 200, sort: true}
                     , {field: 'cover', title: '图片', width: 230,templet:'<div><img src="../{{d.cover}}"></div>'}
