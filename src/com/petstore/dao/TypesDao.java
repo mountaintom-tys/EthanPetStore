@@ -23,13 +23,18 @@ public interface TypesDao extends Total{
     // 以下方法使用mybatis注解实现
 
     /**
-     * 获取列表
+     * 获取分页列表
      * @return
      */
     @Select("select * from types order by id desc limit #{begin},#{size}")
     List<Types> getList(@Param("begin")int begin,@Param("size")int size);
 
-
+    /**
+     * 获取所有列表
+     * @return
+     */
+    @Select("select * from types order by id desc")
+    List<Types> getListTotal();
     /**
      * 获取总数
      * @return
@@ -39,10 +44,10 @@ public interface TypesDao extends Total{
 
     /**
      * 通过类型获取总数
-     * @param status
+     * @param type
      * @return
      */
     @Select("select count(*) from types where status=#{status}")
-    long getTotalByStatus(byte status);
+    long getTotalByType(byte type);
 
 }

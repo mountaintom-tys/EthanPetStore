@@ -125,7 +125,7 @@ public class AdminController {
     public String orderList(@RequestParam(required = false, defaultValue = "0") byte status,HttpServletResponse response,
                             @RequestParam(required=false, defaultValue="1") Integer page,@RequestParam(required=false, defaultValue="10")Integer limit) {
         if(status!=0){
-            Map<String, Object> map = orderService.getList(status,page,limit);
+            Map<String, Object> map = orderService.getMap(status,page,limit);
             reponseToJson(response, map);
         }
         return "orderList.jsp";
@@ -150,7 +150,7 @@ public class AdminController {
     public String goodList(@RequestParam(required = false, defaultValue = "0") byte type,HttpServletResponse response,
                            @RequestParam(required=false, defaultValue="1") Integer page,@RequestParam(required=false, defaultValue="10")Integer limit) {
         if (type != 0) {
-            Map<String, Object> map = goodService.getList(type,page,limit);
+            Map<String, Object> map = goodService.getMap(type,page,limit);
             reponseToJson(response, map);
         }
         return "goodList.jsp";
@@ -284,7 +284,7 @@ public class AdminController {
     public String typeList(@RequestParam(required = false, defaultValue = "0") byte type,HttpServletRequest request,HttpServletResponse response,
                            @RequestParam(required=false, defaultValue="1") Integer page,@RequestParam(required=false, defaultValue="10")Integer limit){
         if(type!=0){
-            Map<String, Object> map=typeService.getList(type,page,limit);
+            Map<String, Object> map=typeService.getMap(type,page,limit);
             reponseToJson(response, map);
         }
         return "typeList.jsp";

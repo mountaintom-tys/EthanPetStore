@@ -16,6 +16,8 @@ public class GoodService {
     private GoodsDao goodDao;
     @Autowired
     private TypeService typeService;
+    @Autowired
+    private TotalService totalService;
 
     /**
      * 添加
@@ -32,30 +34,17 @@ public class GoodService {
      *
      * @param type
      */
-    public Map<String, Object> getList(byte type,int page,int limit) {
+    public Map<String, Object> getMap(byte type,int page,int limit) {
         Map<String, Object> map = new HashMap<>();
         if (type == 1) {
             List<Goods> goodList=goodDao.getList(limit*(page-1),limit);
-            map.put("code", 0);
-            map.put("msg", "");
-            map.put("count", this.getTotal(type));
+            map = totalService.getMap(map, type, goodDao);
             map.put("data",packToList(goodList));
             return map;
         }
         return null;
     }
 
-    /**
-     * 获取产品总数
-     * @param type
-     * @return
-     */
-    public long getTotal(int type){
-        if(type==1){
-            return goodDao.getTotal();
-        }
-        return goodDao.getTotalByType((byte)type);
-    }
     /**
      * 封装商品信息
      * @param list

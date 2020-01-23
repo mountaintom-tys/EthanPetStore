@@ -6,7 +6,7 @@ import org.apache.ibatis.annotations.Select;
 
 import java.util.List;
 
-public interface OrdersDao {
+public interface OrdersDao extends Total{
 
     // 以上为mybatis generator自动生成接口, 具体实现在mapper.xml中
 
@@ -26,9 +26,9 @@ public interface OrdersDao {
 
     /**
      * 通过类型获取总数
-     * @param status
+     * @param type
      * @return
      */
-    @Select("select count(*) from orders where status=#{status}")
-    long getTotalByStatus(byte status);
+    @Select("select count(*) from orders where status=#{type}")
+    long getTotalByType(byte type);
 }

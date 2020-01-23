@@ -14,10 +14,11 @@ public class TypeService {
     @Autowired
     private TypesDao typeDao;
     @Autowired
-    private TotalService<TypesDao> totalService;
+    private TotalService totalService;
 
     /**
      * 通过id查询
+     *
      * @param typeId
      * @return
      */
@@ -26,23 +27,33 @@ public class TypeService {
     }
 
     /**
-     * 获取列表
+     * 获取分页列表
+     *
      * @return
      */
-    public Map<String, Object> getList(byte type,int page,int limit) {
+    public Map<String, Object> getMap(byte type, int page, int limit) {
         Map<String, Object> map = new HashMap<>();
-        if(type==1){
-            List<Types> typeList=typeDao.getList(limit*(page-1),limit);
-            map=totalService.getMap(map,type,typeDao);
-            map.put("data",typeList);
+        if (type == 1) {
+            List<Types> typeList = typeDao.getList(limit * (page - 1), limit);
+            map = totalService.getMap(map, type, typeDao);
+            map.put("data", typeList);
             return map;
         }
         return null;
     }
 
+    /**
+     * 获取所有列表
+     * @return
+     */
+    public List<Types> getList() {
+        return typeDao.getListTotal();
+    }
+
 
     /**
      * 添加
+     *
      * @param type
      */
     public Integer add(Types type) {
@@ -51,18 +62,20 @@ public class TypeService {
 
     /**
      * 更新
+     *
      * @param type
      */
     public boolean update(Types type) {
-        return typeDao.updateById(type)>0;
+        return typeDao.updateById(type) > 0;
     }
 
     /**
      * 删除
+     *
      * @param id
      * @return
      */
     public boolean delete(int id) {
-        return typeDao.deleteById(id)>0;
+        return typeDao.deleteById(id) > 0;
     }
 }

@@ -6,7 +6,7 @@ import org.apache.ibatis.annotations.Select;
 
 import java.util.List;
 
-public interface GoodsDao {
+public interface GoodsDao extends Total{
     int deleteById(Integer id);
 
     int insert(Goods record);

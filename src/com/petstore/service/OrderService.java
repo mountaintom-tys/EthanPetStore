@@ -19,13 +19,16 @@ public class OrderService {
     private ItemsDao itemDao;
     @Autowired
     private GoodService goodService;
-    @Autowired UserService userService;
+    @Autowired
+    private UserService userService;
+    @Autowired
+    private TotalService totalService;
     /**
      * 获取列表
      * @param status
      * @return
      */
-    public Map<String, Object> getList(byte status,int page,int limit) {
+    public Map<String, Object> getMap(byte status,int page,int limit) {
         Map<String, Object> map = new HashMap<>();
         if (status == 1) {
             List<Orders> orderList=orderDao.getList(limit*(page-1),limit);
@@ -33,25 +36,11 @@ public class OrderService {
                 order.setItemsList(this.getItemList(order.getId()));
                 order.setUser(userService.get(order.getUserId()));
             }
-            map.put("code", 0);
-            map.put("msg", "");
-            map.put("count", this.getTotal(status));
+            map = totalService.getMap(map, status, orderDao);
             map.put("data",orderList);
             return map;
         }
         return null;
-    }
-
-    /**
-     * 获取订单总数
-     * @param status
-     * @return
-     */
-    public long getTotal(int status){
-        if(status==1){
-            return orderDao.getTotal();
-        }
-        return orderDao.getTotalByStatus((byte)status);
     }
 
     /**
