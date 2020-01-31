@@ -7,6 +7,8 @@ import java.util.List;
 
 public interface ItemsDao {
 
+    int deleteById(Integer id);
+
     // 以上为mybatis generator自动生成接口, 具体实现在mapper.xml中
 
     // ------------------------------------------------------------

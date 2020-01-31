@@ -22,7 +22,10 @@
     <script>
         layui.use('table', function () {
             var table = layui.table,$=layui.$;
-
+            var msg="${msg}";
+            if(msg!=null && msg.trim()!="" && msg!=undefined){
+                layer.msg(msg);
+            }
             //第一个实例
             table.render({
                 elem: '#demo'
@@ -38,7 +41,7 @@
                     , {field: 'paytype', title: '支付方式', width: 180,templet:function (d) { return getPaytype(d); }}
                     , {field: 'userId', title: '下单用户', width: 150,templet:function (d) {return d.user.username;}}
                     , {field: 'systime', title: '下单时间', width: 150, sort: true,templet:'<div>{{layui.util.toDateString(d.systime, \'yyyy年MM月dd日 HH:mm:ss\')}}</div>'}
-                    , {fixed: 'right', title: '操作', width: 300, align: 'center', toolbar: '#barDemo'}
+                    , {title: '操作', width: 300, align: 'center', toolbar: '#barDemo'}
                 ]]
                 ,size: 'lg'
             });
@@ -86,11 +89,11 @@
     <script type="text/html" id="barDemo">
         {{# switch(d.status){
                 case 2:}}
-                <a class="layui-btn" href="orderUpdate?id={{d.id}}&type=1">发货</a>
+                <a class="layui-btn" href="orderUpdate?id={{d.id}}&type=3">发货</a>
                 <a class="layui-btn layui-btn-danger" onclick="javascript:if (confirm('确定删除{{d.user.username}}的订单吗？')) { return true;}else{return false;};" href="orderDelete?id={{d.id}}">删除</a>
                 {{# break;
                 case 3:}}
-                <a class="layui-btn" href="orderUpdate?id={{d.id}}&type=2">完成</a>
+                <a class="layui-btn" href="orderUpdate?id={{d.id}}&type=4">完成</a>
                 <a class="layui-btn layui-btn-danger" onclick="javascript:if (confirm('确定删除{{d.user.username}}的订单吗？')) { return true;}else{return false;};" href="orderDelete?id={{d.id}}">删除</a>
                 {{# break;
                 default:}}

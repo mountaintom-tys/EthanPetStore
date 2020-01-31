@@ -4,6 +4,7 @@ import com.petstore.dao.GoodsDao;
 import com.petstore.entity.Goods;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashMap;
 import java.util.List;
@@ -11,6 +12,7 @@ import java.util.Map;
 import java.util.Objects;
 
 @Service
+@Transactional    // 注解此类所有方法加入spring事务, 具体设置默认
 public class GoodService {
     @Autowired
     private GoodsDao goodDao;
@@ -36,13 +38,18 @@ public class GoodService {
      */
     public Map<String, Object> getMap(byte type,int page,int limit) {
         Map<String, Object> map = new HashMap<>();
+        List<Goods> goodList;
         if (type == 1) {
-            List<Goods> goodList=goodDao.getList(limit*(page-1),limit);
+            goodList=goodDao.getList(limit*(page-1),limit);
+            map = totalService.getMap(map, type, goodDao);
+            map.put("data",packToList(goodList));
+            return map;
+        }else{
+            goodList=goodDao.getListByType(limit*(page-1),limit,type);
             map = totalService.getMap(map, type, goodDao);
             map.put("data",packToList(goodList));
             return map;
         }
-        return null;
     }
 
     /**

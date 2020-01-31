@@ -61,7 +61,7 @@
                 , cols: [[ //表头
                     {field: 'id', title: 'ID', width: 300, sort: true}
                     , {field: 'name', title: '名称', width: 400}
-                    , {fixed: 'right', title: '操作', width: 400, align: 'center', toolbar: '#barDemo'}
+                    , {title: '操作', width: 400, align: 'center', toolbar: '#barDemo'}
                 ]]
                 , done: function (res) {
                     typeListDb = res;

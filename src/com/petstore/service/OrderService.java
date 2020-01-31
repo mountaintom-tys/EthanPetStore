@@ -6,12 +6,14 @@ import com.petstore.entity.Items;
 import com.petstore.entity.Orders;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 @Service
+@Transactional  //注解此类所有方法加入spring事务，具体设置默认
 public class OrderService {
     @Autowired
     private OrdersDao orderDao;
@@ -54,5 +56,34 @@ public class OrderService {
             item.setGood(goodService.get(item.getGoodId()));
         }
         return itemList;
+    }
+
+    /**
+     * 更新订单列表
+     * @param id
+     * @param type
+     */
+    public int orderUpdate(Integer id, Integer type) {
+        Orders order = orderDao.selectById(id);
+        if(type==Orders.STATUS_PAYED){
+            order.setStatus(Orders.STATUS_PAYED);//订单付款
+            return orderDao.updateByIdSelective(order);
+        }else if(type==Orders.STATUS_SEND){
+            order.setStatus(Orders.STATUS_SEND);//订单发货
+            return orderDao.updateByIdSelective(order);
+        }else if(type==Orders.STATUS_FINISH){
+            order.setStatus(Orders.STATUS_FINISH);//订单完成
+            return orderDao.updateByIdSelective(order);
+        }else{
+            return -1;
+        }
+    }
+
+    public boolean deleteById(Integer id) {
+        List<Items> itemList=itemDao.getItemList(id);
+        for (Items item : itemList) {
+            itemDao.deleteById(item.getId());
+        }
+        return orderDao.deleteById(id)>0;
     }
 }

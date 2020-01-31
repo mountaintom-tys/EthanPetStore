@@ -10,6 +10,7 @@ import com.petstore.service.OrderService;
 import com.petstore.service.TypeService;
 import com.petstore.util.SafeUtil;
 import com.petstore.util.UploadUtil;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -132,15 +133,43 @@ public class AdminController {
     }
 
     /**
-     * 顾客管理
-     *
+     * 更新订单
+     * @param id
+     * @param type
+     * @param page
+     * @param request
      * @return
      */
-    @RequestMapping("/userList")
-    public String userList() {
-        return "userList.jsp";
+    @RequestMapping("/orderUpdate")
+    public String orderUpdate(Integer id,Integer type,@RequestParam(required=false, defaultValue="1") int page,HttpServletRequest request){
+        if(id!=null&&type!=null){
+            int effects=orderService.orderUpdate(id,type);
+            if(effects>0){
+                request.setAttribute("msg","状态更新成功！");
+                return "orderList";
+            }else if(effects==0){
+                request.setAttribute("msg","状态更新失败，请重试！");
+                return "orderList";
+            }else{
+                request.setAttribute("msg","参数错误！");
+                return "orderList";
+            }
+        }
+        return "orderList";
     }
 
+    /**
+     * 删除订单
+     * @param id
+     * @return
+     */
+    @RequestMapping("/orderDelete")
+    public String orderDelete(Integer id){
+        if(id!=null){
+            orderService.deleteById(id);
+        }
+        return "redirect:orderList";
+    }
     /**
      * 产品列表
      *
@@ -149,7 +178,7 @@ public class AdminController {
     @RequestMapping("/goodList")
     public String goodList(@RequestParam(required = false, defaultValue = "0") byte type,HttpServletResponse response,
                            @RequestParam(required=false, defaultValue="1") Integer page,@RequestParam(required=false, defaultValue="10")Integer limit) {
-        if (type != 0) {
+        if (type != 0) {//type字段预留作用可作为后期按类别获取列表
             Map<String, Object> map = goodService.getMap(type,page,limit);
             reponseToJson(response, map);
         }
@@ -270,8 +299,11 @@ public class AdminController {
      */
     @RequestMapping("/goodDelete")
     public String goodDelete(int id,String cover){
-        goodService.delete(id);
-        UploadUtil.fileDelete(cover);
+        Goods good = goodService.get(id);
+        good.setStatus(2);//设置商品下架
+        goodService.update(good);
+//        goodService.delete(id);
+//        UploadUtil.fileDelete(cover);
         return "redirect:goodList";
     }
 

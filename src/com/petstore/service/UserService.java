@@ -4,8 +4,10 @@ import com.petstore.dao.UsersDao;
 import com.petstore.entity.Users;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
+@Transactional    // 注解此类所有方法加入spring事务, 具体设置默认
 public class UserService {
     @Autowired
     private UsersDao userDao;

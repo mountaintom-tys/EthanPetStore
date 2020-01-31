@@ -1,6 +1,5 @@
 package com.petstore.dao;
 
-import org.apache.ibatis.annotations.Select;
 
 public interface Total {
     /**

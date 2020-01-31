@@ -4,12 +4,14 @@ import com.petstore.dao.TypesDao;
 import com.petstore.entity.Types;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 @Service
+@Transactional    // 注解此类所有方法加入spring事务, 具体设置默认
 public class TypeService {
     @Autowired
     private TypesDao typeDao;

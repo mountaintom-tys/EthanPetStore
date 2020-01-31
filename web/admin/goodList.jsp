@@ -40,7 +40,7 @@
                     , {field: 'intro', title: '介绍', width: 300}
                     , {field: 'price', title: '价格', width: 200, sort: true}
                     , {field: 'type', title: '类目', width: 200, sort: true, templet:function (d) {return d.type.name;}}
-                    , {fixed: 'right', title: '操作', width: 400, align: 'center', toolbar: '#barDemo'}
+                    , {title: '操作', width: 400, align: 'center', toolbar: '#barDemo'}
                 ]]
                 ,size: 'lg'
             });

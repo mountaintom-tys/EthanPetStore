@@ -14,6 +14,7 @@ public class Goods {
     private Integer stock;
     private Integer typeId;
     private Types type;
+    private Integer status;//产品状态：上线1，下架2
 
     public Integer getId() {
         return id;
@@ -79,6 +80,14 @@ public class Goods {
         this.type = type;
     }
 
+    public Integer getStatus() {
+        return status;
+    }
+
+    public void setStatus(Integer status) {
+        this.status = status;
+    }
+
     @Override
     public boolean equals(Object obj) {
         if(this == obj){
@@ -92,7 +101,8 @@ public class Goods {
             //需要比较的字段相等，则这两个对象相等
             if(equalsStr(this.name, other.name)
                     && equalsStr(this.cover, other.cover)&&equalsStr(this.intro,other.intro)
-                    &&this.price.equals(other.price)&&this.stock.equals(other.stock)&&this.typeId.equals(other.typeId)){
+                    &&this.price.equals(other.price)&&this.stock.equals(other.stock)
+                    &&this.typeId.equals(other.typeId)&&this.status.equals(other.status)){
                 return true;
             }
         }
@@ -117,6 +127,7 @@ public class Goods {
         result=31*result+(price==null?0:price.hashCode());
         result=31*result+(stock==null?0:stock.hashCode());
         result=31*result+(typeId==null?0:typeId.hashCode());
+        result=31*result+(status==null?0:status.hashCode());
         return result;
     }
 }
