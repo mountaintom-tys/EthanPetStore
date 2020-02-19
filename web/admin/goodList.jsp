@@ -45,13 +45,14 @@
                 , url: '../admin/goodList?type='+type //数据接口
                 , page: true //开启分页
                 , cols: [[ //表头
-                    {field: 'id', title: 'ID', width: 200, sort: true}
+                    {field: 'id', title: 'ID', width: 100, sort: true}
                     , {field: 'cover', title: '图片', width: 230,templet:'<div><img src="../{{d.cover}}"></div>'}
-                    , {field: 'name', title: '名称', width: 200}
-                    , {field: 'intro', title: '介绍', width: 300}
-                    , {field: 'price', title: '价格', width: 200, sort: true}
-                    , {field: 'type', title: '类目', width: 200, sort: true, templet:function (d) {return d.type.name;}}
-                    , {title: '操作', width: 400, align: 'center', toolbar: '#barDemo'}
+                    , {field: 'name', title: '名称', width: 150}
+                    , {field: 'intro', title: '介绍', width: 250}
+                    , {field: 'price', title: '价格', width: 100, sort: true}
+                    , {field: 'stock', title: '库存', width: 100, sort: true}
+                    , {field: 'type', title: '类目', width: 120, sort: true, templet:function (d) {return d.type.name;}}
+                    , {title: '操作', width: 250, align: 'center', toolbar: '#barDemo'}
                 ]]
                 ,size: 'lg'
             });

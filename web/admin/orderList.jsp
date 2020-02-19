@@ -49,15 +49,15 @@
                 , url: '../admin/orderList?status='+status //数据接口
                 , page: true //开启分页
                 , cols: [[ //表头
-                    {field: 'id', title: 'ID', width: 150, sort: true}
-                    , {field: 'total', title: '总价', width: 150,sort:true}
-                    , {title: '商品详情', width: 200,templet:'#goodDetail'}
-                    , {title: '收货信息', width: 300,templet:'#receivingInformation'}
-                    , {field: 'status', title: '订单状态', width: 180, sort: true,templet:'#orderStatus'}
-                    , {field: 'paytype', title: '支付方式', width: 180,templet:function (d) { return getPaytype(d); }}
-                    , {field: 'userId', title: '下单用户', width: 150,templet:function (d) {return d.user.username;}}
+                    {field: 'id', title: 'ID', width: 100, sort: true}
+                    , {field: 'total', title: '总价', width: 100,sort:true}
+                    , {title: '商品详情', width: 160,templet:'#goodDetail'}
+                    , {title: '收货信息', width: 200,templet:'#receivingInformation'}
+                    , {field: 'status', title: '订单状态', width: 120, sort: true,templet:'#orderStatus'}
+                    , {field: 'paytype', title: '支付方式', width: 120,templet:function (d) { return getPaytype(d); }}
+                    , {field: 'userId', title: '下单用户', width: 110,templet:function (d) {return d.user.username;}}
                     , {field: 'systime', title: '下单时间', width: 150, sort: true,templet:'<div>{{layui.util.toDateString(d.systime, \'yyyy年MM月dd日 HH:mm:ss\')}}</div>'}
-                    , {title: '操作', width: 300, align: 'center', toolbar: '#barDemo'}
+                    , {title: '操作', width: 250, align: 'center', toolbar: '#barDemo'}
                 ]]
                 ,size: 'lg'
             });
