@@ -39,7 +39,7 @@ public class GoodService {
     public Map<String, Object> getMap(byte type,int page,int limit) {
         Map<String, Object> map = new HashMap<>();
         List<Goods> goodList;
-        if (type == 1) {
+        if (type == 0) {
             goodList=goodDao.getList(limit*(page-1),limit);
             map = totalService.getMap(map, type, goodDao);
             map.put("data",packToList(goodList));

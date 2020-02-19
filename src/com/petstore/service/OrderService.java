@@ -32,17 +32,31 @@ public class OrderService {
      */
     public Map<String, Object> getMap(byte status,int page,int limit) {
         Map<String, Object> map = new HashMap<>();
-        if (status == 1) {
+        if (status == 0) {
             List<Orders> orderList=orderDao.getList(limit*(page-1),limit);
-            for (Orders order : orderList) {
-                order.setItemsList(this.getItemList(order.getId()));
-                order.setUser(userService.get(order.getUserId()));
-            }
+            setDateForOrder(orderList);
             map = totalService.getMap(map, status, orderDao);
             map.put("data",orderList);
             return map;
         }
-        return null;
+        else{
+            List<Orders> orderList=orderDao.getListByStatus(limit*(page-1),limit,status);
+            setDateForOrder(orderList);
+            map = totalService.getMap(map, status, orderDao);
+            map.put("data",orderList);
+            return map;
+        }
+    }
+
+    /**
+     * 为定订单列表中的每一条订单设置订单项列表、用户实体
+     * @param orderList
+     */
+    public void setDateForOrder(List<Orders> orderList){
+        for (Orders order : orderList) {
+            order.setItemsList(this.getItemList(order.getId()));
+            order.setUser(userService.get(order.getUserId()));
+        }
     }
 
     /**

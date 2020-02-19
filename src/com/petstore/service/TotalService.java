@@ -22,7 +22,7 @@ public class TotalService<T extends Total> {
      * @return
      */
     public long getTotal(int type){
-        if(type==1){
+        if(type==0){
             return dao.getTotal();
         }
         return dao.getTotalByType((byte)type);

@@ -35,7 +35,7 @@ public class TypeService {
      */
     public Map<String, Object> getMap(byte type, int page, int limit) {
         Map<String, Object> map = new HashMap<>();
-        if (type == 1) {
+        if (type == 0) {
             List<Types> typeList = typeDao.getList(limit * (page - 1), limit);
             map = totalService.getMap(map, type, typeDao);
             map.put("data", typeList);

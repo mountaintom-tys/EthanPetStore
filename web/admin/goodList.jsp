@@ -19,20 +19,31 @@
     <br>
     <div><a class="layui-btn layui-btn-lg" href="goodAdd">添加商品</a></div>
     <br>
+    <div class="layui-tab">
+        <ul class="layui-tab-title">
+            <c:forEach var="type" items="${typeList}">
+                <li onclick="displayByType(${type.id})">${type.name}</li>
+            </c:forEach>
+        </ul>
+    </div>
     <table id="demo" lay-filter="goodsList"></table>
     <link href="../resources/css/myCss.css" rel="stylesheet" type="text/css">
     <script>
-        layui.use('table', function () {
-            var table = layui.table,$=layui.$;
-
+        var type=0;
+        function displayByType(typeId){
+            type=typeId;
+            layui.table.reload('demo', {
+                url: '../admin/goodList?type='+type
+            });
+        }
+        layui.use(['table','element'], function () {
+            var table = layui.table,$=layui.$,element = layui.element;
             //第一个实例
             table.render({
                 elem: '#demo'
                 , height: 600
-                , url: '../admin/goodList?type=1' //数据接口
+                , url: '../admin/goodList?type='+type //数据接口
                 , page: true //开启分页
-                , limit:1
-                , limits:[1,2,3]
                 , cols: [[ //表头
                     {field: 'id', title: 'ID', width: 200, sort: true}
                     , {field: 'cover', title: '图片', width: 230,templet:'<div><img src="../{{d.cover}}"></div>'}

@@ -20,8 +20,21 @@ public interface OrdersDao extends Total{
 
     // 以下方法使用mybatis注解实现
 
+    /**
+     * 获取列表
+     * @param begin
+     * @param size
+     * @return
+     */
     @Select("select * from orders order by id desc limit #{begin},#{size}")
     List<Orders> getList(@Param("begin")int begin,@Param("size")int size);
+
+    /**
+     * 按状态获取列表
+     * @return
+     */
+    @Select("select * from orders where status=#{status} order by id desc limit #{begin},#{size}")
+    List<Orders> getListByStatus(@Param("begin")int begin,@Param("size")int size,@Param("status")int status);
 
     /**
      * 获取总数

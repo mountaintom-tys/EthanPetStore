@@ -56,7 +56,7 @@
             table.render({
                 elem: '#demo'
                 , height: 600
-                , url: '../admin/typeList?type=1' //数据接口
+                , url: '../admin/typeList?type=0' //数据接口
                 , page:true
                 , cols: [[ //表头
                     {field: 'id', title: 'ID', width: 300, sort: true}

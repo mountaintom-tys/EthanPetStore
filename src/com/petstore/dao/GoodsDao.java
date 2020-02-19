@@ -31,7 +31,7 @@ public interface GoodsDao extends Total{
      * 按类别获取列表
      * @return
      */
-    @Select("select * from goods where type_id=#{type} status=1 order by id desc limit #{begin},#{size}")
+    @Select("select * from goods where type_id=#{type} and status=1 order by id desc limit #{begin},#{size}")
     List<Goods> getListByType(@Param("begin")int begin,@Param("size")int size,@Param("type")int type);
     /**
      * 获取总数

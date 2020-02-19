@@ -1,4 +1,5 @@
-<%@ page import="com.petstore.util.Constants" %><%--
+<%@ page import="com.petstore.util.Constants" %>
+<%@ page import="com.petstore.entity.Orders" %><%--
   Created by IntelliJ IDEA.
   User: ethant
   Date: 01/13/20
@@ -17,9 +18,24 @@
 <div style="padding-left: 20px">
     <br>
     <br>
+    <div class="layui-tab">
+        <ul class="layui-tab-title">
+            <li onclick="displayByStatus(<%=Orders.STATUS_UNPAY%>)">未付款</li>
+            <li onclick="displayByStatus(<%=Orders.STATUS_PAYED%>)">已付款</li>
+            <li onclick="displayByStatus(<%=Orders.STATUS_SEND%>)">配送中</li>
+            <li onclick="displayByStatus(<%=Orders.STATUS_FINISH%>)">已完成</li>
+        </ul>
+    </div>
     <table id="demo" lay-filter="goodsList"></table>
     <link href="../resources/css/myCss.css" rel="stylesheet" type="text/css">
     <script>
+        var status=0;
+        function displayByStatus(statusId){
+            status=statusId;
+            layui.table.reload('demo', {
+                url: '../admin/orderList?status='+status
+            });
+        }
         layui.use('table', function () {
             var table = layui.table,$=layui.$;
             var msg="${msg}";
@@ -30,7 +46,7 @@
             table.render({
                 elem: '#demo'
                 , height: 600
-                , url: '../admin/orderList?status=1' //数据接口
+                , url: '../admin/orderList?status='+status //数据接口
                 , page: true //开启分页
                 , cols: [[ //表头
                     {field: 'id', title: 'ID', width: 150, sort: true}

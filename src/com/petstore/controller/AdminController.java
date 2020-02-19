@@ -123,10 +123,10 @@ public class AdminController {
      * @return
      */
     @RequestMapping("/orderList")
-    public String orderList(@RequestParam(required = false, defaultValue = "0") byte status,HttpServletResponse response,
+    public String orderList(@RequestParam(required = false, defaultValue = "-1") int status,HttpServletResponse response,
                             @RequestParam(required=false, defaultValue="1") Integer page,@RequestParam(required=false, defaultValue="10")Integer limit) {
-        if(status!=0){
-            Map<String, Object> map = orderService.getMap(status,page,limit);
+        if(status!=-1){
+            Map<String, Object> map = orderService.getMap((byte)status,page,limit);
             reponseToJson(response, map);
         }
         return "orderList.jsp";
@@ -176,12 +176,13 @@ public class AdminController {
      * @return
      */
     @RequestMapping("/goodList")
-    public String goodList(@RequestParam(required = false, defaultValue = "0") byte type,HttpServletResponse response,
+    public String goodList(@RequestParam(required = false, defaultValue = "-1") int type,HttpServletRequest request,HttpServletResponse response,
                            @RequestParam(required=false, defaultValue="1") Integer page,@RequestParam(required=false, defaultValue="10")Integer limit) {
-        if (type != 0) {//type字段预留作用可作为后期按类别获取列表
-            Map<String, Object> map = goodService.getMap(type,page,limit);
+        if (type != -1) {//type字段预留作用可作为后期按类别获取列表
+            Map<String, Object> map = goodService.getMap((byte)type,page,limit);
             reponseToJson(response, map);
         }
+        request.setAttribute("typeList", typeService.getList());
         return "goodList.jsp";
     }
 
@@ -280,6 +281,7 @@ public class AdminController {
     @RequestMapping("/goodUpdate")
     public String goodUpdate(Goods good, HttpServletRequest request) {
         Goods gooddb = goodService.get(good.getId());
+        good.setStatus(gooddb.getStatus());
         if (gooddb.equals(good)) {
             request.setAttribute("msg", "未修改任何数据！");
         } else {
@@ -313,10 +315,10 @@ public class AdminController {
      * @return
      */
     @RequestMapping("/typeList")
-    public String typeList(@RequestParam(required = false, defaultValue = "0") byte type,HttpServletRequest request,HttpServletResponse response,
+    public String typeList(@RequestParam(required = false, defaultValue = "-1") int type,HttpServletRequest request,HttpServletResponse response,
                            @RequestParam(required=false, defaultValue="1") Integer page,@RequestParam(required=false, defaultValue="10")Integer limit){
-        if(type!=0){
-            Map<String, Object> map=typeService.getMap(type,page,limit);
+        if(type!=-1){
+            Map<String, Object> map=typeService.getMap((byte) type,page,limit);
             reponseToJson(response, map);
         }
         return "typeList.jsp";
