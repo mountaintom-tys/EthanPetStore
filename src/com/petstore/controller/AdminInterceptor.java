@@ -22,7 +22,7 @@ public class AdminInterceptor extends HandlerInterceptorAdapter {
 				|| uri.contains("login") || uri.contains("logout")) {
 			return true; // 不拦截路径
 		}
-		Object username = request.getSession().getAttribute("username");
+		Object username = request.getSession().getAttribute("adminName");
 		if (Objects.nonNull(username) && !username.toString().trim().isEmpty()) {
 			return true; // 登录验证通过
 		}

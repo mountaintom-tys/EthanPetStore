@@ -50,7 +50,7 @@ public class AdminController {
     @RequestMapping("/login")
     public String login(Admins admin, HttpServletRequest request, HttpSession session, HttpServletResponse response) throws ServletException, IOException {
         if (adminService.checkUser(admin.getUsername(), admin.getPassword())) {
-            session.setAttribute("username", admin.getUsername());
+            session.setAttribute("adminName", admin.getUsername());
             return "orderList";
         }
         request.setAttribute("msg", "用户名或密码错误!");
@@ -64,7 +64,7 @@ public class AdminController {
      */
     @RequestMapping("/logout")
     public String logout(HttpSession session){
-        session.removeAttribute("username");
+        session.removeAttribute("adminName");
         return "login.jsp";
     }
 
@@ -76,7 +76,7 @@ public class AdminController {
      */
     @RequestMapping("/adminRe")
     public String adminRe(HttpServletRequest request,HttpSession session){
-        request.setAttribute("admin",adminService.getByUserName(String.valueOf(session.getAttribute("username"))));
+        request.setAttribute("admin",adminService.getByUserName(String.valueOf(session.getAttribute("adminName"))));
         return "adminReset.jsp";
     }
 
@@ -107,7 +107,7 @@ public class AdminController {
         }
         adminNew.setSecurityAnswer(SafeUtil.encode(adminNew.getSecurityAnswer()));
         if(adminService.update(adminNew)){
-            session.setAttribute("username",adminNew.getUsername());
+            session.setAttribute("adminName",adminNew.getUsername());
             request.setAttribute("msg","信息修改成功！");
             return "adminRe";
         }

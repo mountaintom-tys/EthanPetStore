@@ -8,7 +8,8 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
   <head>
-    <meta http-equiv="refresh" content="0;url=index/index.jsp">
+    <!--自动跳转到前台首页-->
+    <meta http-equiv="refresh" content="0;url=index/homePage">
   </head>
   <body>
   </body>

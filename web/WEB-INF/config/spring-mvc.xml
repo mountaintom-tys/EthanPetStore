@@ -31,11 +31,17 @@
 		</mvc:interceptor>
 	</mvc:interceptors>
 
+	<mvc:interceptors>
+		<mvc:interceptor>
+			<mvc:mapping path="/index/**" />
+			<bean class="com.petstore.controller.UserInterceptor"/>
+		</mvc:interceptor>
+	</mvc:interceptors>
+
 
 
 	<!--静态资源不拦截 -->
 	<mvc:resources mapping="/resources/**" location="/resources/" />
-	<mvc:resources mapping="/upload/**" location="/upload/" />
 
 
 </beans>

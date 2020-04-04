@@ -25,7 +25,7 @@
         <a class="layui-btn layui-btn-lg" onclick="typeAdd(this)" href="javascript:;">添加类目</a></div>
     <br>
     <table id="demo" lay-filter="typeList"></table>
-    <link href="../resources/css/myCss.css" rel="stylesheet" type="text/css">
+    <link href="../resources/css/admin/style.css" rel="stylesheet" type="text/css">
     <script>
         var typeListDb;
         //检查类目名是符合要求
