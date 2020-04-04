@@ -2,6 +2,7 @@ package com.petstore.controller;
 
 import com.petstore.service.GoodService;
 import com.petstore.service.TypeService;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,6 +16,7 @@ import java.io.IOException;
 @Controller
 @RequestMapping("/index")
 public class UserController {
+    static Logger log = Logger.getLogger(UserController.class);
     @Autowired
     private GoodService goodService;
     @Autowired
@@ -22,6 +24,7 @@ public class UserController {
     @RequestMapping("/homePage")
     public String homePage(HttpServletRequest request, HttpSession session, HttpServletResponse response) throws ServletException, IOException {
         request.setAttribute("typeList", typeService.getList());
+        log.debug("I AM ETHANT!");
         return "index.jsp";
     }
 }
