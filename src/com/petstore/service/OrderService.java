@@ -93,6 +93,7 @@ public class OrderService {
         }
     }
 
+    @Transactional
     public boolean deleteById(Integer id) {
         List<Items> itemList=itemDao.getItemList(id);
         for (Items item : itemList) {

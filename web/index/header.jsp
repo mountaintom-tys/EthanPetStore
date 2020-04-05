@@ -43,7 +43,7 @@
     </li>
     <li id="goodList" class="layui-nav-item"><a href="goodList">注册</a></li>
     <li id="typeList1" class="layui-nav-item"><a href="typeList">登录</a></li>
-    <li id="typeList2" class="layui-nav-item"><a href="typeList">后台管理</a></li>
+    <li id="typeList2" class="layui-nav-item"><a href="../admin/orderList">后台管理</a></li>
     <li id="typeList3" class="layui-nav-itemp">
         <div class="layui-form" style="display: inline-block;color: black">
             <div class="">
