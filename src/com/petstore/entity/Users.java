@@ -9,7 +9,7 @@ public class Users {
     private String username;
 
     private String password;
-
+    //收货人姓名
     private String name;
 
     private String phone;

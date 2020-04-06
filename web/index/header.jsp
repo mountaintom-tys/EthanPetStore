@@ -12,10 +12,11 @@
 <head>
     <link rel="stylesheet" href="../resources/layui/css/layui.css">
     <style>
-        .layui-nav{
+        .layui-nav {
             padding: 0 0 0 20%;
-            background-color: #482f09;
+            background-color: #392f26;
         }
+
         .layui-nav .layui-nav-itemp {
             position: relative;
             display: inline-block;
@@ -24,7 +25,8 @@
             vertical-align: middle;
             line-height: 60px;
         }
-        .layui-select-tips.layui-this::after{
+
+        .layui-select-tips.layui-this::after {
             background-color: unset;
         }
     </style>
@@ -33,7 +35,7 @@
 <ul class="layui-nav" lay-filter="demo">
     <li class="layui-nav-item"><span style="font-size:25px;margin-right: 20px">宠物之家</span></li>
     <li id="orderList" class="layui-nav-item layui-this"><a href="goodList">首页</a></li>
-    <li class="layui-nav-item" >
+    <li class="layui-nav-item">
         <a href="javascript:;">商品分类</a>
         <dl class="layui-nav-child">
             <c:forEach var="type" items="${typeList}">
@@ -41,9 +43,9 @@
             </c:forEach>
         </dl>
     </li>
-    <li id="goodList" class="layui-nav-item"><a href="goodList">注册</a></li>
-    <li id="typeList1" class="layui-nav-item"><a href="typeList">登录</a></li>
-    <li id="typeList2" class="layui-nav-item"><a href="../admin/orderList">后台管理</a></li>
+    <li id="register" class="layui-nav-item"><a onclick="userRegister()" href="javascript:;">注册</a></li>
+    <li id="login" class="layui-nav-item"><a onclick="userLogin()" href="javascript:;">登录</a></li>
+    <li id="admin" class="layui-nav-item"><a href="../admin/orderList">后台管理</a></li>
     <li id="typeList3" class="layui-nav-itemp">
         <div class="layui-form" style="display: inline-block;color: black">
             <div class="">
@@ -89,9 +91,11 @@
 <script>
 
     //注意：导航 依赖 element 模块，否则无法进行功能性操作
-    layui.use(['jquery', 'element','form'], function () {
+    layui.use(['jquery', 'element', 'form', 'layer'], function () {
         var element = layui.element;
+        var form = layui.form;
         var $ = layui.$;
+        var layer = layui.layer;
         var curhref = location.href;
         $(".layui-nav li").removeClass("layui-this")
         if (curhref.indexOf("adminRe") != -1) {
@@ -107,8 +111,194 @@
         } else {
             $("#orderList").addClass("layui-this")
         }
+        layer.config({
+            offset: '40%',
+            extend: 'myskin/style.css'
+        })
     });
+    var userRegisterIndex;
+    var userLoginIndex;
+
+    function userRegister() {
+        userRegisterIndex = layer.open({
+            title: '用户注册',
+            type: 1,
+            skin: 'layer-ext-myskin',
+            maxmin: true, //允许全屏最小化
+            anim: 1, //0-6的动画形式，-1不开启
+            area: '600px',
+            offset: '100px',
+            shadeClose: true, //点击遮罩关闭
+            content: layui.$("#userRegisterForm")[0].innerHTML,
+            btn: ['立即注册', '取消'],
+            btnAlign: 'c',
+            yes: function (index, layero) {
+                //按钮【按钮一】的回调
+                var userRegisterSubmit = layero.find("#userRegisterSubmit")[0];
+                userRegisterSubmit.click();
+                // layer.close(index);
+            }
+        });
+    }
+    function userLogin() {
+        userLoginIndex = layer.open({
+            title: '用户登录',
+            type: 1,
+            skin: 'layer-ext-myskin',
+            maxmin: true, //允许全屏最小化
+            anim: 1, //0-6的动画形式，-1不开启
+            area: '600px',
+            offset: '100px',
+            shadeClose: true, //点击遮罩关闭
+            content: layui.$("#userLoginForm")[0].innerHTML,
+            btn: ['立即登录', '取消','忘记密码？'],
+            btnAlign: 'c',
+            yes: function (index, layero) {
+                //按钮【按钮一】的回调
+                var userRegisterSubmit = layero.find("#userLoginSubmit")[0];
+                userRegisterSubmit.click();
+                // layer.close(index);
+            }
+        });
+    }
 </script>
 
 </body>
+<div id="userRegisterForm" style="display: none">
+    <form class="layui-form" onsubmit="userRegisterFormSubmit(this)" action="javascript:;"
+          style="width: 80%;margin: 0 auto;">
+        <br>
+        <br>
+        <div class="layui-form-item">
+            <i class="layui-form-label layui-icon layui-icon-cellphone"></i>
+            <div class="layui-input-block">
+                <input type="text" name="phone" required lay-verify="required|number|phone" placeholder="请输入手机号"
+                       autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <i class="layui-form-label layui-icon layui-icon-password"></i>
+            <div class="layui-input-inline">
+                <input type="password" name="password" required lay-verify="required" placeholder="请输入密码"
+                       autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <i class="layui-form-label layui-icon layui-icon-password"></i>
+            <div class="layui-input-inline">
+                <input type="password" name="repassword" required lay-verify="required|checkPassword"
+                       placeholder="请再次输入密码"
+                       autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <i class="layui-form-label layui-icon layui-icon-survey"></i>
+            <div class="layui-input-block">
+                <input type="text" name="securityQuestion" required lay-verify="required" placeholder="请输入密保问题"
+                       autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <i class="layui-form-label layui-icon layui-icon-vercode"></i>
+            <div class="layui-input-inline">
+                <input type="password" name="securityAnswer" required lay-verify="required" placeholder="请输入密保答案"
+                       autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <i class="layui-form-label layui-icon layui-icon-username"></i>
+            <div class="layui-input-inline">
+                <input type="text" name="username" required lay-verify="required" placeholder="请输入昵称"
+                       autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item" style="display: none">
+            <div class="layui-input-block">
+                <button class="layui-btn" lay-submit lay-filter="userRegisterSubmit" id="userRegisterSubmit">立即提交
+                </button>
+            </div>
+        </div>
+    </form>
+    <script>
+        layui.use(['form', 'jquery'], function () {
+            var form = layui.form, $ = layui.$;
+            form.verify({
+                checkPassword: function (value, item) {
+                    var password = item.parentElement.parentElement.previousElementSibling.getElementsByTagName("input")[0];
+                    if (password.value != value) {
+                        item.value = "";
+                        item.focus();
+                        return "两次输入密码不一致！";
+                    }
+                }
+            });
+        });
+
+        function userRegisterFormSubmit(form) {
+            var formDate = layui.$(form).serialize();
+            layui.$.ajax({
+                url: 'userRegister',
+                data: formDate,
+                type: 'post',
+                async: true,
+                success: function (result) {
+                    alert(result)
+                    layer.msg(result);
+                    layer.close(userRegisterIndex)
+                }
+            })
+        }
+    </script>
+</div>
+<div id="userLoginForm" style="display: none">
+    <form class="layui-form" onsubmit="userLoginFormSubmit(this)" action="javascript:;"
+          style="width: 80%;margin: 0 auto;">
+        <br>
+        <br>
+        <div class="layui-form-item">
+            <i class="layui-form-label layui-icon layui-icon-cellphone"></i>
+            <div class="layui-input-block">
+                <input type="text" name="phone" required lay-verify="required|number|phone" placeholder="请输入手机号"
+                       autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <i class="layui-form-label layui-icon layui-icon-password"></i>
+            <div class="layui-input-inline">
+                <input type="password" name="password" required lay-verify="required" placeholder="请输入密码"
+                       autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <i class="layui-form-label layui-icon layui-icon-vercode"></i>
+            <div class="layui-input-inline">
+                <input type="text" name="securityCode" required lay-verify="required" placeholder="请输入验证码"
+                       autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item" style="display: none">
+            <div class="layui-input-block">
+                <button class="layui-btn" lay-submit lay-filter="userRegisterSubmit" id="userLoginSubmit">立即提交
+                </button>
+            </div>
+        </div>
+    </form>
+    <script>
+        function userLoginFormSubmit(form) {
+            var formDate = layui.$(form).serialize();
+            layui.$.ajax({
+                url: 'userLogin',
+                data: formDate,
+                type: 'post',
+                async: true,
+                success: function (result) {
+                    alert(result)
+                    layer.msg(result);
+                    layer.close(userLoginIndex)
+                }
+            })
+        }
+    </script>
+</div>
+
 </html>

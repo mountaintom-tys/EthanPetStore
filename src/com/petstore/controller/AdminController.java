@@ -10,6 +10,7 @@ import com.petstore.service.OrderService;
 import com.petstore.service.TypeService;
 import com.petstore.util.SafeUtil;
 import com.petstore.util.UploadUtil;
+import com.petstore.util.WebUtil;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -127,7 +128,7 @@ public class AdminController {
                             @RequestParam(required=false, defaultValue="1") Integer page,@RequestParam(required=false, defaultValue="10")Integer limit) {
         if(status!=-1){
             Map<String, Object> map = orderService.getMap((byte)status,page,limit);
-            reponseToJson(response, map);
+            WebUtil.reponseToJson(response, map);
         }
         return "orderList.jsp";
     }
@@ -180,27 +181,10 @@ public class AdminController {
                            @RequestParam(required=false, defaultValue="1") Integer page,@RequestParam(required=false, defaultValue="10")Integer limit) {
         if (type != -1) {//type字段预留作用可作为后期按类别获取列表
             Map<String, Object> map = goodService.getMap((byte)type,page,limit);
-            reponseToJson(response, map);
+            WebUtil.reponseToJson(response, map);
         }
         request.setAttribute("typeList", typeService.getList());
         return "goodList.jsp";
-    }
-
-    public void reponseToJson(HttpServletResponse response, Map<String, Object> map) {
-        response.setCharacterEncoding("UTF-8");
-        response.setContentType("application/json;charset=utf-8");
-        PrintWriter writer = null;
-        try {
-            writer = response.getWriter();
-            writer.write(JSON.toJSONString(map));
-            writer.flush();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } finally {
-            if (writer != null) {
-                writer.close();
-            }
-        }
     }
 
     /**
@@ -257,7 +241,7 @@ public class AdminController {
         } else {
             map.put("code", 1);
         }
-        reponseToJson(res, map);
+        WebUtil.reponseToJson(res, map);
     }
 
     /**
@@ -319,7 +303,7 @@ public class AdminController {
                            @RequestParam(required=false, defaultValue="1") Integer page,@RequestParam(required=false, defaultValue="10")Integer limit){
         if(type!=-1){
             Map<String, Object> map=typeService.getMap((byte) type,page,limit);
-            reponseToJson(response, map);
+            WebUtil.reponseToJson(response, map);
         }
         return "typeList.jsp";
     }

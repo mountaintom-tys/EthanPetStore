@@ -18,9 +18,6 @@ public class UploadUtil {
     /**
      * 图片上传
      *
-     * @param photo         图片文件
-     * @param photoFileName 文件名
-     * @param savePath      文件保存路径(相对于web根目录)
      * @return
      * @throws Exception
      */

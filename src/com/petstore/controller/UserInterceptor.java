@@ -14,7 +14,7 @@ public class UserInterceptor extends HandlerInterceptorAdapter {
     public boolean preHandle(HttpServletRequest request,
                              HttpServletResponse response, Object handler) throws Exception {
         String uri = request.getRequestURI();
-        if(uri.contains(".do")) {
+        if(uri.contains("/logged")) {
             Object username = request.getSession().getAttribute("userName");
             if (Objects.nonNull(username) && !username.toString().trim().isEmpty()) {
                 return true; // 登录验证通过

@@ -10,9 +10,8 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <link rel="stylesheet" href="../resources/layui/css/layui.css">
     <link rel="stylesheet" href="../resources/css/index/style.css">
-    <title><%=Constants.WEB_TITLE_NAME%></title>
+    <title><%=Constants.FRONT_WEB_TITLE_NAME%></title>
 </head>
 <body>
     <%@include file="header.jsp" %>
