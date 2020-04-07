@@ -19,7 +19,7 @@ public class UserInterceptor extends HandlerInterceptorAdapter {
             if (Objects.nonNull(username) && !username.toString().trim().isEmpty()) {
                 return true; // 登录验证通过
             }else{
-                response.sendRedirect("login.jsp");
+                response.sendRedirect("../homePage?loginWindow=true");
                 return false; // 其他情况一律拦截
             }
         }
