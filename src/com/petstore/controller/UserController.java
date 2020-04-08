@@ -70,4 +70,17 @@ public class UserController {
     public void lookUpOrderList(){
         logger.debug(">>>lookUpOrderList...");
     }
+
+    @RequestMapping("/test")
+    public void test(HttpServletRequest request){
+        Object test=request.getAttribute("test");
+        if(test==null){
+            System.out.println("为null");
+        }
+        String teststr=String.valueOf(test);
+        System.out.println(teststr);
+        String test2=null;
+        System.out.println(String.valueOf(test2)+"空空如也");
+
+    }
 }
