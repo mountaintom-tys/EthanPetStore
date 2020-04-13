@@ -6,6 +6,8 @@ public interface UsersDao {
 
     Users selectById(Integer userId);
 
+    Users selectUserByPhone(String phone);
+
     // 以上为mybatis generator自动生成接口, 具体实现在mapper.xml中
 
     // ------------------------------------------------------------

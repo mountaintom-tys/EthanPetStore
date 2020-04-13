@@ -27,7 +27,6 @@ public class UserService {
      * @return
      */
     public Users getUserByPhone(String phone){
-
-        return null;
+        return userDao.selectUserByPhone(phone);
     }
 }
