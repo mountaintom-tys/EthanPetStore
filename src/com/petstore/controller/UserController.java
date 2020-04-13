@@ -32,25 +32,18 @@ public class UserController {
     @RequestMapping("/userRegister")
     public void userRegister(HttpServletResponse response,HttpServletRequest request,Users user,String verifyCode) {
         logger.debug("用户输入的验证码"+verifyCode);
-        String verifyUri=request.getRequestURI();
-        verifyUri=verifyUri.substring(0,verifyUri.lastIndexOf("/"))+"/getVerifyCode";
-        String verifyCodeInSession=String.valueOf(request.getSession().getAttribute(verifyUri));
-        logger.debug("服务器上的验证码"+verifyCodeInSession);
-        if(!verifyCode.toUpperCase().equals(verifyCodeInSession.toUpperCase())){
+        if(!verifyCode.toUpperCase().equals(getVerifyCodeInSession(request).toUpperCase())){
             WebUtil.reponseToAjax(response,"userRegister","验证码错误，请重新输入！");
         }else{
-            WebUtil.reponseToAjax(response,"userRegister","注册成功！");
+
+            WebUtil.reponseToAjax(response,"userRegister","注册成功,立即登录进入宠物之家吧！");
         }
     }
 
     @RequestMapping("/userLogin")
     public void userLogin(HttpServletResponse response, HttpServletRequest request, Users user,String verifyCode) {
         logger.debug("用户输入的验证码"+verifyCode);
-        String verifyUri=request.getRequestURI();
-        verifyUri=verifyUri.substring(0,verifyUri.lastIndexOf("/"))+"/getVerifyCode";
-        String verifyCodeInSession=String.valueOf(request.getSession().getAttribute(verifyUri));
-        logger.debug("服务器上的验证码"+verifyCodeInSession);
-        if(!verifyCode.toUpperCase().equals(verifyCodeInSession.toUpperCase())){
+        if(!verifyCode.toUpperCase().equals(getVerifyCodeInSession(request).toUpperCase())){
             WebUtil.reponseToAjax(response,"userLogin","验证码错误，请重新输入！");
         }else{
             WebUtil.reponseToAjax(response,"userLogin","登录成功！");
@@ -64,6 +57,14 @@ public class UserController {
         final String imgType="png"; //指定图片格式（不是指MIME类型）只有png格式才能透明显示
         //创建验证码图片并将图片上的字符串设置到session域中
         WebUtil.createVerifyCode(width,height,imgType,request,response);
+    }
+
+    public  String getVerifyCodeInSession(HttpServletRequest request){
+        String verifyUri=request.getRequestURI();
+        verifyUri=verifyUri.substring(0,verifyUri.lastIndexOf("/"))+"/getVerifyCode";
+        String verifyCodeInSession=String.valueOf(request.getSession().getAttribute(verifyUri));
+        logger.debug("服务器上的验证码"+verifyCodeInSession);
+        return verifyCodeInSession;
     }
 
     @RequestMapping("/logged/lookUpOrderList")

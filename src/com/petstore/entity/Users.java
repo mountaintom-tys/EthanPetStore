@@ -9,22 +9,19 @@ public class Users {
     private String username;
 
     private String password;
-    //收货人姓名
+    //收货人姓名，通常是当前用户的真实姓名
     private String name;
 
     private String phone;
 
     private String address;
 
+    private String securityQuestion;//密保
+
+    private String securityAnswer;
+
     private String passwordNew;
 
-    public String getPasswordNew() {
-        return passwordNew;
-    }
-
-    public void setPasswordNew(String passwordNew) {
-        this.passwordNew = passwordNew;
-    }
 
     public Integer getId() {
         return id;
@@ -72,5 +69,29 @@ public class Users {
 
     public void setAddress(String address) {
         this.address = address == null ? null : address.trim();
+    }
+
+    public String getSecurityQuestion() {
+        return securityQuestion;
+    }
+
+    public void setSecurityQuestion(String securityQuestion) {
+        this.securityQuestion = securityQuestion;
+    }
+
+    public String getSecurityAnswer() {
+        return securityAnswer;
+    }
+
+    public void setSecurityAnswer(String securityAnswer) {
+        this.securityAnswer = securityAnswer;
+    }
+
+    public String getPasswordNew() {
+        return passwordNew;
+    }
+
+    public void setPasswordNew(String passwordNew) {
+        this.passwordNew = passwordNew;
     }
 }

@@ -20,4 +20,14 @@ public class UserService {
     public Users get(Integer userId) {
         return userDao.selectById(userId);
     }
+
+    /**
+     * 通过phone获取
+     * @param phone
+     * @return
+     */
+    public Users getUserByPhone(String phone){
+
+        return null;
+    }
 }
