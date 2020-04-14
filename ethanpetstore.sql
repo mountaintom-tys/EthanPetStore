@@ -1,7 +1,7 @@
 /*
  Navicat Premium Data Transfer
 
- Source Server         : MySQL
+ Source Server         : MySql
  Source Server Type    : MySQL
  Source Server Version : 50556
  Source Host           : localhost:3306
@@ -11,7 +11,7 @@
  Target Server Version : 50556
  File Encoding         : 65001
 
- Date: 19/02/2020 16:27:48
+ Date: 14/04/2020 20:54:39
 */
 
 SET NAMES utf8mb4;
@@ -62,14 +62,15 @@ CREATE TABLE `goods`  (
   `type_id` int(11) NULL DEFAULT NULL COMMENT '分类',
   `status` int(11) NULL DEFAULT 1 COMMENT '产品状态',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 16 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Compact;
+) ENGINE = InnoDB AUTO_INCREMENT = 17 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Compact;
 
 -- ----------------------------
 -- Records of goods
 -- ----------------------------
-INSERT INTO `goods` VALUES (10, '哈士奇', 'upload/20020119552.jpg', 100, '可爱的很', 20, 4, 1);
-INSERT INTO `goods` VALUES (14, '阿斯蒂', 'upload/20021926423.jpg', 20, '阿斯蒂', 10, 2, 1);
-INSERT INTO `goods` VALUES (15, '泰迪', 'upload/20020125615.jpg', 20, 'asdf', 10, 5, 1);
+INSERT INTO `goods` VALUES (10, '哈士奇', 'upload/20041053196.jpg', 100, '可爱的很', 20, 4, 1);
+INSERT INTO `goods` VALUES (14, '阿斯蒂', 'upload/20041038979.jpg', 20, '阿斯蒂', 10, 2, 1);
+INSERT INTO `goods` VALUES (15, '泰迪', 'upload/20041027478.jpg', 20, 'asdf', 10, 5, 1);
+INSERT INTO `goods` VALUES (16, '周静儿', 'upload/20031511552.jpg', 20, '猪', 1, 3, 2);
 
 -- ----------------------------
 -- Table structure for items
@@ -140,16 +141,19 @@ DROP TABLE IF EXISTS `users`;
 CREATE TABLE `users`  (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `username` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '用户名',
+  `phone` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '用户电话/登录账号',
   `password` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '密码',
-  `name` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '收货人',
-  `phone` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '收获电话',
+  `security_question` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '密保问题',
+  `security_answer` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '密保答案',
+  `name` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '收货人(用户真实姓名)',
   `address` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '收获地址',
-  PRIMARY KEY (`id`) USING BTREE
+  PRIMARY KEY (`id`) USING BTREE,
+  UNIQUE INDEX `users_unique_phone`(`phone`) USING BTREE
 ) ENGINE = InnoDB AUTO_INCREMENT = 16 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Compact;
 
 -- ----------------------------
 -- Records of users
 -- ----------------------------
-INSERT INTO `users` VALUES (15, 'ethan', 'HAMVRZRssPCADKqGjGWJtQ==', '唐意山', '15181777983', '四川剑阁');
+INSERT INTO `users` VALUES (15, 'ethan', '15181777983', 'HAMVRZRssPCADKqGjGWJtQ==', NULL, NULL, '唐意山', '四川剑阁');
 
 SET FOREIGN_KEY_CHECKS = 1;

@@ -3,6 +3,7 @@ package com.petstore.controller;
 import com.petstore.entity.Users;
 import com.petstore.service.GoodService;
 import com.petstore.service.TypeService;
+import com.petstore.service.UserService;
 import com.petstore.util.WebUtil;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +24,8 @@ public class UserController {
     private GoodService goodService;
     @Autowired
     private TypeService typeService;
+    @Autowired
+    private UserService userService;
     @RequestMapping("/homePage")
     public String homePage(HttpServletRequest request, HttpSession session, HttpServletResponse response) throws ServletException, IOException {
         request.setAttribute("typeList", typeService.getList());
@@ -35,8 +38,12 @@ public class UserController {
         if(!verifyCode.toUpperCase().equals(getVerifyCodeInSession(request).toUpperCase())){
             WebUtil.reponseToAjax(response,"userRegister","验证码错误，请重新输入！");
         }else{
+            if(userService.getUserByPhone(user.getPhone())!=null){
+                WebUtil.reponseToAjax(response,"userRegister","注册成功,立即登录进入宠物之家吧！");
+            }else{
+                WebUtil.reponseToAjax(response,"userRegister","该手机号已被注册，请更换手机号！");
+            }
 
-            WebUtil.reponseToAjax(response,"userRegister","注册成功,立即登录进入宠物之家吧！");
         }
     }
 
