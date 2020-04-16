@@ -4,6 +4,7 @@ import com.petstore.entity.Users;
 import com.petstore.service.GoodService;
 import com.petstore.service.TypeService;
 import com.petstore.service.UserService;
+import com.petstore.util.SafeUtil;
 import com.petstore.util.WebUtil;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,28 +33,95 @@ public class UserController {
         return "index.jsp";
     }
 
+    /**
+     * 用户注册
+     * 响应代码规则：
+     * 0~成功   -1~验证码错误   -2~手机号错误  -3~密码错误   -4~密保错误   5~系统错误
+     * @param response
+     * @param request
+     * @param user
+     * @param verifyCode
+     */
     @RequestMapping("/userRegister")
     public void userRegister(HttpServletResponse response,HttpServletRequest request,Users user,String verifyCode) {
         logger.debug("用户输入的验证码"+verifyCode);
         if(!verifyCode.toUpperCase().equals(getVerifyCodeInSession(request).toUpperCase())){
-            WebUtil.reponseToAjax(response,"userRegister","验证码错误，请重新输入！");
+            WebUtil.reponseToAjax(response,"userRegister","-1~验证码错误，请重新输入！");
         }else{
             if(userService.getUserByPhone(user.getPhone())!=null){
-                WebUtil.reponseToAjax(response,"userRegister","注册成功,立即登录进入宠物之家吧！");
+                WebUtil.reponseToAjax(response,"userRegister","-2~该手机号已被注册，请更换手机号！");
             }else{
-                WebUtil.reponseToAjax(response,"userRegister","该手机号已被注册，请更换手机号！");
+                user.setPassword(SafeUtil.encode(user.getPassword()));
+                user.setSecurityAnswer(SafeUtil.encode(user.getSecurityAnswer()));
+                if(userService.addUser(user)<0){
+                    WebUtil.reponseToAjax(response,"userRegister","-5~注册失败,请稍后再试！");
+                }else{
+                    WebUtil.reponseToAjax(response,"userRegister","0~注册成功,立即登录进入宠物之家吧！");
+                }
             }
 
         }
     }
 
+    /**
+     * 用户登录
+     * 响应代码规则：
+     * 0~成功   -1~验证码错误   -2~手机号错误  -3~密码错误   -4~密保错误   5~系统错误
+     * @param response
+     * @param request
+     * @param user
+     * @param verifyCode
+     */
     @RequestMapping("/userLogin")
     public void userLogin(HttpServletResponse response, HttpServletRequest request, Users user,String verifyCode) {
         logger.debug("用户输入的验证码"+verifyCode);
         if(!verifyCode.toUpperCase().equals(getVerifyCodeInSession(request).toUpperCase())){
-            WebUtil.reponseToAjax(response,"userLogin","验证码错误，请重新输入！");
+            WebUtil.reponseToAjax(response,"userLogin","-1~验证码错误，请重新输入！");
         }else{
-            WebUtil.reponseToAjax(response,"userLogin","登录成功！");
+            Users userdb=userService.getUserByPhone(user.getPhone());
+            if(userdb==null){
+                WebUtil.reponseToAjax(response,"userLogin","-2~手机号暂未注册，请先注册！");
+            }else{
+                if(!userdb.getPassword().equals(SafeUtil.encode(user.getPassword()))){
+                    WebUtil.reponseToAjax(response,"userLogin","-3~账号或密码错误，请重新输入！");
+                }else{
+                    request.getSession().setAttribute("userName", user.getUsername());
+                    WebUtil.reponseToAjax(response,"userLogin","0~登录成功！");
+                }
+            }
+        }
+    }
+
+    /**
+     * 用户忘记密码，重置密码
+     * 响应代码规则：
+     * 0~成功   -1~验证码错误   -2~手机号错误  -3~密码错误   -4~密保错误   5~系统错误
+     * @param response
+     * @param request
+     * @param user
+     * @param verifyCode
+     */
+    @RequestMapping("/userPasswordReset")
+    public void userPasswordReset(HttpServletResponse response,HttpServletRequest request,Users user,String verifyCode){
+        logger.debug("用户输入的验证码"+verifyCode);
+        if(!verifyCode.toUpperCase().equals(getVerifyCodeInSession(request).toUpperCase())){
+            WebUtil.reponseToAjax(response,"userPasswordReset","-1~验证码错误，请重新输入！");
+        }else{
+            Users userdb=userService.getUserByPhone(user.getPhone());
+            if(userdb==null){
+                WebUtil.reponseToAjax(response,"userPasswordReset","-2~手机号暂未注册，请先注册！");
+            }else{
+                if(userdb.getSecurityQuestion().equals(user.getSecurityQuestion())&&userdb.getSecurityAnswer().equals(SafeUtil.encode(user.getSecurityAnswer()))){
+                    userdb.setSecurityAnswer(SafeUtil.encode(user.getSecurityAnswer()));
+                    if(userService.updateUser()<0){
+                        WebUtil.reponseToAjax(response,"userPasswordReset","-5~密码重置失败，请稍后再试！");
+                    }else{
+                        WebUtil.reponseToAjax(response,"userPasswordReset","-0~密码重置成功，立即登录吧！");
+                    }
+                }else{
+                    WebUtil.reponseToAjax(response,"userPasswordReset","-4~密保问题或密保答案有误，请重新输入！");
+                }
+            }
         }
     }
 

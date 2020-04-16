@@ -69,6 +69,7 @@ public class WebUtil {
      */
     public static void createVerifyCode(final int width, final int height, final String imgType,HttpServletRequest request,HttpServletResponse response) throws IOException {
         //获得当前请求对应的会话对象
+        response.setCharacterEncoding("UTF-8");
         HttpSession session=request.getSession();
         OutputStream output=response.getOutputStream();//获得可以向客户端返回图片的输出流，字节流
         //从请求中获得URI(统一资源标识符)
@@ -114,4 +115,5 @@ public class WebUtil {
         logger.debug("verifyCode："+sb);
         session.setAttribute(uri, sb);
     }
+
 }

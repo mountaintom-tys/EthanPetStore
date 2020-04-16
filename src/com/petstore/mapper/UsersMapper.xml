@@ -30,12 +30,12 @@
         delete from users
         where id = #{id,jdbcType=INTEGER}
     </delete>
-    <insert id="insert" parameterType="com.petstore.entity.Users">
+    <insert id="insertUser" parameterType="com.petstore.entity.Users">
         <selectKey resultType="java.lang.Integer" keyProperty="id" order="AFTER">
             SELECT LAST_INSERT_ID()
         </selectKey>
-        insert into table (name, ...)
-        values (#{name,jdbcType=VARCHAR},...)
+        insert into users (username,phone,password,security_question,security_answer)
+        values (#{username},#{phone},#{password},#{securityQuestion},#{securityAnswer})
     </insert>
     <insert id="insertSelective" parameterType="com.petstore.entity.Goods">
         <selectKey resultType="java.lang.Integer" keyProperty="id" order="AFTER">

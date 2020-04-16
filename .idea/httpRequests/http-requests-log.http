@@ -1,0 +1,317 @@
+POST http://localhost:8081/EthanPetStore/index/userLogin
+Accept: */*
+Cache-Control: no-cache
+Content-Type: application/x-www-form-urlencoded
+
+phone=15181777983&password=123&verifyCode=test
+
+<> 2020-04-16T050819.200.txt
+
+###
+
+POST http://localhost:8081/EthanPetStore/index/userLogin
+Accept: */*
+Cache-Control: no-cache
+Content-Type: application/x-www-form-urlencoded
+phone=15181777983&password=123&verifyCode=test:
+
+<> 2020-04-16T050735.500.html
+
+###
+
+POST http://localhost:8081/EthanPetStore/index/userLogin
+Accept: */*
+Cache-Control: no-cache
+Content-Type: application/x-www-form-urlencoded
+
+phone=15181777983&password=123&verifyCode=test
+
+<> 2020-04-16T050725.200.txt
+
+###
+
+POST http://localhost:8081/EthanPetStore/index/userLogin
+Accept: */*
+Cache-Control: no-cache
+Content-Type: application/x-www-form-urlencoded
+
+password=123&verifyCode=test
+
+<> 2020-04-16T050614.200.txt
+
+###
+
+POST http://localhost:8081/EthanPetStore/index/userLogin
+Accept: */*
+Cache-Control: no-cache
+Content-Type: application/x-www-form-urlencoded
+
+password=123&verifyCode=test
+
+<> 2020-04-16T050603.200.txt
+
+###
+
+POST http://localhost:8081/EthanPetStore/index/userLogin
+Accept: */*
+Cache-Control: no-cache
+Content-Type: application/x-www-form-urlencoded
+
+password=123&verifyCode=test
+
+<> 2020-04-16T050411.200.txt
+
+###
+
+POST http://localhost:8081/EthanPetStore/index/userLogin
+Accept: */*
+Cache-Control: no-cache
+Content-Type: application/x-www-form-urlencoded
+
+phone=15181777989&password=123&verifyCode=test
+
+<> 2020-04-16T050259.200.txt
+
+###
+
+POST http://localhost:8081/EthanPetStore/index/userLogin
+Accept: */*
+Cache-Control: no-cache
+Content-Type: application/x-www-form-urlencoded
+
+phone=15181777983&password=123&verifyCode=test
+
+<> 2020-04-16T050227.200.txt
+
+###
+
+POST http://localhost:8081/EthanPetStore/index/userLogin
+Accept: */*
+Cache-Control: no-cache
+Content-Type: application/x-www-form-urlencoded
+
+phone=15181777983&password=123&verifyCode=test
+
+<> 2020-04-16T050058.200.txt
+
+###
+
+POST http://localhost:8081/EthanPetStore/index/userRegister
+Accept: */*
+Cache-Control: no-cache
+Content-Type: application/x-www-form-urlencoded
+
+phone=15181777983&username=ethan&password=123&securityQuestion=123?&securityAnswer=123&verifyCode=test
+
+<> 2020-04-16T035603.200.txt
+
+###
+
+POST http://localhost:8081/EthanPetStore/index/userRegister
+Accept: */*
+Cache-Control: no-cache
+Content-Type: application/x-www-form-urlencoded
+
+phone=15181777983&username=ethan&password=123&securityAnswer=123&verifyCode=test
+
+<> 2020-04-16T035250.200.txt
+
+###
+
+POST http://localhost:8081/EthanPetStore/index/userRegister
+Accept: */*
+Cache-Control: no-cache
+Content-Type: application/x-www-form-urlencoded
+
+phone=15181777983&username=ethan&password=123&securityAnswer=123&verifyCode=test
+
+<> 2020-04-16T034814.500.html
+
+###
+
+POST http://localhost:8081/EthanPetStore/index/userRegister
+Accept: */*
+Cache-Control: no-cache
+Content-Type: application/x-www-form-urlencoded
+
+phone=15181777985&username=ethan&password=123&securityAnswer=123&verifyCode=test
+
+<> 2020-04-16T034655.200.txt
+
+###
+
+POST http://localhost:8081/EthanPetStore/index/userRegister
+Accept: */*
+Cache-Control: no-cache
+Content-Type: application/x-www-form-urlencoded
+
+phone=15181777985&username=ethan&securityQuestion=123?&securityAnswer=123&verifyCode=test
+
+<> 2020-04-16T034609.500.html
+
+###
+
+POST http://localhost:8081/EthanPetStore/index/userRegister
+Accept: */*
+Cache-Control: no-cache
+Content-Type: application/x-www-form-urlencoded
+
+phone=15181777984&username=ethan&securityQuestion=123?&securityAnswer=123&verifyCode=test
+
+<> 2020-04-16T034601.200.txt
+
+###
+
+POST http://localhost:8081/EthanPetStore/index/userRegister
+Accept: */*
+Cache-Control: no-cache
+Content-Type: application/x-www-form-urlencoded
+
+phone=15181777984&username=ethan&password=&securityQuestion=123?&securityAnswer=123&verifyCode=test
+
+<> 2020-04-16T034513.200.txt
+
+###
+
+POST http://localhost:8081/EthanPetStore/index/userRegister
+Accept: */*
+Cache-Control: no-cache
+Content-Type: application/x-www-form-urlencoded
+
+phone=15181777983&username=ethan&password=123&securityQuestion=123?&securityAnswer=123&verifyCode=test
+
+<> 2020-04-16T034418.200.txt
+
+###
+
+POST http://localhost:8081/EthanPetStore/index/userRegister
+Accept: */*
+Cache-Control: no-cache
+Content-Type: application/x-www-form-urlencoded
+
+phone=1518177798&username=ethan&password=123&securityQuestion=123?&securityAnswer=123&verifyCode=test
+
+<> 2020-04-16T034125.200.txt
+
+###
+
+POST http://localhost:8081/EthanPetStore/index/userRegister
+Accept: */*
+Cache-Control: no-cache
+Content-Type: application/x-www-form-urlencoded
+
+phone=1518177798&username=ethan&password=123&securityQuestion=123?&securityAnswer=123&verifyCode=test
+
+<> 2020-04-16T033950.500.html
+
+###
+
+POST http://localhost:8081/EthanPetStore/index/userRegister
+Accept: */*
+Cache-Control: no-cache
+Content-Type: application/x-www-form-urlencoded
+
+phone=1518177798&username=ethan&password=123&securityQuestion=123?&securityAnswer=123&verifyCode=bsqhkl
+
+<> 2020-04-16T033034.500.html
+
+###
+
+POST http://localhost:8081/EthanPetStore/index/userRegister
+Accept: */*
+Cache-Control: no-cache
+Content-Type: application/x-www-form-urlencoded
+
+phone=1518177798&username=ethan&password=123&securityQuestion=123?&securityAnswer=123&verifyCode=bsqhkl
+
+<> 2020-04-16T032818.500.html
+
+###
+
+POST http://localhost:8081/EthanPetStore/index/userRegister
+Accept: */*
+Cache-Control: no-cache
+Content-Type: application/x-www-form-urlencoded
+
+phone=1518177798&username=ethan&password=123&securityQuestion=123?&securityAnswer=123&verifyCode=bsqhkl
+
+<> 2020-04-16T032656.500.html
+
+###
+
+POST http://localhost:8081/EthanPetStore/index/userRegister
+Accept: */*
+Cache-Control: no-cache
+Content-Type: application/x-www-form-urlencoded
+
+phone=1518177798&username=ethan&password=123&securityQuestion=123?&securityAnswer=123&verifyCode=wfohep
+
+<> 2020-04-16T032626.200.txt
+
+###
+
+GET http://localhost:8081/EthanPetStore/index/getVerifyCode
+Accept: */*
+Cache-Control: no-cache
+Content-Type: application/x-www-form-urlencoded
+
+<> 2020-04-16T032609.200.txt
+
+###
+
+POST http://localhost:8081/EthanPetStore/index/userRegister
+Accept: */*
+Cache-Control: no-cache
+Content-Type: application/x-www-form-urlencoded
+
+phone=1518177798&username=ethan&password=123&securityQuestion=123?&securityAnswer=123&verifyCode=wfohep
+
+<> 2020-04-16T032500.500.html
+
+###
+
+POST http://localhost:8081/EthanPetStore/index/userRegister
+Accept: */*
+Cache-Control: no-cache
+Content-Type: application/x-www-form-urlencoded
+
+phone=1518177798&username=ethan&password=123&security_question=123?&security_answer=123&verifyCode=wfohep
+
+<> 2020-04-16T032327.500.html
+
+###
+#############################################
+###接口测试文档begin
+#############################################
+###
+
+GET http://localhost:8081/EthanPetStore/index/getVerifyCode
+Accept: */*
+Cache-Control: no-cache
+Content-Type: application/x-www-form-urlencoded
+
+
+###
+
+
+POST http://localhost:8081/EthanPetStore/index/userRegister
+Accept: */*
+Cache-Control: no-cache
+Content-Type: application/x-www-form-urlencoded
+
+phone=15181777983&username=ethan&password=123&securityQuestion=123?&securityAnswer=123&verifyCode=test
+
+<> 2020-04-16T014533.200.txt
+
+###
+
+POST http://localhost:8081/EthanPetStore/index/userLogin
+Accept: */*
+Cache-Control: no-cache
+Content-Type: application/x-www-form-urlencoded
+
+phone=15181777983&password=123&verifyCode=test
+
+
+###
+
