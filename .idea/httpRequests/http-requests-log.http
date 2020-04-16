@@ -3,6 +3,134 @@ Accept: */*
 Cache-Control: no-cache
 Content-Type: application/x-www-form-urlencoded
 
+phone=15181777984&password=1234&verifyCode=test
+
+<> 2020-04-16T071505.200.txt
+
+###
+
+POST http://localhost:8081/EthanPetStore/index/userPasswordReset
+Accept: */*
+Cache-Control: no-cache
+Content-Type: application/x-www-form-urlencoded
+
+phone=15181777984&securityQuestion=123?&securityAnswer=123&passwordNew=1234&verifyCode=test
+
+<> 2020-04-16T071447.200.txt
+
+###
+
+POST http://localhost:8081/EthanPetStore/index/userLogin
+Accept: */*
+Cache-Control: no-cache
+Content-Type: application/x-www-form-urlencoded
+
+phone=15181777984&password=1234&verifyCode=test
+
+<> 2020-04-16T071441.200.txt
+
+###
+
+POST http://localhost:8081/EthanPetStore/index/userPasswordReset
+Accept: */*
+Cache-Control: no-cache
+Content-Type: application/x-www-form-urlencoded
+
+phone=15181777984&securityQuestion=123?&securityAnswer=123&passwordNew=1234&verifyCode=test
+
+<> 2020-04-16T070656.200.txt
+
+###
+
+POST http://localhost:8081/EthanPetStore/index/userPasswordReset
+Accept: */*
+Cache-Control: no-cache
+Content-Type: application/x-www-form-urlencoded
+
+phone=15181777984&securityQuestion=123?&securityAnswer=123&passwordNew=1234&verifyCode=test
+
+<> 2020-04-16T070451.200.txt
+
+###
+
+POST http://localhost:8081/EthanPetStore/index/userPasswordReset
+Accept: */*
+Cache-Control: no-cache
+Content-Type: application/x-www-form-urlencoded
+
+phone=15181777984&securityQuestion=123?&securityAnswer=123&passwordNew=1234&verifyCode=test
+
+<> 2020-04-16T070402.500.html
+
+###
+
+POST http://localhost:8081/EthanPetStore/index/userLogin
+Accept: */*
+Cache-Control: no-cache
+Content-Type: application/x-www-form-urlencoded
+
+phone=15181777984&password=1234&verifyCode=test
+
+<> 2020-04-16T070351.200.txt
+
+###
+
+POST http://localhost:8081/EthanPetStore/index/userLogin
+Accept: */*
+Cache-Control: no-cache
+Content-Type: application/x-www-form-urlencoded
+
+phone=15181777984&password=123&verifyCode=test
+
+<> 2020-04-16T070344.200.txt
+
+###
+
+POST http://localhost:8081/EthanPetStore/index/userPasswordReset
+Accept: */*
+Cache-Control: no-cache
+Content-Type: application/x-www-form-urlencoded
+
+phone=15181777984&securityQuestion=123?&securityAnswer=123&verifyCode=test
+
+<> 2020-04-16T070219.500.html
+
+###
+
+POST http://localhost:8081/EthanPetStore/index/userRegister
+Accept: */*
+Cache-Control: no-cache
+Content-Type: application/x-www-form-urlencoded
+
+phone=15181777984&username=ethant&password=123&securityQuestion=123?&securityAnswer=123&verifyCode=test
+
+<> 2020-04-16T070033.200.txt
+
+###
+
+POST http://localhost:8081/EthanPetStore/index/userRegister
+Accept: */*
+Cache-Control: no-cache
+Content-Type: application/x-www-form-urlencoded
+
+phone=15181777984&username=ethant&password=123&securityQuestion=123?&securityAnswer=123&verifyCode=test
+
+###
+
+POST http://localhost:8081/EthanPetStore/index/userRegister
+Accept: */*
+Cache-Control: no-cache
+Content-Type: application/x-www-form-urlencoded
+
+phone=15181777984&username=ethant&password=123&securityQuestion=123?&securityAnswer=123&verifyCode=test
+
+###
+
+POST http://localhost:8081/EthanPetStore/index/userLogin
+Accept: */*
+Cache-Control: no-cache
+Content-Type: application/x-www-form-urlencoded
+
 phone=15181777983&password=123&verifyCode=test
 
 <> 2020-04-16T050819.200.txt
@@ -299,7 +427,7 @@ Accept: */*
 Cache-Control: no-cache
 Content-Type: application/x-www-form-urlencoded
 
-phone=15181777983&username=ethan&password=123&securityQuestion=123?&securityAnswer=123&verifyCode=test
+phone=15181777984&username=ethant&password=123&securityQuestion=123?&securityAnswer=123&verifyCode=test
 
 <> 2020-04-16T014533.200.txt
 
@@ -310,8 +438,17 @@ Accept: */*
 Cache-Control: no-cache
 Content-Type: application/x-www-form-urlencoded
 
-phone=15181777983&password=123&verifyCode=test
+phone=15181777984&password=1234&verifyCode=test
 
+
+###
+
+POST http://localhost:8081/EthanPetStore/index/userPasswordReset
+Accept: */*
+Cache-Control: no-cache
+Content-Type: application/x-www-form-urlencoded
+
+phone=15181777984&securityQuestion=123?&securityAnswer=123&passwordNew=1234&verifyCode=test
 
 ###
 

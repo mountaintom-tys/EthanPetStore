@@ -30,9 +30,6 @@
             background-color: unset;
         }
     </style>
-    <%
-        String loginWindow=request.getParameter("loginWindow");
-    %>
 </head>
 <body>
 <ul class="layui-nav" lay-filter="demo">
@@ -46,8 +43,8 @@
             </c:forEach>
         </dl>
     </li>
-    <li id="register" class="layui-nav-item"><a onclick="userRegister()" href="javascript:;">注册</a></li>
-    <li id="login" class="layui-nav-item"><a onclick="userLogin()" href="javascript:;">登录</a></li>
+    <li id="register" class="layui-nav-item"><a onclick="userRegister()" href="javascript:;">购物车</a></li>
+    <li id="login" class="layui-nav-item"><a onclick="userLogin()" href="javascript:;">我的订单</a></li>
     <li id="admin" class="layui-nav-item"><a href="../admin/orderList">后台管理</a></li>
     <li id="typeList3" class="layui-nav-itemp">
         <div class="layui-form" style="display: inline-block;color: black">
@@ -85,7 +82,7 @@
         <a href="javascript:;"><img src="//t.cn/RCzsdCq" class="layui-nav-img">我</a>
         <dl class="layui-nav-child">
             <dd><a href="adminRe">修改信息</a></dd>
-            <dd><a href="logout">退出</a></dd>
+            <dd><a href="logged/logout">退出</a></dd>
         </dl>
     </li>
 </ul>
@@ -156,11 +153,6 @@
                 }
             }
         });
-        var loginWindow='<%=loginWindow%>';
-        if(loginWindow=="true"){
-            userLogin();
-            layer.msg("暂未登录，请先登录！");
-        }
     });
     var userRegisterIndex;
     var userLoginIndex;
@@ -397,7 +389,7 @@
                 async: true,
                 success: function (result) {
                     if(userModuleFeedbackParse(result,form)){
-                        setTimeout(window.location.href='homePage',3000);//设置延时3秒
+
                     }
                     // layer.msg(result, {icon: 5,anim: 6});
                     // layer.close(userLoginIndex)

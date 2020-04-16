@@ -46,7 +46,12 @@ public class UserService {
         }
     }
 
-    public int updateUser() {
-        return 0;
+    public int updateUser(Users user) {
+        try {
+            return userDao.updateUser(user);
+        } catch (Exception e) {
+            logger.error(e.getMessage());
+            return -1;
+        }
     }
 }

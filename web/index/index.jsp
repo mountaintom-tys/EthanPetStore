@@ -1,4 +1,5 @@
-<%@ page import="com.petstore.util.Constants" %><%--
+<%@ page import="com.petstore.util.Constants" %>
+<%@ page import="java.util.Objects" %><%--
   Created by IntelliJ IDEA.
   User: ethant
   Date: 01/09/20
@@ -14,7 +15,13 @@
     <title><%=Constants.FRONT_WEB_TITLE_NAME%></title>
 </head>
 <body>
-    <%@include file="header.jsp" %>
+    <%
+        Object username = request.getSession().getAttribute("userName");
+        if (Objects.nonNull(username) && !username.toString().trim().isEmpty()) {%>
+            <%@include file="logged/header.jsp" %>
+        <%}else{%>
+            <%@include file="header.jsp" %>
+        <%}%>
 <div class="subscribe" style="border: 1px solid red"></div>
 <div style="height: 200px;width: 300px;border: 1px solid #000000"></div>
 <div style="height: 200px;width: 300px;border: 1px solid #000000"></div>

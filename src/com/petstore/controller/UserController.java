@@ -85,7 +85,7 @@ public class UserController {
                 if(!userdb.getPassword().equals(SafeUtil.encode(user.getPassword()))){
                     WebUtil.reponseToAjax(response,"userLogin","-3~账号或密码错误，请重新输入！");
                 }else{
-                    request.getSession().setAttribute("userName", user.getUsername());
+                    request.getSession().setAttribute("userName", userdb.getUsername());
                     WebUtil.reponseToAjax(response,"userLogin","0~登录成功！");
                 }
             }
@@ -112,8 +112,8 @@ public class UserController {
                 WebUtil.reponseToAjax(response,"userPasswordReset","-2~手机号暂未注册，请先注册！");
             }else{
                 if(userdb.getSecurityQuestion().equals(user.getSecurityQuestion())&&userdb.getSecurityAnswer().equals(SafeUtil.encode(user.getSecurityAnswer()))){
-                    userdb.setSecurityAnswer(SafeUtil.encode(user.getSecurityAnswer()));
-                    if(userService.updateUser()<0){
+                    userdb.setPassword(SafeUtil.encode(user.getPasswordNew()));
+                    if(userService.updateUser(userdb)<0){
                         WebUtil.reponseToAjax(response,"userPasswordReset","-5~密码重置失败，请稍后再试！");
                     }else{
                         WebUtil.reponseToAjax(response,"userPasswordReset","-0~密码重置成功，立即登录吧！");
@@ -123,6 +123,17 @@ public class UserController {
                 }
             }
         }
+    }
+
+    /**
+     * 退出登录
+     * @param session
+     * @return
+     */
+    @RequestMapping("/logged/logout")
+    public String logout(HttpSession session){
+        session.removeAttribute("userName");
+        return "redirect:../homePage";
     }
 
     @RequestMapping("/getVerifyCode")

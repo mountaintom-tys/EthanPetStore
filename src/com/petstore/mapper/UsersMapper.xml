@@ -59,17 +59,11 @@
             </if>
         </trim>
     </insert>
-    <update id="updateByIdSelective" parameterType="com.petstore.entity.Goods">
-        update goods
-        <set>
-            <if test="name != null">
-                name = #{name,jdbcType=VARCHAR},
-            </if>
-            <if test="cover != null">
-                cover = #{cover,jdbcType=VARCHAR},
-            </if>
-        </set>
-        where id = #{id,jdbcType=INTEGER}
+    <update id="updateUser" parameterType="com.petstore.entity.Users">
+        update users set username=#{username},phone=#{phone},password=#{password},
+        security_question=#{securityQuestion},security_answer=#{securityAnswer},
+        name=#{name},address=#{address}
+        where phone = #{phone}
     </update>
 </mapper>
 	  
