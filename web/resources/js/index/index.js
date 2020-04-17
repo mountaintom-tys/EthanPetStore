@@ -28,3 +28,58 @@ function userModuleFeedbackParse(r,form) {
         return false;
     }
 }
+
+//获取当前商品被当前用户收藏的状态、获取当前商品被收藏的次数
+// 响应代码规则：
+// code>=0: code~collectedStatus~collectedCount  用户未登录情况下status默认为false
+function getGoodCollectedStatus(element,goodId) {
+    layui.$.ajax({
+        url: 'getGoodCollectedStatus?goodId='+goodId,
+        type: 'get',
+        async: true,
+        success: function (result) {
+            var rs = result.split ("~");
+            var code=rs[0];
+            if(code<0){//系统异常，获取收藏状态失败
+                Console.error("系统异常，不能正常获取收藏状态和收藏数量！");
+            }
+            //无论获取是否存在异常，都要将后台返回的值进行设值
+            if(rs[1]=="true"){//已收藏
+                layui.$(element).removeClass("layui-icon-rate");
+                layui.$(element).addClass("layui-icon-rate-solid");
+                layui.$(element).attr("data-opt",'del');
+            }else{
+                layui.$(element).removeClass("layui-icon-rate-solid");
+                layui.$(element).addClass("layui-icon-rate");
+                layui.$(element).attr("data-opt",'add');
+            }
+            layui.$(element).text(rs[2]);
+        }
+    })
+}
+
+//加入收藏或取消收藏
+function changeGoodCollectedStatus(element,goodId,e) {
+    var opt=layui.$(element).attr("data-opt");
+    layui.$.ajax({
+        url: 'logged/changeGoodCollectedStatus?ajax=true&opt='+opt+'&goodId='+goodId,
+        type: 'get',
+        async: true,
+        success: function (result) {
+            var rs = result.split ("~");
+            var code=rs[0];
+            if(code>=0){//加入收藏或取消收藏成功
+                layui.layer.msg(rs[1],{icon: 1})
+            }else{
+                if(code==-1){//用户未登录
+                    layui.layer.msg(rs[1],{icon: 7})
+                }else if(code==-2){//系统出现异常
+                    layui.layer.msg(rs[1],{icon: 2})
+                }
+            }
+            getGoodCollectedStatus(element,goodId);
+        }
+    })
+    // e.stopPropagation();
+    e.preventDefault();
+}

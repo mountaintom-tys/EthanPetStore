@@ -26,7 +26,7 @@ public class Orders {
     private Integer id;
 
     private Integer total;
-
+    //商品总数
     private Integer amount;
 
     private Byte status;

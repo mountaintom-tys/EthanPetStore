@@ -47,4 +47,37 @@ public interface GoodsDao extends Total{
      */
     @Select("select count(*) from goods where type_id=#{type}")
     long getTotalByType(byte type);
+
+    /**
+     * 通过用户id和商品id查询collections表记录
+     * @param userId
+     * @param goodId
+     * @return
+     */
+    @Select("select count(*) from collections where user_id=#{userId} and good_id=#{goodId}")
+    int selectGoodCollection(@Param("userId") int userId,@Param("goodId") int goodId);
+
+    /**
+     * 通过商品id获取该商品被收藏的总次数
+     * @param goodId
+     * @return
+     */
+    @Select("select count(*) from collections where good_id=#{goodId}")
+    int getGoodCollectedCount(int goodId);
+
+    /**
+     * 新增商品收藏
+     * @param userId
+     * @param goodId
+     */
+    @Select("insert into collections(user_id,good_id) values(#{userId},#{goodId})")
+    void insertGoodCollection(@Param("userId") int userId,@Param("goodId") int goodId);
+
+    /**
+     * 删除商品收藏
+     * @param userId
+     * @param goodId
+     */
+    @Select("delete from collections where user_id=#{userId} and good_id=#{goodId}")
+    void deleteGoodCollection(@Param("userId")int userId,@Param("goodId") int goodId);
 }

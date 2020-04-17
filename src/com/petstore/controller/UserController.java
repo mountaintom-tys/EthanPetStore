@@ -16,6 +16,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.util.Objects;
 
 @Controller
 @RequestMapping("/index")
@@ -27,10 +28,70 @@ public class UserController {
     private TypeService typeService;
     @Autowired
     private UserService userService;
+
+    /**
+     * 首页
+     * @param request
+     * @param response
+     * @return
+     * @throws ServletException
+     * @throws IOException
+     */
     @RequestMapping("/homePage")
-    public String homePage(HttpServletRequest request, HttpSession session, HttpServletResponse response) throws ServletException, IOException {
-        request.setAttribute("typeList", typeService.getList());
+    public String homePage(HttpServletRequest request,HttpServletResponse response) throws ServletException, IOException {
+        request.setAttribute("typeList",typeService.getList());
+        request.setAttribute("goodList",goodService.getMap((byte) 0,1,10).get("data"));
         return "index.jsp";
+    }
+
+    /**
+     * 根据用户id和商品id获取当前商品收藏状态和被收藏总次数，用户未登录的情况下默认收藏状态为false
+     * @param request
+     * @param response
+     * @param goodId
+     */
+    @RequestMapping("/getGoodCollectedStatus")
+    public void getGoodCollectedStatus(HttpServletRequest request,HttpServletResponse response,int goodId){
+        Users user = (Users)request.getSession().getAttribute("user");
+        boolean collectedStatus=false;
+        int collectedCount= 0;
+        try {
+            if (Objects.nonNull(user) && !user.toString().trim().isEmpty()) {//判断用户是否已登录
+                if(goodService.getGoodCollectedStatus(user.getId(),goodId)){
+                    collectedStatus=true;
+                }
+            }
+            collectedCount = goodService.getGoodCollectedCount(goodId);
+            WebUtil.reponseToAjax(response,"getGoodCollectedStatus","0~"+collectedStatus+"~"+collectedCount);
+        } catch (Exception e) {
+            logger.error(e.getMessage());
+
+            WebUtil.reponseToAjax(response,"getGoodCollectedStatus","-1~"+collectedStatus+"~"+collectedCount);
+        }
+    }
+
+    /**
+     * 根据用户id、opt操作类型和商品id对collections收藏表进行增加和删除
+     * @param response
+     * @param request
+     * @param opt
+     * @param goodId
+     */
+    @RequestMapping("/logged/changeGoodCollectedStatus")
+    public void changeGoodCollectedStatus(HttpServletResponse response,HttpServletRequest request,String opt,int goodId){
+        Users user = (Users)request.getSession().getAttribute("user");
+        try {
+            if(opt.equals("add")){
+                goodService.addGoodCollection(user.getId(),goodId);
+                WebUtil.reponseToAjax(response,"changeGoodCollectedStatus","0~已添加至收藏夹！");
+            }else if(opt.equals("del")){
+                goodService.deleteGoodCollection(user.getId(),goodId);
+                WebUtil.reponseToAjax(response,"changeGoodCollectedStatus","0~已移出收藏夹！");
+            }
+        } catch (Exception e) {
+            logger.error(e.getMessage());
+            WebUtil.reponseToAjax(response,"changeGoodCollectedStatus","-2~操作失败，请稍后再试！");
+        }
     }
 
     /**
@@ -85,7 +146,7 @@ public class UserController {
                 if(!userdb.getPassword().equals(SafeUtil.encode(user.getPassword()))){
                     WebUtil.reponseToAjax(response,"userLogin","-3~账号或密码错误，请重新输入！");
                 }else{
-                    request.getSession().setAttribute("userName", userdb.getUsername());
+                    request.getSession().setAttribute("user", userdb);
                     WebUtil.reponseToAjax(response,"userLogin","0~登录成功！");
                 }
             }
@@ -132,7 +193,7 @@ public class UserController {
      */
     @RequestMapping("/logged/logout")
     public String logout(HttpSession session){
-        session.removeAttribute("userName");
+        session.removeAttribute("user");
         return "redirect:../homePage";
     }
 

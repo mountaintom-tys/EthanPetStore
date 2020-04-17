@@ -7,7 +7,7 @@ public class Items {
     private Integer id;
 
     private Integer price;
-
+    //购买数量
     private Integer amount;
 
     private Integer orderId;

@@ -33,18 +33,20 @@ public class GoodService {
 
     /**
      * 获取列表
-     *
      * @param type
+     * @param page
+     * @param limit
+     * @return
      */
     public Map<String, Object> getMap(byte type,int page,int limit) {
         Map<String, Object> map = new HashMap<>();
         List<Goods> goodList;
-        if (type == 0) {
+        if (type == 0) {//返回所有类型商品集合
             goodList=goodDao.getList(limit*(page-1),limit);
-            map = totalService.getMap(map, type, goodDao);
+            map = totalService.getMap(map, type, goodDao);//获取数据库中当前类型商品总数量
             map.put("data",packToList(goodList));
             return map;
-        }else{
+        }else{//返回指定类型商品集合
             goodList=goodDao.getListByType(limit*(page-1),limit,type);
             map = totalService.getMap(map, type, goodDao);
             map.put("data",packToList(goodList));
@@ -92,5 +94,42 @@ public class GoodService {
      */
     public boolean delete(int id) {
         return goodDao.deleteById(id)>0;
+    }
+
+    /**
+     * 判断用户是否收藏了该商品
+     * @param userId
+     * @param goodId
+     * @return
+     */
+    public boolean getGoodCollectedStatus(Integer userId, int goodId) {
+        return goodDao.selectGoodCollection(userId,goodId)>0;
+    }
+
+    /**
+     * 获取该商品被收藏的总次数
+     * @param goodId
+     * @return
+     */
+    public int getGoodCollectedCount(int goodId) {
+        return goodDao.getGoodCollectedCount(goodId);
+    }
+
+    /**
+     * 新增商品收藏
+     * @param userId
+     * @param goodId
+     */
+    public void addGoodCollection(Integer userId, int goodId) {
+        goodDao.insertGoodCollection(userId,goodId);
+    }
+
+    /**
+     * 删除商品收藏
+     * @param userId
+     * @param goodId
+     */
+    public void deleteGoodCollection(Integer userId, int goodId) {
+        goodDao.deleteGoodCollection(userId,goodId);
     }
 }

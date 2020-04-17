@@ -9,6 +9,13 @@ import java.util.Map;
 public class TotalService<T extends Total> {
     T dao;
 
+    /**
+     * 构建map集合，用于转换为layui能解析的json数据
+     * @param map
+     * @param type
+     * @param dao
+     * @return
+     */
     public Map<String, Object> getMap(Map<String, Object> map, byte type, T dao) {
         this.dao=dao;
         map.put("code", 0);

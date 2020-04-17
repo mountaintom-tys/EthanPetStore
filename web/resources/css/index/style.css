@@ -1,6 +1,6 @@
 .subscribe{
-    background:url(../../img/index/group.jpg)no-repeat 50% 0px fixed;
-    background-size:contain;
+    background:url(../../img/index/group3.jpg)no-repeat 50% 0px fixed;
+    background-size:cover;
     text-align:center;
     padding:10em 0;
 }

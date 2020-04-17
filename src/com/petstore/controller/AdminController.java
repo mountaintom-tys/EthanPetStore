@@ -88,7 +88,7 @@ public class AdminController {
     public String adminReset(Admins adminNew,HttpServletRequest request,HttpSession session){
         adminNew.setPassword(SafeUtil.encode(adminNew.getPassword()));
         adminNew.setPasswordNew(SafeUtil.encode(adminNew.getPasswordNew()));
-        Admins admin = adminService.getByUserName(String.valueOf(session.getAttribute("username")));
+        Admins admin = adminService.getByUserName(String.valueOf(session.getAttribute("adminName")));
         admin.setPasswordNew(admin.getPassword());
         if(!admin.getPassword().equals(adminNew.getPassword())){
             request.setAttribute("msg","原密码不正确，请重新输入！");
