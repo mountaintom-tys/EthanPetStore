@@ -48,7 +48,7 @@
                         <input type="text" name="price" required lay-verify="required|number" placeholder="请输入价格"
                                autocomplete="off" class="layui-input">
                     </div>
-                    <div class="layui-form-mid layui-word-aux">辅助文字</div>
+                    <div class="layui-form-mid layui-word-aux">单位：元</div>
                 </div>
                 <div class="layui-form-item layui-form-text">
                     <label class="layui-form-label">介绍</label>

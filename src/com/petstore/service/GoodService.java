@@ -72,11 +72,11 @@ public class GoodService {
      * @return
      */
     public Goods get(int id) {
-        Goods goods=goodDao.selectById(id);
-        if(Objects.nonNull(goods)){
-            goods.setType(typeService.get(goods.getTypeId()));
+        Goods good=goodDao.selectById(id);
+        if(Objects.nonNull(good)){
+            good.setType(typeService.get(good.getTypeId()));
         }
-        return goods;
+        return good;
     }
 
     /**
@@ -131,5 +131,13 @@ public class GoodService {
      */
     public void deleteGoodCollection(Integer userId, int goodId) {
         goodDao.deleteGoodCollection(userId,goodId);
+    }
+
+    /**
+     * 获取被收藏最多的商品id和数量
+     * @return
+     */
+    public List<Map<String,Integer>> getMostCollectedGoodIdAndCount(){
+        return goodDao.selectMostCollectedGoodIdAndCount();
     }
 }

@@ -1,3 +1,66 @@
+GET http://localhost:8081/EthanPetStore/index/getMostCollectedGood
+Accept: */*
+Cache-Control: no-cache
+Content-Type: application/x-www-form-urlencoded
+
+<> 2020-04-18T021033.404.html
+
+###
+
+GET http://localhost:8081/EthanPetStore/index/getMostCollectedGood
+Accept: */*
+Cache-Control: no-cache
+Content-Type: application/x-www-form-urlencoded
+
+<> 2020-04-18T014455.404.html
+
+###
+
+GET http://localhost:8081/EthanPetStore/index/getMostCollectedGood
+Accept: */*
+Cache-Control: no-cache
+Content-Type: application/x-www-form-urlencoded
+
+<> 2020-04-18T012554.404.html
+
+###
+
+GET http://localhost:8081/EthanPetStore/index/getMostCollectedGood
+Accept: */*
+Cache-Control: no-cache
+Content-Type: application/x-www-form-urlencoded
+
+<> 2020-04-18T011928.404.html
+
+###
+
+GET http://localhost:8081/EthanPetStore/index/getMostCollectedGood
+Accept: */*
+Cache-Control: no-cache
+Content-Type: application/x-www-form-urlencoded
+
+<> 2020-04-18T011836.404.html
+
+###
+
+GET http://localhost:8081/EthanPetStore/index/getMostCollectedGood
+Accept: */*
+Cache-Control: no-cache
+Content-Type: application/x-www-form-urlencoded
+
+<> 2020-04-18T011805.404.html
+
+###
+
+GET http://localhost:8081/EthanPetStore/index/getMostCollectedGood
+Accept: */*
+Cache-Control: no-cache
+Content-Type: application/x-www-form-urlencoded
+
+<> 2020-04-18T010616.500.html
+
+###
+
 POST http://localhost:8081/EthanPetStore/index/userLogin
 Accept: */*
 Cache-Control: no-cache
@@ -449,6 +512,13 @@ Cache-Control: no-cache
 Content-Type: application/x-www-form-urlencoded
 
 phone=15181777984&securityQuestion=123?&securityAnswer=123&passwordNew=1234&verifyCode=test
+
+###
+
+GET http://localhost:8081/EthanPetStore/index/getMostCollectedGood
+Accept: */*
+Cache-Control: no-cache
+Content-Type: application/x-www-form-urlencoded
 
 ###
 

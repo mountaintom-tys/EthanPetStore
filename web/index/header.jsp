@@ -37,7 +37,7 @@
 <body>
 <ul class="layui-nav" lay-filter="demo">
     <li class="layui-nav-item"><span style="font-size:25px;margin-right: 20px">宠物之家</span></li>
-    <li id="orderList" class="layui-nav-item layui-this"><a href="goodList">首页</a></li>
+    <li id="orderList" class="layui-nav-item layui-this"><a href="homePage">首页</a></li>
     <li class="layui-nav-item">
         <a href="javascript:;">商品分类</a>
         <dl class="layui-nav-child">

@@ -5,6 +5,7 @@ import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 
 import java.util.List;
+import java.util.Map;
 
 public interface GoodsDao extends Total{
     int deleteById(Integer id);
@@ -80,4 +81,11 @@ public interface GoodsDao extends Total{
      */
     @Select("delete from collections where user_id=#{userId} and good_id=#{goodId}")
     void deleteGoodCollection(@Param("userId")int userId,@Param("goodId") int goodId);
+
+    /**
+     * 获取被收藏最多的商品id和数量
+     * @return
+     */
+    @Select("SELECT good_id,count(*) count  FROM `collections` GROUP BY good_id HAVING count=(select max(count) from(SELECT good_id,count(*) count  FROM `collections` GROUP BY good_id) r) limit 0,5")
+    List<Map<String,Integer>> selectMostCollectedGoodIdAndCount();
 }

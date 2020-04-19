@@ -1,6 +1,7 @@
 package com.petstore.util;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import org.apache.log4j.Logger;
 
 import javax.imageio.ImageIO;
@@ -37,12 +38,14 @@ public class WebUtil {
     }
 
     public static void reponseToJson(HttpServletResponse response, Map map) {
+        //设置表格的json数据时，需要先把数据对象转为Object类型，否则出现重复对象时会出现 $ref 导致数据为空,layui表格模板重复数据为undefined的问题
+        Object object=JSONObject.toJSON(map);
         response.setCharacterEncoding("UTF-8");
         response.setContentType("application/json;charset=utf-8");
         PrintWriter writer = null;
         try {
             writer = response.getWriter();
-            writer.write(JSON.toJSONString(map));
+            writer.write(JSON.toJSONString(object));
             writer.flush();
         } catch (IOException e) {
             e.printStackTrace();

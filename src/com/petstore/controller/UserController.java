@@ -1,5 +1,6 @@
 package com.petstore.controller;
 
+import com.petstore.entity.Goods;
 import com.petstore.entity.Users;
 import com.petstore.service.GoodService;
 import com.petstore.service.TypeService;
@@ -10,12 +11,16 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 @Controller
@@ -40,8 +45,44 @@ public class UserController {
     @RequestMapping("/homePage")
     public String homePage(HttpServletRequest request,HttpServletResponse response) throws ServletException, IOException {
         request.setAttribute("typeList",typeService.getList());
-        request.setAttribute("goodList",goodService.getMap((byte) 0,1,10).get("data"));
+        request.setAttribute("mostCollectedGoods",getMostCollectedGoods());
         return "index.jsp";
+    }
+
+    /**
+     * 产品列表
+     *
+     * @return
+     */
+    @RequestMapping("/goodList")
+    public void goodList(@RequestParam(required = false, defaultValue = "0") int type, HttpServletRequest request, HttpServletResponse response,
+                           @RequestParam(required=false, defaultValue="1") Integer page, @RequestParam(required=false, defaultValue="8")Integer limit) {
+            Map<String, Object> map = goodService.getMap((byte)type,page,limit);
+            WebUtil.reponseToJson(response, map);
+    }
+
+    /**
+     * 商品详情
+     * @param request
+     * @param id
+     * @return
+     */
+    @RequestMapping("/goodDetail")
+    public String goodDetail(HttpServletRequest request,Integer id){
+        try {
+            Goods good=goodService.get(id);
+            if(good!=null){
+                request.setAttribute("good",good);
+            }else {
+                request.setAttribute("msg","数据获取异常！");
+            }
+        } catch (Exception e) {
+            logger.error(e.getMessage());
+            request.setAttribute("msg","系统异常！");
+        }finally {
+            request.setAttribute("typeList",typeService.getList());
+            return "detail.jsp";
+        }
     }
 
     /**
@@ -65,9 +106,26 @@ public class UserController {
             WebUtil.reponseToAjax(response,"getGoodCollectedStatus","0~"+collectedStatus+"~"+collectedCount);
         } catch (Exception e) {
             logger.error(e.getMessage());
-
             WebUtil.reponseToAjax(response,"getGoodCollectedStatus","-1~"+collectedStatus+"~"+collectedCount);
         }
+    }
+
+    /**
+     * 获取被收藏次数最多的商品，底层接口同时返回了对应的商品的数量，暂未使用
+     * @return
+     */
+    @RequestMapping("/getMostCollectedGoods")
+    public List<Goods> getMostCollectedGoods(){
+        List<Map<String, Integer>> goodIdAndCountList = goodService.getMostCollectedGoodIdAndCount();
+        List<Goods> mostCollectedGoodList= new ArrayList<>();
+        if(goodIdAndCountList!=null){
+            for (Map<String, Integer> goodIdAndCount : goodIdAndCountList) {
+                mostCollectedGoodList.add(goodService.get(goodIdAndCount.get("good_id")));
+            }
+        }else{
+            mostCollectedGoodList.add(((List<Goods>)goodService.getMap((byte) 0,1,1).get("data")).get(0));
+        }
+        return mostCollectedGoodList;
     }
 
     /**

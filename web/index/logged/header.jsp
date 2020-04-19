@@ -34,7 +34,7 @@
 <body>
 <ul class="layui-nav" lay-filter="demo">
     <li class="layui-nav-item"><span style="font-size:25px;margin-right: 20px">宠物之家</span></li>
-    <li id="orderList" class="layui-nav-item layui-this"><a href="goodList">首页</a></li>
+    <li id="orderList" class="layui-nav-item layui-this"><a href="homePage">首页</a></li>
     <li class="layui-nav-item">
         <a href="javascript:;">商品分类</a>
         <dl class="layui-nav-child">
@@ -43,6 +43,7 @@
             </c:forEach>
         </dl>
     </li>
+    <li id="register" class="layui-nav-item"><a onclick="userRegister()" href="javascript:;">我的收藏</a></li>
     <li id="register" class="layui-nav-item"><a onclick="userRegister()" href="javascript:;">购物车</a></li>
     <li id="login" class="layui-nav-item"><a onclick="userLogin()" href="javascript:;">我的订单</a></li>
     <li id="admin" class="layui-nav-item"><a href="../admin/orderList">后台管理</a></li>
