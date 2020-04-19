@@ -32,7 +32,7 @@ public class GoodService {
     }
 
     /**
-     * 获取列表
+     * 获取商品列表
      * @param type
      * @param page
      * @param limit
@@ -139,5 +139,30 @@ public class GoodService {
      */
     public List<Map<String,Integer>> getMostCollectedGoodIdAndCount(){
         return goodDao.selectMostCollectedGoodIdAndCount();
+    }
+
+    /**
+     * 获取收藏商品列表
+     *
+     * @param userId
+     * @param type
+     * @param page
+     * @param limit
+     * @return
+     */
+    public Map<String, Object> getCollectedGoodMap(Integer userId, byte type, int page, int limit) {
+        Map<String, Object> map = new HashMap<>();
+        List<Goods> goodList;
+        if (type == 0) {//返回当前用户收藏的所有类型商品集合
+            goodList=goodDao.getCollectedGoodList(userId,limit*(page-1),limit);
+            map = totalService.getMap(map, type, goodDao);//获取数据库中当前类型商品总数量
+            map.put("data",packToList(goodList));
+            return map;
+        }else{//返回回当前用户收藏的指定类型商品集合
+            goodList=goodDao.getCollectedGoodListByType(userId,limit*(page-1),limit,type);
+            map = totalService.getMap(map, type, goodDao);
+            map.put("data",packToList(goodList));
+            return map;
+        }
     }
 }

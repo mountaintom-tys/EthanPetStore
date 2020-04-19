@@ -1,3 +1,4 @@
+<%@ page import="com.petstore.util.Constants" %>
 <%@ page import="java.util.Objects" %><%--
   Created by IntelliJ IDEA.
   User: MountainTom-ASUS
@@ -9,7 +10,7 @@
 <html>
 <head>
     <link rel="stylesheet" type="text/css" href="../resources/static/css/main.css">
-    <title>商品详情</title>
+    <title><%=Constants.WEB_TITLE_NAME%></title>
 </head>
 <body onload="layui.$('i').load()">
 <%

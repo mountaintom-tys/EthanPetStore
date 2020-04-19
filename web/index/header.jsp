@@ -42,7 +42,7 @@
         <a href="javascript:;">商品分类</a>
         <dl class="layui-nav-child">
             <c:forEach var="type" items="${typeList}">
-                <dd><a href="${type.id}">${type.name}</a></dd>
+                <dd><a href="goodList?tempType=${type.id}">${type.name}</a></dd>
             </c:forEach>
         </dl>
     </li>

@@ -22,14 +22,14 @@ public interface GoodsDao extends Total{
     // 以下方法使用mybatis注解实现
 
     /**
-     * 获取列表
+     * 获取商品列表
      * @return
      */
     @Select("select * from goods where status=1 order by id desc limit #{begin},#{size}")
     List<Goods> getList(@Param("begin")int begin,@Param("size")int size);
 
     /**
-     * 按类别获取列表
+     * 按类别获取商品列表
      * @return
      */
     @Select("select * from goods where type_id=#{type} and status=1 order by id desc limit #{begin},#{size}")
@@ -88,4 +88,27 @@ public interface GoodsDao extends Total{
      */
     @Select("SELECT good_id,count(*) count  FROM `collections` GROUP BY good_id HAVING count=(select max(count) from(SELECT good_id,count(*) count  FROM `collections` GROUP BY good_id) r) limit 0,5")
     List<Map<String,Integer>> selectMostCollectedGoodIdAndCount();
+
+    /**
+     * 获取收藏商品列表
+     *
+     * @param userId
+     * @param begin
+     * @param size
+     * @return
+     */
+    @Select("select g.* from goods g inner join collections c on g.id=c.good_id where g.status=1 and c.user_id=#{userId} order by g.id desc limit #{begin},#{size}")
+    List<Goods> getCollectedGoodList(@Param("userId")Integer userId, @Param("begin")int begin, @Param("size")int size);
+
+    /**
+     * 按商品类型获取收藏商品列表
+     * @param userId
+     * @param begin
+     * @param size
+     * @param type
+     * @return
+     */
+    @Select("select g.* from goods g inner join collections c on g.id=c.good_id where g.status=1 and c.user_id=#{userId} and g.type=#{type} order by g.id desc limit #{begin},#{size}")
+    List<Goods> getCollectedGoodListByType(@Param("userId")Integer userId, @Param("begin")int begin, @Param("size")int size,@Param("type") int type);
+
 }

@@ -39,13 +39,13 @@
         <a href="javascript:;">商品分类</a>
         <dl class="layui-nav-child">
             <c:forEach var="type" items="${typeList}">
-                <dd><a href="${type.id}">${type.name}</a></dd>
+                <dd><a href="goodList?tempType=${type.id}">${type.name}</a></dd>
             </c:forEach>
         </dl>
     </li>
-    <li id="register" class="layui-nav-item"><a onclick="userRegister()" href="javascript:;">我的收藏</a></li>
-    <li id="register" class="layui-nav-item"><a onclick="userRegister()" href="javascript:;">购物车</a></li>
-    <li id="login" class="layui-nav-item"><a onclick="userLogin()" href="javascript:;">我的订单</a></li>
+    <li id="collections" class="layui-nav-item"><a href="goodList?goodListType=collected">我的收藏</a></li>
+    <li id="shopCart" class="layui-nav-item"><a onclick="userRegister()" href="javascript:;">购物车</a></li>
+    <li id="myOrderList" class="layui-nav-item"><a onclick="userLogin()" href="javascript:;">我的订单</a></li>
     <li id="admin" class="layui-nav-item"><a href="../admin/orderList">后台管理</a></li>
     <li id="typeList3" class="layui-nav-itemp">
         <div class="layui-form" style="display: inline-block;color: black">

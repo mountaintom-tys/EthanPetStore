@@ -175,7 +175,7 @@ public class AdminController {
     @RequestMapping("/goodList")
     public String goodList(@RequestParam(required = false, defaultValue = "-1") int type,HttpServletRequest request,HttpServletResponse response,
                            @RequestParam(required=false, defaultValue="1") Integer page,@RequestParam(required=false, defaultValue="10")Integer limit) {
-        if (type != -1) {//type字段预留作用可作为后期按类别获取列表
+        if (type != -1) {//type=-1表示不查询任何商品
             Map<String, Object> map = goodService.getMap((byte)type,page,limit);
             WebUtil.reponseToJson(response, map);
         }
