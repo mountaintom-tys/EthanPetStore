@@ -14,6 +14,8 @@ public interface OrdersDao extends Total{
 
     int updateByIdSelective(Orders order);
 
+    int insertOrder(Orders order);
+
     // 以上为mybatis generator自动生成接口, 具体实现在mapper.xml中
 
     // ------------------------------------------------------------
@@ -50,6 +52,5 @@ public interface OrdersDao extends Total{
      */
     @Select("select count(*) from orders where status=#{type}")
     long getTotalByType(byte type);
-
 
 }

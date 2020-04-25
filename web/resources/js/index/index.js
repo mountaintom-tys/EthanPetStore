@@ -83,3 +83,26 @@ function changeGoodCollectedStatus(element,goodId,e) {
     // e.stopPropagation();
     e.preventDefault();
 }
+
+//加入购物车
+function addToCart(goodId,amount) {
+    layui.$.ajax({
+        url: 'logged/addToCart?ajax=true&goodId='+goodId+'&amount='+amount,
+        type: 'get',
+        async: true,
+        success: function (result) {
+            var rs = result.split ("~");
+            var code=rs[0];
+            if(code>=0){//加入购物车成功
+                alert(rs[1]);
+                // layui.layer.msg(rs[1],{icon: 7})
+            }else{
+                if(code==-1){//用户未登录
+                    layui.layer.msg(rs[1],{icon: 7})
+                }else if(code==-2){//异常
+                    layui.layer.msg(rs[1],{icon: 2})
+                }
+            }
+        }
+    })
+}

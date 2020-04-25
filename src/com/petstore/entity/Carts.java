@@ -6,11 +6,13 @@ package com.petstore.entity;
 public class Carts {
     private Integer id;
 
-    private Integer total;
-
     private Integer amount;
 
     private Integer userId;
+
+    private Integer goodId;
+
+    private Goods good;
 
     public Integer getId() {
         return id;
@@ -18,14 +20,6 @@ public class Carts {
 
     public void setId(Integer id) {
         this.id = id;
-    }
-
-    public Integer getTotal() {
-        return total;
-    }
-
-    public void setTotal(Integer total) {
-        this.total = total;
     }
 
     public Integer getAmount() {
@@ -42,5 +36,21 @@ public class Carts {
 
     public void setUserId(Integer userId) {
         this.userId = userId;
+    }
+
+    public Integer getGoodId() {
+        return goodId;
+    }
+
+    public void setGoodId(Integer goodId) {
+        this.goodId = goodId;
+    }
+
+    public Goods getGood() {
+        return good;
+    }
+
+    public void setGood(Goods good) {
+        this.good = good;
     }
 }

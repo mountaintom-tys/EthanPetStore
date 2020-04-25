@@ -25,7 +25,7 @@ public class Orders {
 
     private Integer id;
 
-    private Integer total;
+    private Float total;
     //商品总数
     private Integer amount;
 
@@ -55,11 +55,11 @@ public class Orders {
         this.id = id;
     }
 
-    public Integer getTotal() {
+    public Float getTotal() {
         return total;
     }
 
-    public void setTotal(Integer total) {
+    public void setTotal(Float total) {
         this.total = total;
     }
 

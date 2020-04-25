@@ -36,7 +36,7 @@
                     <div class="bannerInfo">
                         <h2 class="hdng"><a href="goodDetail?id=${good.id}">${good.name}</a><span></span></h2>
                         <p>今日人气推荐</p>
-                        <a class="banner_a" href="javascript:;" onclick="addToCart(${good.id})">加入购物车</a>
+                        <a class="banner_a" href="javascript:;" onclick="addToCart(${good.id},1)">加入购物车</a>
                     </div>
                     <div class="bannerImg">
                         <a href="goodDetail?id=${good.id}">

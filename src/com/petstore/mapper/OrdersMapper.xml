@@ -16,6 +16,9 @@
   <sql id="Base_Column_List" >
     id, total, amount, status, paytype, name, phone, address, systime, user_id
   </sql>
+  <sql id="Upt_Column_List" >
+    total, amount, status, paytype, name, phone, address, systime, user_id
+  </sql>
   <select id="selectById" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select
     <include refid="Base_Column_List" />
@@ -26,14 +29,14 @@
     delete from orders
     where id = #{id,jdbcType=INTEGER}
   </delete>
-  <insert id="insert" parameterType="com.petstore.entity.Goods" >
+  <insert id="insertOrder" parameterType="com.petstore.entity.Orders" >
     <selectKey resultType="java.lang.Integer" keyProperty="id" order="AFTER" >
       SELECT LAST_INSERT_ID()
     </selectKey>
-    insert into goods (name, cover, price, intro,
-      stock, type_id)
-    values (#{name,jdbcType=VARCHAR}, #{cover,jdbcType=VARCHAR}, #{price,jdbcType=INTEGER}, #{intro,jdbcType=VARCHAR},
-      #{stock,jdbcType=INTEGER}, #{typeId,jdbcType=INTEGER})
+    insert into orders (
+    <include refid="Upt_Column_List" />
+    )
+    values (#{total},#{amount},#{status},#{paytype},#{name},#{phone},#{address},#{systime},#{userId})
   </insert>
   <insert id="insertSelective" parameterType="com.petstore.entity.Goods" >
     <selectKey resultType="java.lang.Integer" keyProperty="id" order="AFTER" >

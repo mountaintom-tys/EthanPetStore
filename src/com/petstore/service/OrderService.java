@@ -34,14 +34,14 @@ public class OrderService {
         Map<String, Object> map = new HashMap<>();
         if (status == 0) {
             List<Orders> orderList=orderDao.getList(limit*(page-1),limit);
-            setDateForOrder(orderList);
+            setDataForOrder(orderList);
             map = totalService.getMap(map, status, orderDao);
             map.put("data",orderList);
             return map;
         }
         else{
             List<Orders> orderList=orderDao.getListByStatus(limit*(page-1),limit,status);
-            setDateForOrder(orderList);
+            setDataForOrder(orderList);
             map = totalService.getMap(map, status, orderDao);
             map.put("data",orderList);
             return map;
@@ -52,7 +52,7 @@ public class OrderService {
      * 为定订单列表中的每一条订单设置订单项列表、用户实体
      * @param orderList
      */
-    public void setDateForOrder(List<Orders> orderList){
+    public void setDataForOrder(List<Orders> orderList){
         for (Orders order : orderList) {
             order.setItemsList(this.getItemList(order.getId()));
             order.setUser(userService.get(order.getUserId()));
@@ -100,5 +100,14 @@ public class OrderService {
             itemDao.deleteById(item.getId());
         }
         return orderDao.deleteById(id)>0;
+    }
+
+    @Transactional
+    public void addOrder(Orders order) {
+        int orderId=orderDao.insertOrder(order);
+        for (Items item : order.getItemsList()) {
+            item.setOrderId(order.getId());
+            itemDao.insertItem(item);
+        }
     }
 }

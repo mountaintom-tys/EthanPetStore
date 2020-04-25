@@ -1,9 +1,8 @@
 package com.petstore.controller;
 
-import com.petstore.entity.Goods;
-import com.petstore.entity.Types;
-import com.petstore.entity.Users;
+import com.petstore.entity.*;
 import com.petstore.service.GoodService;
+import com.petstore.service.OrderService;
 import com.petstore.service.TypeService;
 import com.petstore.service.UserService;
 import com.petstore.util.SafeUtil;
@@ -11,6 +10,7 @@ import com.petstore.util.WebUtil;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -19,10 +19,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 
 @Controller
 @RequestMapping("/index")
@@ -34,6 +31,8 @@ public class UserController {
     private TypeService typeService;
     @Autowired
     private UserService userService;
+    @Autowired
+    private OrderService orderService;
 
     /**
      * 首页
@@ -112,6 +111,135 @@ public class UserController {
         }
     }
 
+    /**
+     * 加入购物车
+     * @param request
+     * @param response
+     * @param goodId
+     * @param amount
+     */
+    @RequestMapping("/logged/addToCart")
+    public void addToCart(HttpServletRequest request,HttpServletResponse response,Integer goodId,Integer amount){
+        Users user = (Users) request.getSession().getAttribute("user");
+        try {
+            if(goodId!=null&&amount!=null){
+                if(goodService.addToCart(user.getId(),goodId,amount)>0){
+                    WebUtil.reponseToAjax(response, "addToCart", "0~已加入购物车！");
+                }
+            }else{
+                WebUtil.reponseToAjax(response, "addToCart", "-2~参数异常！");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            logger.error(e.getMessage());
+            WebUtil.reponseToAjax(response, "addToCart", "-2~系统异常！");
+        }
+    }
+
+    /**
+     * 我的购物车列表
+     * @param request
+     * @return
+     */
+    @RequestMapping("/logged/shopCart")
+    public String shopCart(HttpServletRequest request){
+        Users user = (Users) request.getSession().getAttribute("user");
+        List<Carts> cartList=goodService.getShopCart(user.getId());
+        request.setAttribute("cartList",cartList);
+        request.setAttribute("typeList", typeService.getList());
+        return "shopCart.jsp";
+    }
+
+    /**
+     * 更新购物车商品数量
+     * @param request
+     * @param response
+     * @param goodId
+     * @param amount
+     */
+    @RequestMapping("/logged/changeCartAmount")
+    public void changeCartAmount(HttpServletRequest request,HttpServletResponse response,Integer goodId,Integer amount){
+        Users user = (Users) request.getSession().getAttribute("user");
+        try {
+            if(goodId!=null&&amount!=null){
+                goodService.changeCartAmount(user.getId(),goodId,amount);
+            }else{
+                WebUtil.reponseToAjax(response, "changeCartAmount", "-2~参数异常！");
+            }
+        } catch (Exception e) {
+            logger.error(e.getMessage());
+            WebUtil.reponseToAjax(response, "changeCartAmount", "-2~系统异常！");
+        }
+    }
+
+    /**
+     * 根据用户id和商品id删除购物车
+     * @param request
+     * @param response
+     * @param goodId
+     */
+    @RequestMapping("/logged/deleteFromCart")
+    public void deleteFromCart(HttpServletRequest request,HttpServletResponse response,Integer goodId){
+        Users user = (Users) request.getSession().getAttribute("user");
+        try {
+            if(goodId!=null){
+                goodService.deleteFromCart(user.getId(),goodId);
+            }else{
+                WebUtil.reponseToAjax(response, "deleteFromCart", "-2~参数异常！");
+            }
+        } catch (Exception e) {
+            logger.error(e.getMessage());
+            WebUtil.reponseToAjax(response, "deleteFromCart", "-2~系统异常！");
+        }
+    }
+
+    /**
+     * 购物车结算
+     * @param request
+     * @param response
+     * @param goodIdList
+     * @return
+     */
+    @Transactional
+    @RequestMapping("/logged/settlement")
+    public String settlement(HttpServletRequest request,HttpServletResponse response,Integer []goodIdList){
+        Users user = (Users) request.getSession().getAttribute("user");
+        List<Items> items=new ArrayList<Items>();
+        Float total=new Float(0);
+        int amount=0;
+        for (Integer goodId : goodIdList) {
+            Items item =new Items();
+            Carts cart=goodService.getShopCart(user.getId(),goodId);
+            item.setPrice(cart.getGood().getPrice());
+            item.setAmount(cart.getAmount());
+            item.setCartId(cart.getId());
+            item.setGoodId(cart.getGoodId());
+            item.setTotal(item.getAmount()*item.getPrice());
+            item.setGood(cart.getGood());
+            total+=item.getTotal();
+            amount+=item.getAmount();
+            items.add(item);
+        }
+        Orders order=new Orders();
+        order.setTotal(total);
+        order.setAmount(amount);
+        order.setStatus(Orders.STATUS_UNPAY);
+        order.setPaytype(Orders.PAYTYPE_WECHAT);
+        order.setName(user.getName()==null?user.getUsername():user.getName());
+        order.setPhone(user.getPhone());
+        order.setAddress(user.getAddress()==null?"暂未选择地址":user.getAddress());
+        order.setSystime(Calendar.getInstance().getTime());
+        order.setUserId(user.getId());
+        order.setUser(user);
+        order.setItemsList(items);
+        try {
+            orderService.addOrder(order);
+            goodService.deleteFromCart(user.getId());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return "orderList.jsp";
+    }
     /**
      * 根据用户id和商品id获取当前商品收藏状态和被收藏总次数，用户未登录的情况下默认收藏状态为false
      *

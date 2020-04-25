@@ -1,6 +1,7 @@
 package com.petstore.dao;
 
 import com.petstore.entity.Items;
+import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Select;
 
 import java.util.List;
@@ -21,4 +22,12 @@ public interface ItemsDao {
      */
     @Select("select * from items where order_id=#{orderId}")
     List<Items> getItemList(int orderId);
+
+    /**
+     * 插入订单项
+     * @param item
+     * @return
+     */
+    @Insert("insert into items (price,amount,order_id,cart_id,good_id) values(#{price},#{amount},#{orderId},#{cartId},#{goodId})")
+    int insertItem(Items item);
 }

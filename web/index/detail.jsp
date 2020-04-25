@@ -9,8 +9,8 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <link rel="stylesheet" type="text/css" href="../resources/static/css/main.css">
     <title><%=Constants.WEB_TITLE_NAME%></title>
+    <link rel="stylesheet" type="text/css" href="../resources/static/css/main.css">
 </head>
 <body onload="layui.$('i').load()">
 <%
@@ -54,7 +54,7 @@
                             <div class="color-cont"><span class="btn active">${good.stock}</span></div>
                         </div>
                         <div class="number layui-clear"><span class="title">数&nbsp;&nbsp;&nbsp;&nbsp;量</span>
-                            <div class="number-cont"><span class="cut btn">-</span><input
+                            <div class="number-cont"><span class="cut btn">-</span><input id="amount"
                                     onkeyup="if(this.value.length==1){this.value=this.value.replace(/[^1-9]/g,'')}else{this.value=this.value.replace(/\D/g,'')}"
                                     onafterpaste="if(this.value.length==1){this.value=this.value.replace(/[^1-9]/g,'')}else{this.value=this.value.replace(/\D/g,'')}"
                                     maxlength="4" type="" name="" value="1"><span class="add btn">+</span></div>
@@ -62,7 +62,7 @@
                     </div>
                     <div class="choose-btns">
                         <button class="layui-btn layui-btn-primary purchase-btn">立刻购买</button>
-                        <button class="layui-btn  layui-btn-danger car-btn"><i
+                        <button onclick="addToCart(${good.id},layui.$('#amount')[0].value)" class="layui-btn  layui-btn-danger car-btn"><i
                                 class="layui-icon layui-icon-cart-simple"></i>加入购物车
                         </button>
                     </div>

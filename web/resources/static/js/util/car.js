@@ -67,21 +67,41 @@ var car = {
           switch(cls){
             case 'add layui-btn':
               input.value = val + 1;
-              getSubTotal(this)
+              getSubTotal(this);
+              input.onchange();
               break;
             case 'less layui-btn':
               if(val > 1){
                 input.value = val - 1;
               }
-              getSubTotal(this)
+              getSubTotal(this);
+              input.onchange();
               break;
             case 'dele-btn':
               layer.confirm('你确定要删除吗',{
                 yes:function(index,layero){
-                  layer.close(index)
-                  that.parentNode.removeChild(that);
+                  layer.close(index);
+                  var goodId=layui.$(el).attr("data-goodId");
+                    layui.$.ajax({
+                        url: 'deleteFromCart?ajax=true&goodId='+goodId,
+                        type: 'get',
+                        async: true,
+                        success: function (result) {
+                            var rs = result.split ("~");
+                            var code=rs[0];
+                            if(code<0){
+                                if(code==-1){//用户未登录
+                                    layui.layer.msg(rs[1],{icon: 7})
+                                }else if(code==-2){//异常
+                                    layui.layer.msg(rs[1],{icon: 2})
+                                }
+                            }else{
+                                that.parentNode.removeChild(that);
+                            }
+                        }
+                    })
                 }
-              })
+              });
               break;
           }
           getTotal()

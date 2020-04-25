@@ -1,8 +1,8 @@
 package com.petstore.dao;
 
+import com.petstore.entity.Carts;
 import com.petstore.entity.Goods;
-import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.*;
 
 import java.util.List;
 import java.util.Map;
@@ -111,4 +111,56 @@ public interface GoodsDao extends Total{
     @Select("select g.* from goods g inner join collections c on g.id=c.good_id where g.status=1 and c.user_id=#{userId} and g.type=#{type} order by g.id desc limit #{begin},#{size}")
     List<Goods> getCollectedGoodListByType(@Param("userId")Integer userId, @Param("begin")int begin, @Param("size")int size,@Param("type") int type);
 
+    /**
+     * 加入购物车
+     * @param userId
+     * @param goodId
+     * @param amount
+     * @return
+     */
+    @Insert("insert into carts (amount,good_id,user_id) values (#{amount},#{goodId},#{userId})")
+    int insertCart(@Param("userId") Integer userId, @Param("goodId") Integer goodId, @Param("amount") Integer amount);
+
+    /**
+     * 根据用户id查询购物车
+     * @param userId
+     * @return
+     */
+    @Select("select * from carts where user_id=#{userId}")
+    List<Carts> selectShopCartByUserId(Integer userId);
+
+    /**
+     * 根据用户id查询购物车
+     * @param userId
+     * @return
+     */
+    @Select("select * from carts where user_id=#{userId} and good_id=#{goodId}")
+    Carts selectShopCart(@Param("userId") Integer userId,@Param("goodId") Integer goodId);
+
+    /**
+     * 修改购物车商品数量
+     * @param userId
+     * @param goodId
+     * @param amount
+     * @return
+     */
+    @Update("update carts set amount=#{amount} where user_id=#{userId} and good_id=#{goodId}")
+    int updateCart(@Param("userId") Integer userId,@Param("goodId") Integer goodId,@Param("amount") Integer amount);
+
+    /**
+     * 根据用户id和商品id删除购物车
+     * @param userId
+     * @param goodId
+     * @return
+     */
+    @Delete("delete from carts where user_id=#{userId} and good_id=#{goodId}")
+    int deleteFromCart(@Param("userId") Integer userId,@Param("goodId") Integer goodId);
+
+    /**
+     * 根据用户id删除购物车
+     * @param userId
+     * @return
+     */
+    @Delete("delete from carts where user_id=#{userId}")
+    int deleteFromCartByUserId(Integer userId);
 }
