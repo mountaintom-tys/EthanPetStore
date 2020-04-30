@@ -203,7 +203,9 @@ public class GoodService {
     public List<Carts> getShopCart(Integer userId) {
         List<Carts> cartsList = goodDao.selectShopCartByUserId(userId);
         for (Carts cart : cartsList) {
-            cart.setGood(goodDao.selectById(cart.getGoodId()));
+            Goods good=goodDao.selectById(cart.getGoodId());
+            good.setType(typeService.get(good.getTypeId()));
+            cart.setGood(good);
         }
         return cartsList;
     }
@@ -216,7 +218,9 @@ public class GoodService {
      */
     public Carts getShopCart(Integer userId, Integer goodId) {
         Carts cart = goodDao.selectShopCart(userId, goodId);
-        cart.setGood(goodDao.selectById(cart.getGoodId()));
+        Goods good=goodDao.selectById(cart.getGoodId());
+        good.setType(typeService.get(good.getTypeId()));
+        cart.setGood(good);
         return cart;
     }
 

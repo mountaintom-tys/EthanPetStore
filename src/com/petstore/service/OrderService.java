@@ -104,7 +104,7 @@ public class OrderService {
 
     @Transactional
     public void addOrder(Orders order) {
-        int orderId=orderDao.insertOrder(order);
+        orderDao.insertOrder(order);
         for (Items item : order.getItemsList()) {
             item.setOrderId(order.getId());
             itemDao.insertItem(item);

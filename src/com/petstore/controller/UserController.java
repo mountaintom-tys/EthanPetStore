@@ -224,7 +224,7 @@ public class UserController {
         order.setTotal(total);
         order.setAmount(amount);
         order.setStatus(Orders.STATUS_UNPAY);
-        order.setPaytype(Orders.PAYTYPE_WECHAT);
+//        order.setPaytype(Orders.PAYTYPE_OFFLINE);//默认付款方式为空
         order.setName(user.getName()==null?user.getUsername():user.getName());
         order.setPhone(user.getPhone());
         order.setAddress(user.getAddress()==null?"暂未选择地址":user.getAddress());
@@ -234,11 +234,12 @@ public class UserController {
         order.setItemsList(items);
         try {
             orderService.addOrder(order);
-            goodService.deleteFromCart(user.getId());
+//            goodService.deleteFromCart(user.getId());
         } catch (Exception e) {
-            e.printStackTrace();
+            logger.error(e.getMessage());
         }
-        return "orderList.jsp";
+        request.setAttribute("order",order);
+        return "alipay.jsp";
     }
     /**
      * 根据用户id和商品id获取当前商品收藏状态和被收藏总次数，用户未登录的情况下默认收藏状态为false
