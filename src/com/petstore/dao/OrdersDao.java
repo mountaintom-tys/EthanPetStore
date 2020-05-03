@@ -23,6 +23,14 @@ public interface OrdersDao extends Total{
     // 以下方法使用mybatis注解实现
 
     /**
+     * 根据订单id获取订单对象
+     * @param orderId
+     * @return
+     */
+    @Select("select * from orders where id=#{orderId}")
+    Orders selectOrder(int orderId);
+
+    /**
      * 获取列表
      * @param begin
      * @param size
@@ -32,12 +40,28 @@ public interface OrdersDao extends Total{
     List<Orders> getList(@Param("begin")int begin,@Param("size")int size);
 
     /**
+     * 通过用户id获取订单列表
+     * @param begin
+     * @param size
+     * @param userId
+     * @return
+     */
+    @Select("select * from orders where user_id=#{userId} order by id desc limit #{begin},#{size}")
+    List<Orders> getListByUserId(@Param("begin")int begin,@Param("size")int size,@Param("userId") int userId);
+
+    /**
      * 按状态获取列表
      * @return
      */
     @Select("select * from orders where status=#{status} order by id desc limit #{begin},#{size}")
     List<Orders> getListByStatus(@Param("begin")int begin,@Param("size")int size,@Param("status")int status);
 
+    /**
+     * 按状态和用户id获取订单列表
+     * @return
+     */
+    @Select("select * from orders where status=#{status} and user_id=#{userId} order by id desc limit #{begin},#{size}")
+    List<Orders> getListByStatusByUserId(@Param("begin")int begin,@Param("size")int size,@Param("status")int status,@Param("userId") int userId);
     /**
      * 获取总数
      * @return
@@ -52,5 +76,21 @@ public interface OrdersDao extends Total{
      */
     @Select("select count(*) from orders where status=#{type}")
     long getTotalByType(byte type);
+
+    /**
+     * 通过用户id获取总数
+     * @return
+     */
+    @Select("select count(*) from orders where user_id=#{userId}")
+    long getTotalByUserId(int userId);
+
+    /**
+     * 通过类型和用户id获取总数
+     * @param type
+     * @return
+     */
+    @Select("select count(*) from orders where status=#{type} and user_id=#{userId}")
+    long getTotalByTypeAndUserId(@Param("type") byte type,@Param("userId") int userId);
+
 
 }

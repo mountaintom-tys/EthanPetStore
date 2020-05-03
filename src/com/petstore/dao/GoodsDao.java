@@ -34,6 +34,16 @@ public interface GoodsDao extends Total{
      */
     @Select("select * from goods where type_id=#{type} and status=1 order by id desc limit #{begin},#{size}")
     List<Goods> getListByType(@Param("begin")int begin,@Param("size")int size,@Param("type")int type);
+
+    /**
+     * 根据商品名称模糊查询
+     * @param fuzzyGoodName
+     * @param begin
+     * @param size
+     * @return
+     */
+    @Select("select * from goods where name like '%${fuzzyGoodName}%' limit #{begin},#{size}")
+    List<Goods> getFuzzyList(@Param("fuzzyGoodName")String fuzzyGoodName,@Param("begin") int begin,@Param("size") Integer size);
     /**
      * 获取总数
      * @return
@@ -48,6 +58,14 @@ public interface GoodsDao extends Total{
      */
     @Select("select count(*) from goods where type_id=#{type}")
     long getTotalByType(byte type);
+
+    /**
+     * 通过商品名模糊查询
+     * @param fuzzyGoodName
+     * @return
+     */
+    @Select("select count(*) from goods where name like '%${fuzzyGoodName}%'")
+    long getTotalByFuzzyGoodName(@Param("fuzzyGoodName") String fuzzyGoodName);
 
     /**
      * 通过用户id和商品id查询collections表记录
@@ -86,8 +104,16 @@ public interface GoodsDao extends Total{
      * 获取被收藏最多的商品id和数量
      * @return
      */
-    @Select("SELECT good_id,count(*) count  FROM `collections` GROUP BY good_id HAVING count=(select max(count) from(SELECT good_id,count(*) count  FROM `collections` GROUP BY good_id) r) limit 0,5")
-    List<Map<String,Integer>> selectMostCollectedGoodIdAndCount();
+    @Select("SELECT good_id,count(*) count  FROM `collections` GROUP BY good_id HAVING count=(select max(count) from(SELECT good_id,count(*) count  FROM `collections` GROUP BY good_id) r) limit 0,#{size}")
+    List<Map<String,Integer>> selectMostCollectedGoodIdAndCount(int size);
+
+    /**
+     * 获取所有被收藏过的商品
+     * @param size
+     * @return
+     */
+    @Select("SELECT good_id,count(*) count  FROM `collections` GROUP BY good_id order by count desc limit 0,#{size}")
+    List<Map<String,Integer>> selectBeenCollectedGoodIdAndCount(int size);
 
     /**
      * 获取收藏商品列表
@@ -163,4 +189,5 @@ public interface GoodsDao extends Total{
      */
     @Delete("delete from carts where user_id=#{userId}")
     int deleteFromCartByUserId(Integer userId);
+
 }

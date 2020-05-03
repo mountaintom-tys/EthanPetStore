@@ -1,5 +1,7 @@
 package com.petstore.entity;
 
+import org.springframework.util.StringUtils;
+
 /**
  * 用户
  */
@@ -93,5 +95,49 @@ public class Users {
 
     public void setPasswordNew(String passwordNew) {
         this.passwordNew = passwordNew;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if(this == obj){
+            return true;//地址相等
+        }
+        if(obj == null){
+            return false;//非空性：对于任意非空引用x，x.equals(null)应该返回false。
+        }
+        if(obj instanceof Users){
+            Users other = (Users) obj;
+            //需要比较的字段相等，则这两个对象相等
+            if(equalsStr(this.username, other.username)
+                    && equalsStr(this.password, other.password)&&equalsStr(this.passwordNew,other.passwordNew)
+                    &&this.securityQuestion.equals(other.securityQuestion)&&this.securityAnswer.equals(other.securityAnswer)
+                    &&this.phone.equals(other.phone)&&equalsStr(this.name,other.name)&&equalsStr(this.address,other.address)){
+                return true;
+            }
+        }
+        return false;
+    }
+    private boolean equalsStr(String str1, String str2){
+        if(StringUtils.isEmpty(str1) && StringUtils.isEmpty(str2)){
+            return true;
+        }
+        if(!StringUtils.isEmpty(str1) && str1.equals(str2)){
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    public int hashCode() {
+        int result=17;
+        result=31*result+(username==null?0:username.hashCode());
+        result=31*result+(password==null?0:password.hashCode());
+        result=31*result+(passwordNew==null?0:passwordNew.hashCode());
+        result=31*result+(securityQuestion==null?0:securityQuestion.hashCode());
+        result=31*result+(securityAnswer==null?0:securityAnswer.hashCode());
+        result=31*result+(phone==null?0:phone.hashCode());
+        result=31*result+(name==null?0:name.hashCode());
+        result=31*result+(address==null?0:address.hashCode());
+        return result;
     }
 }

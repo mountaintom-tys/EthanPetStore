@@ -45,45 +45,29 @@
     </li>
     <li id="collections" class="layui-nav-item"><a href="${pageContext.request.contextPath}/index/goodList?goodListType=collected">我的收藏</a></li>
     <li id="shopCart" class="layui-nav-item"><a href="${pageContext.request.contextPath}/index/logged/shopCart">购物车</a></li>
-    <li id="myOrderList" class="layui-nav-item"><a href="javascript:;">我的订单</a></li>
+    <li id="orderList" class="layui-nav-item"><a href="${pageContext.request.contextPath}/index/logged/orderList">我的订单</a></li>
     <li id="admin" class="layui-nav-item"><a href="${pageContext.request.contextPath}/admin/orderList">后台管理</a></li>
     <li id="typeList3" class="layui-nav-itemp">
         <div class="layui-form" style="display: inline-block;color: black">
             <div class="">
                 <div class="layui-input-inline">
-                    <select name="city" lay-verify="required" lay-search="">
+                    <select name="fuzzyGoodSelect" lay-verify="required" lay-search="" lay-filter="fuzzyGoodSelect">
                         <option value="">带搜索的选择框</option>
-                        <option value="1">layer</option>
-                        <option value="2">form</option>
-                        <option value="3">layim</option>
-                        <option value="4">element</option>
-                        <option value="5">laytpl</option>
-                        <option value="6">upload</option>
-                        <option value="7">laydate</option>
-                        <option value="8">laypage</option>
-                        <option value="9">flow</option>
-                        <option value="10">util</option>
-                        <option value="11">code</option>
-                        <option value="12">tree</option>
-                        <option value="13">layedit</option>
-                        <option value="14">nav</option>
-                        <option value="15">tab</option>
-                        <option value="16">table</option>
-                        <option value="17">select</option>
-                        <option value="18">checkbox</option>
-                        <option value="19">switch</option>
-                        <option value="20">radio</option>
+                        <c:forEach var="good" items="${fuzzyGoodList}">
+                            <option value="${good.name}">${good.name}</option>
+                        </c:forEach>
                     </select>
+                    <a href="" id="fuzzyGoodLink" style="visibility: hidden"></a>
                 </div>
             </div>
         </div>
     </li>
-    <li id="newsList" class="layui-nav-item"><a href="javascript:;">新消息<span class="layui-badge">9</span></a></li>
-    <li id="adminRe" class="layui-nav-item">
+<%--    <li id="newsList" class="layui-nav-item"><a href="javascript:;">新消息<span class="layui-badge">9</span></a></li>--%>
+    <li id="userRe" class="layui-nav-item">
         <a href="javascript:;"><img src="//t.cn/RCzsdCq" class="layui-nav-img">我</a>
         <dl class="layui-nav-child">
-            <dd><a href="adminRe">修改信息</a></dd>
-            <dd><a href="logged/logout">退出</a></dd>
+            <dd><a href="${pageContext.request.contextPath}/index/logged/userRe">修改信息</a></dd>
+            <dd><a href="logout">退出</a></dd>
         </dl>
     </li>
 </ul>
@@ -106,11 +90,21 @@
             $("#collections").addClass("layui-this")
         } else if (curhref.indexOf("shopCart") != -1) {
             $("#shopCart").addClass("layui-this")
-        } else if (curhref.indexOf("news") != -1) {
+        } else if (curhref.indexOf("orderList") != -1) {
+            $("#orderList").addClass("layui-this")
+        }else if (curhref.indexOf("news") != -1) {
             $("#newsList").addClass("layui-this")
+        }else if (curhref.indexOf("userRe") != -1) {
+            $("#userRe").addClass("layui-this")
         } else {
             $("#homePage").addClass("layui-this")
         }
+        form.on('select(fuzzyGoodSelect)',function(data){
+            var url="${pageContext.request.contextPath}/index/goodList?goodListType=fuzzy&fuzzyGoodName="+data.value;
+            var a=$("#fuzzyGoodLink");
+            a.href=url;
+            a.click();
+        })
     });
 </script>
 </body>

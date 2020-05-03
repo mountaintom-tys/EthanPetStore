@@ -11,7 +11,7 @@
  Target Server Version : 50556
  File Encoding         : 65001
 
- Date: 26/04/2020 02:45:07
+ Date: 04/05/2020 02:39:23
 */
 
 SET NAMES utf8mb4;
@@ -47,7 +47,7 @@ CREATE TABLE `carts`  (
   `good_id` int(11) NOT NULL COMMENT '商品id',
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE INDEX `Carts_unique_userIdAndGoodId`(`user_id`, `good_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 18 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Compact;
+) ENGINE = InnoDB AUTO_INCREMENT = 62 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Compact;
 
 -- ----------------------------
 -- Table structure for collections
@@ -59,15 +59,16 @@ CREATE TABLE `collections`  (
   `good_id` int(11) NOT NULL COMMENT '商品id',
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE INDEX `collections_unique_uid_gid`(`user_id`, `good_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 34 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '用户收藏表' ROW_FORMAT = Compact;
+) ENGINE = InnoDB AUTO_INCREMENT = 37 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '用户收藏表' ROW_FORMAT = Compact;
 
 -- ----------------------------
 -- Records of collections
 -- ----------------------------
 INSERT INTO `collections` VALUES (32, 22, 15);
+INSERT INTO `collections` VALUES (35, 22, 17);
 INSERT INTO `collections` VALUES (30, 22, 18);
-INSERT INTO `collections` VALUES (33, 22, 19);
-INSERT INTO `collections` VALUES (28, 22, 20);
+INSERT INTO `collections` VALUES (34, 22, 19);
+INSERT INTO `collections` VALUES (36, 22, 20);
 INSERT INTO `collections` VALUES (20, 23, 14);
 INSERT INTO `collections` VALUES (22, 23, 17);
 INSERT INTO `collections` VALUES (13, 23, 19);
@@ -114,20 +115,13 @@ CREATE TABLE `items`  (
   `cart_id` int(11) NULL DEFAULT NULL COMMENT '购物车id',
   `good_id` int(11) NULL DEFAULT NULL COMMENT '蛋糕id',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 12 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '订单项表，每个订单可能有多个商品，由此表关联' ROW_FORMAT = Compact;
+) ENGINE = InnoDB AUTO_INCREMENT = 45 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '订单项表，每个订单可能有多个商品，由此表关联' ROW_FORMAT = Compact;
 
 -- ----------------------------
 -- Records of items
 -- ----------------------------
-INSERT INTO `items` VALUES (3, 1028, 1, 2, 2, 10);
-INSERT INTO `items` VALUES (4, 999, 1, 2, 2, 14);
-INSERT INTO `items` VALUES (5, 20, 2, 3, 10, 15);
-INSERT INTO `items` VALUES (6, 32, 1, 4, 11, 19);
-INSERT INTO `items` VALUES (7, 12, 1, 1, 12, 18);
-INSERT INTO `items` VALUES (8, 32, 2, 5, 13, 19);
-INSERT INTO `items` VALUES (9, 20, 1, 6, 15, 14);
-INSERT INTO `items` VALUES (10, 32, 1, 6, 14, 19);
-INSERT INTO `items` VALUES (11, 100, 1, 7, 16, 10);
+INSERT INTO `items` VALUES (43, 12, 1, 35, 60, 17);
+INSERT INTO `items` VALUES (44, 12, 1, 35, 61, 18);
 
 -- ----------------------------
 -- Table structure for orders
@@ -145,17 +139,12 @@ CREATE TABLE `orders`  (
   `systime` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '下单时间',
   `user_id` int(11) NULL DEFAULT NULL COMMENT '下单用户',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 8 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Compact;
+) ENGINE = InnoDB AUTO_INCREMENT = 36 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Compact;
 
 -- ----------------------------
 -- Records of orders
 -- ----------------------------
-INSERT INTO `orders` VALUES (2, 11827, 4, 2, 3, '唐意山', '15181777983', '四川剑阁', '2020-04-17 16:14:44', 22);
-INSERT INTO `orders` VALUES (3, 72, 3, 1, 1, NULL, '15181777983', NULL, '2020-04-26 02:22:23', 22);
-INSERT INTO `orders` VALUES (4, 12, 1, 1, 1, NULL, '15181777983', NULL, '2020-04-26 02:30:05', 22);
-INSERT INTO `orders` VALUES (5, 64, 2, 1, 1, NULL, '15181777983', NULL, '2020-04-26 02:33:22', 22);
-INSERT INTO `orders` VALUES (6, 52, 2, 1, 1, NULL, '15181777983', NULL, '2020-04-26 02:39:42', 22);
-INSERT INTO `orders` VALUES (7, 100, 1, 1, 1, NULL, '15181777983', NULL, '2020-04-26 02:40:50', 22);
+INSERT INTO `orders` VALUES (35, 24, 2, 2, 2, 'ethant', '15181777983', '暂未选择地址', '2020-05-03 21:39:34', 22);
 
 -- ----------------------------
 -- Table structure for types
@@ -196,7 +185,7 @@ CREATE TABLE `users`  (
 -- ----------------------------
 -- Records of users
 -- ----------------------------
-INSERT INTO `users` VALUES (22, 'ethant', '15181777983', 'a0oXLKopgPh2Emu56MC12Q==', '123?', 'yJOXpxCuYkm+zIQrRHPdpQ==', NULL, NULL);
+INSERT INTO `users` VALUES (22, 'ethant', '15181777983', 'a0oXLKopgPh2Emu56MC12Q==', '123?', 'j7yS+chZnjnv9pPf3uqaMA==', '唐意山', '成都');
 INSERT INTO `users` VALUES (23, '123', '15181777984', 'a0oXLKopgPh2Emu56MC12Q==', '123?', 'yJOXpxCuYkm+zIQrRHPdpQ==', NULL, NULL);
 INSERT INTO `users` VALUES (24, '321', '15181777985', 'a0oXLKopgPh2Emu56MC12Q==', '123?', 'yJOXpxCuYkm+zIQrRHPdpQ==', NULL, NULL);
 

@@ -1,5 +1,8 @@
 package com.petstore.controller;
 
+import com.alipay.api.AlipayApiException;
+import com.alipay.api.internal.util.AlipaySignature;
+import com.alipay.config.AlipayConfig;
 import com.petstore.entity.*;
 import com.petstore.service.GoodService;
 import com.petstore.service.OrderService;
@@ -19,9 +22,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.util.*;
 
-@Controller
+@Controller("userController")
 @RequestMapping("/index")
 public class UserController {
     static Logger logger = Logger.getLogger(UserController.class);
@@ -33,6 +37,10 @@ public class UserController {
     private UserService userService;
     @Autowired
     private OrderService orderService;
+
+    public TypeService getTypeService() {
+        return typeService;
+    }
 
     /**
      * 首页
@@ -46,7 +54,11 @@ public class UserController {
     @RequestMapping("/homePage")
     public String homePage(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         request.setAttribute("typeList", typeService.getList());
-        request.setAttribute("mostCollectedGoods", getMostCollectedGoods());
+        if(request.getSession().getAttribute("typeList")==null){
+            request.getSession().setAttribute("typeList",typeService.getList());
+        }
+        request.setAttribute("mostCollectedGoods", getMostCollectedGoods(5));
+        request.getSession().setAttribute("fuzzyGoodList",getMostCollectedGoods(-16));
         return "index.jsp";
     }
 
@@ -58,30 +70,36 @@ public class UserController {
     @RequestMapping("/goodList")
     public String goodList(@RequestParam(required = false, defaultValue = "-1") int type, HttpServletRequest request, HttpServletResponse response,
                            @RequestParam(required = false, defaultValue = "1") Integer page, @RequestParam(required = false, defaultValue = "8") Integer limit,
-                           @RequestParam(required = false,defaultValue = "") String goodListType,@RequestParam(required = false,defaultValue = "0") Integer tempType) throws IOException {
+                           @RequestParam(required = false, defaultValue = "") String goodListType, @RequestParam(required = false, defaultValue = "0") Integer tempType) throws IOException {
         if (type != -1) {//商品类型，type=-1表示不查询任何商品
             if (goodListType.equals("")) {//商品列表类型,为空时代表只有查询条件只有type
                 Map<String, Object> map = goodService.getMap((byte) type, page, limit);
                 WebUtil.reponseToJson(response, map);
             } else {
-                if(goodListType.equals("collected")){
+                if (goodListType.equals("collected")) {//用户收藏列表
                     Users user = (Users) request.getSession().getAttribute("user");
                     if (Objects.nonNull(user) && !user.toString().trim().isEmpty()) {//判断用户是否已登录
-                        Map<String, Object> map = goodService.getCollectedGoodMap(user.getId(),(byte) type, page, limit);
+                        Map<String, Object> map = goodService.getCollectedGoodMap(user.getId(), (byte) type, page, limit);
                         WebUtil.reponseToJson(response, map);
                     } else {
                         response.sendRedirect("../homePage?loginWindow=true");
                     }
+                }else if(goodListType.equals("fuzzy")){//模糊查询列表
+                    String fuzzyGoodName=request.getParameter("fuzzyGoodName");
+                    Map<String, Object> map = goodService.getFuzzyGoodMap(fuzzyGoodName, (byte) type, page, limit);
+                    WebUtil.reponseToJson(response, map);
                 }
             }
         }
-        Types types=null;
-        if(tempType!=0){
-            types=typeService.get(tempType);
+        Types types = null;
+        if (tempType != 0) {
+            types = typeService.get(tempType);
         }
-        request.setAttribute("type",tempType);
-        request.setAttribute("types",types);
-        request.setAttribute("goodListType",goodListType);
+        String fuzzyGoodName=request.getParameter("fuzzyGoodName");
+        request.setAttribute("fuzzyGoodName",fuzzyGoodName);
+        request.setAttribute("type", tempType);
+        request.setAttribute("types", types);
+        request.setAttribute("goodListType", goodListType);
         request.setAttribute("typeList", typeService.getList());
         return "goodList.jsp";
     }
@@ -113,20 +131,21 @@ public class UserController {
 
     /**
      * 加入购物车
+     *
      * @param request
      * @param response
      * @param goodId
      * @param amount
      */
     @RequestMapping("/logged/addToCart")
-    public void addToCart(HttpServletRequest request,HttpServletResponse response,Integer goodId,Integer amount){
+    public void addToCart(HttpServletRequest request, HttpServletResponse response, Integer goodId, Integer amount) {
         Users user = (Users) request.getSession().getAttribute("user");
         try {
-            if(goodId!=null&&amount!=null){
-                if(goodService.addToCart(user.getId(),goodId,amount)>0){
+            if (goodId != null && amount != null) {
+                if (goodService.addToCart(user.getId(), goodId, amount) > 0) {
                     WebUtil.reponseToAjax(response, "addToCart", "0~已加入购物车！");
                 }
-            }else{
+            } else {
                 WebUtil.reponseToAjax(response, "addToCart", "-2~参数异常！");
             }
         } catch (Exception e) {
@@ -138,32 +157,34 @@ public class UserController {
 
     /**
      * 我的购物车列表
+     *
      * @param request
      * @return
      */
     @RequestMapping("/logged/shopCart")
-    public String shopCart(HttpServletRequest request){
+    public String shopCart(HttpServletRequest request) {
         Users user = (Users) request.getSession().getAttribute("user");
-        List<Carts> cartList=goodService.getShopCart(user.getId());
-        request.setAttribute("cartList",cartList);
+        List<Carts> cartList = goodService.getShopCart(user.getId());
+        request.setAttribute("cartList", cartList);
         request.setAttribute("typeList", typeService.getList());
         return "shopCart.jsp";
     }
 
     /**
      * 更新购物车商品数量
+     *
      * @param request
      * @param response
      * @param goodId
      * @param amount
      */
     @RequestMapping("/logged/changeCartAmount")
-    public void changeCartAmount(HttpServletRequest request,HttpServletResponse response,Integer goodId,Integer amount){
+    public void changeCartAmount(HttpServletRequest request, HttpServletResponse response, Integer goodId, Integer amount) {
         Users user = (Users) request.getSession().getAttribute("user");
         try {
-            if(goodId!=null&&amount!=null){
-                goodService.changeCartAmount(user.getId(),goodId,amount);
-            }else{
+            if (goodId != null && amount != null) {
+                goodService.changeCartAmount(user.getId(), goodId, amount);
+            } else {
                 WebUtil.reponseToAjax(response, "changeCartAmount", "-2~参数异常！");
             }
         } catch (Exception e) {
@@ -174,17 +195,18 @@ public class UserController {
 
     /**
      * 根据用户id和商品id删除购物车
+     *
      * @param request
      * @param response
      * @param goodId
      */
     @RequestMapping("/logged/deleteFromCart")
-    public void deleteFromCart(HttpServletRequest request,HttpServletResponse response,Integer goodId){
+    public void deleteFromCart(HttpServletRequest request, HttpServletResponse response, Integer goodId) {
         Users user = (Users) request.getSession().getAttribute("user");
         try {
-            if(goodId!=null){
-                goodService.deleteFromCart(user.getId(),goodId);
-            }else{
+            if (goodId != null) {
+                goodService.deleteFromCart(user.getId(), goodId);
+            } else {
                 WebUtil.reponseToAjax(response, "deleteFromCart", "-2~参数异常！");
             }
         } catch (Exception e) {
@@ -195,6 +217,7 @@ public class UserController {
 
     /**
      * 购物车结算
+     *
      * @param request
      * @param response
      * @param goodIdList
@@ -202,45 +225,180 @@ public class UserController {
      */
     @Transactional
     @RequestMapping("/logged/settlement")
-    public String settlement(HttpServletRequest request,HttpServletResponse response,Integer []goodIdList){
-        Users user = (Users) request.getSession().getAttribute("user");
-        List<Items> items=new ArrayList<Items>();
-        Float total=new Float(0);
-        int amount=0;
-        for (Integer goodId : goodIdList) {
-            Items item =new Items();
-            Carts cart=goodService.getShopCart(user.getId(),goodId);
-            item.setPrice(cart.getGood().getPrice());
-            item.setAmount(cart.getAmount());
-            item.setCartId(cart.getId());
-            item.setGoodId(cart.getGoodId());
-            item.setTotal(item.getAmount()*item.getPrice());
-            item.setGood(cart.getGood());
-            total+=item.getTotal();
-            amount+=item.getAmount();
-            items.add(item);
-        }
-        Orders order=new Orders();
-        order.setTotal(total);
-        order.setAmount(amount);
-        order.setStatus(Orders.STATUS_UNPAY);
+    public String settlement(HttpServletRequest request, HttpServletResponse response, Integer[] goodIdList) {
+        String page=request.getParameter("page");
+        if(page!=null&&page.equals("payPage")){
+            Orders order=(Orders) request.getSession().getAttribute("orderInSession");
+            request.setAttribute("order",order);
+        }else{
+            Users user = (Users) request.getSession().getAttribute("user");
+            List<Items> items = new ArrayList<Items>();
+            Float total = new Float(0);
+            int amount = 0;
+            for (Integer goodId : goodIdList) {
+                Items item = new Items();
+                Carts cart = goodService.getShopCart(user.getId(), goodId);
+                item.setPrice(cart.getGood().getPrice());
+                item.setAmount(cart.getAmount());
+                item.setCartId(cart.getId());
+                item.setGoodId(cart.getGoodId());
+                item.setTotal(item.getAmount() * item.getPrice());
+                item.setGood(cart.getGood());
+                total += item.getTotal();
+                amount += item.getAmount();
+                items.add(item);
+            }
+            Orders order = new Orders();
+            order.setTotal(total);
+            order.setAmount(amount);
+            order.setStatus(Orders.STATUS_UNPAY);
 //        order.setPaytype(Orders.PAYTYPE_OFFLINE);//默认付款方式为空
-        order.setName(user.getName()==null?user.getUsername():user.getName());
-        order.setPhone(user.getPhone());
-        order.setAddress(user.getAddress()==null?"暂未选择地址":user.getAddress());
-        order.setSystime(Calendar.getInstance().getTime());
-        order.setUserId(user.getId());
-        order.setUser(user);
-        order.setItemsList(items);
-        try {
-            orderService.addOrder(order);
-//            goodService.deleteFromCart(user.getId());
-        } catch (Exception e) {
-            logger.error(e.getMessage());
+            order.setName(user.getName() == null ? user.getUsername() : user.getName());
+            order.setPhone(user.getPhone());
+            order.setAddress(user.getAddress() == null ? "暂未选择地址" : user.getAddress());
+            order.setSystime(Calendar.getInstance().getTime());
+            order.setUserId(user.getId());
+            order.setUser(user);
+            order.setItemsList(items);
+            try {
+                orderService.addOrder(order);
+                for (Integer goodId : goodIdList) {
+                    goodService.deleteFromCart(user.getId(),goodId);
+                }
+            } catch (Exception e) {
+                logger.error(e.getMessage());
+            }
+            request.setAttribute("order", order);
+            request.getSession().setAttribute("orderInSession",order);
         }
-        request.setAttribute("order",order);
         return "alipay.jsp";
     }
+
+    /**
+     * 我的订单
+     * @param status
+     * @param response
+     * @return
+     */
+    @RequestMapping("/logged/orderList")
+    public String orderList(@RequestParam(required = false, defaultValue = "-1") int status,HttpServletResponse response,HttpServletRequest request,
+                            @RequestParam(required=false, defaultValue="1") Integer page,@RequestParam(required=false, defaultValue="10")Integer limit) {
+        if(status!=-1){
+            Users user = (Users) request.getSession().getAttribute("user");
+            Map<String, Object> map = orderService.getMap((byte)status,page,limit,user.getId());
+            WebUtil.reponseToJson(response, map);
+        }
+        request.setAttribute("typeList", typeService.getList());
+        return "orderList.jsp";
+    }
+
+    /**
+     * 支付订单
+     * @param id
+     * @param type
+     * @param request
+     * @return
+     */
+    @RequestMapping("/logged/orderUpdate")
+    public String orderUpdate(Integer id,Integer type,HttpServletRequest request){
+        if(id!=null&&type!=null){
+            if(type==2){//付款操作
+                Orders order=orderService.getOrder(id);
+                if(order!=null){
+                    request.setAttribute("order",order);
+                    return "alipay.jsp";
+                }else{
+                    request.setAttribute("msg","订单不存在，请重试！");
+                    return "orderList";
+                }
+            }
+        }else {
+            request.setAttribute("msg","参数错误！");
+            return "orderList";
+        }
+        request.setAttribute("msg","未定义的更新订单状态！");
+        return "orderList";
+    }
+
+
+    /**
+     * 支付宝订单异步通知
+     * @param request
+     */
+    @RequestMapping("/orderAlipayNotify")
+    public void orderAlipayNotify(HttpServletRequest request) throws AlipayApiException, UnsupportedEncodingException {
+        Map<String,String> params = new HashMap<String,String>();
+        Map<String,String[]> requestParams = request.getParameterMap();
+        for (Iterator<String> iter = requestParams.keySet().iterator(); iter.hasNext();) {
+            String name = (String) iter.next();
+            String[] values = (String[]) requestParams.get(name);
+            String valueStr = "";
+            for (int i = 0; i < values.length; i++) {
+                valueStr = (i == values.length - 1) ? valueStr + values[i]
+                        : valueStr + values[i] + ",";
+            }
+            //乱码解决，这段代码在出现乱码时使用
+//		valueStr = new String(valueStr.getBytes("ISO-8859-1"), "utf-8");
+            params.put(name, valueStr);
+        }
+        boolean signVerified = AlipaySignature.rsaCheckV1(params, AlipayConfig.alipay_public_key, AlipayConfig.charset, AlipayConfig.sign_type); //调用SDK验证签名
+
+        //——请在这里编写您的程序（以下代码仅作参考）——
+
+	/* 实际验证过程建议商户务必添加以下校验：
+	1、需要验证该通知数据中的out_trade_no是否为商户系统中创建的订单号，
+	2、判断total_amount是否确实为该订单的实际金额（即商户订单创建时的金额），
+	3、校验通知中的seller_id（或者seller_email) 是否为out_trade_no这笔单据的对应的操作方（有的时候，一个商户可能有多个seller_id/seller_email）
+	4、验证app_id是否为该商户本身。
+	*/
+        if(signVerified) {//验证成功
+            //商户订单号
+            String out_trade_no = new String(request.getParameter("out_trade_no").getBytes("ISO-8859-1"),"UTF-8");
+
+            //支付宝交易号
+            String trade_no = new String(request.getParameter("trade_no").getBytes("ISO-8859-1"),"UTF-8");
+
+            //交易状态
+            String trade_status = new String(request.getParameter("trade_status").getBytes("ISO-8859-1"),"UTF-8");
+
+            if(trade_status.equals("TRADE_FINISHED")){
+                //判断该笔订单是否在商户网站中已经做过处理
+                //如果没有做过处理，根据订单号（out_trade_no）在商户网站的订单系统中查到该笔订单的详细，并执行商户的业务程序
+                //如果有做过处理，不执行商户的业务程序
+
+                //注意：
+                //退款日期超过可退款期限后（如三个月可退款），支付宝系统发送该交易状态通知
+            }else if (trade_status.equals("TRADE_SUCCESS")){
+                //判断该笔订单是否在商户网站中已经做过处理
+                //如果没有做过处理，根据订单号（out_trade_no）在商户网站的订单系统中查到该笔订单的详细，并执行商户的业务程序
+                //如果有做过处理，不执行商户的业务程序
+                orderService.orderUpdate(Integer.parseInt(out_trade_no),2);
+                orderService.orderPayTypeUpdate(Integer.parseInt(out_trade_no),2);
+                //注意：
+                //付款完成后，支付宝系统发送该交易状态通知
+            }
+
+        }else {//验证失败
+            System.out.println("交易失败！");
+
+            //调试用，写文本函数记录程序运行情况是否正常
+            //String sWord = AlipaySignature.getSignCheckContentV1(params);
+            //AlipayConfig.logResult(sWord);
+        }
+    }
+    /**
+     * 删除订单
+     * @param id
+     * @return
+     */
+    @RequestMapping("/logged/orderDelete")
+    public String orderDelete(Integer id){
+        if(id!=null){
+            orderService.deleteById(id);
+        }
+        return "redirect:orderList";
+    }
+
     /**
      * 根据用户id和商品id获取当前商品收藏状态和被收藏总次数，用户未登录的情况下默认收藏状态为false
      *
@@ -273,8 +431,8 @@ public class UserController {
      * @return
      */
     @RequestMapping("/getMostCollectedGoods")
-    public List<Goods> getMostCollectedGoods() {
-        List<Map<String, Integer>> goodIdAndCountList = goodService.getMostCollectedGoodIdAndCount();
+    public List<Goods> getMostCollectedGoods(int limit) {
+        List<Map<String, Integer>> goodIdAndCountList = goodService.getMostCollectedGoodIdAndCount(limit);
         List<Goods> mostCollectedGoodList = new ArrayList<>();
         if (goodIdAndCountList != null) {
             for (Map<String, Integer> goodIdAndCount : goodIdAndCountList) {
@@ -406,6 +564,55 @@ public class UserController {
         }
     }
 
+    /**
+     *用户进入修改信息页面
+     * @param request
+     * @param session
+     * @return
+     */
+    @RequestMapping("/logged/userRe")
+    public String userRe(HttpServletRequest request,HttpSession session){
+        return "userReset.jsp";
+    }
+
+    /**
+     * 用户修改自己的信息
+     * @param userNew
+     * @param request
+     * @param session
+     * @return
+     */
+    @RequestMapping("/logged/userReset")
+    public String userReset(Users userNew,HttpServletRequest request,HttpSession session){
+        userNew.setPassword(SafeUtil.encode(userNew.getPassword()));
+        userNew.setPasswordNew(SafeUtil.encode(userNew.getPasswordNew()));
+        Users user =(Users) request.getSession().getAttribute("user");
+        user.setPasswordNew(user.getPassword());
+        if(!user.getPassword().equals(userNew.getPassword())){
+            request.setAttribute("msg","原密码不正确，请重新输入！");
+            return "userRe";
+        }
+        if(user.equals(userNew)){
+            request.setAttribute("msg","未作任何修改！");
+            return "userRe";
+        }
+        if(userService.isExist(userNew)){
+            request.setAttribute("msg","手机号已被注册！");
+            return "userRe";
+        }
+        if(!user.getSecurityAnswer().equals(userNew.getSecurityAnswer())){
+            userNew.setSecurityAnswer(SafeUtil.encode(userNew.getSecurityAnswer()));
+        }
+        userNew.setPassword(userNew.getPasswordNew());
+        if(userService.updateUser(userNew)>0){
+            request.getSession().setAttribute("user",userNew);
+            request.setAttribute("msg","信息修改成功！");
+            return "userRe";
+        }
+        request.setAttribute("msg","信息修改失败！");
+        return "userRe";
+
+    }
     /**
      * 退出登录
      *

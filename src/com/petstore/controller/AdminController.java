@@ -102,7 +102,9 @@ public class AdminController {
             request.setAttribute("msg","用户名已存在！");
             return "adminRe";
         }
-        adminNew.setSecurityAnswer(SafeUtil.encode(adminNew.getSecurityAnswer()));
+        if(!admin.getSecurityAnswer().equals(adminNew.getSecurityAnswer())){
+            adminNew.setSecurityAnswer(SafeUtil.encode(adminNew.getSecurityAnswer()));
+        }
         if(adminService.update(adminNew)){
             session.setAttribute("adminName",adminNew.getUsername());
             request.setAttribute("msg","信息修改成功！");

@@ -62,8 +62,8 @@
     <update id="updateUser" parameterType="com.petstore.entity.Users">
         update users set username=#{username},phone=#{phone},password=#{password},
         security_question=#{securityQuestion},security_answer=#{securityAnswer},
-        name=#{name},address=#{address}
-        where phone = #{phone}
+        name=#{name},address=#{address},phone=#{phone}
+        where id = #{id}
     </update>
 </mapper>
 	  

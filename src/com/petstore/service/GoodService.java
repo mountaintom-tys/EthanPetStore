@@ -57,6 +57,32 @@ public class GoodService {
     }
 
     /**
+     * 根据商品名模糊查询
+     * @param fuzzyGoodName
+     * @param type
+     * @param page
+     * @param limit
+     * @return
+     */
+    public Map<String, Object> getFuzzyGoodMap(String fuzzyGoodName, byte type, Integer page, Integer limit) {
+        Map<String, Object> map = new HashMap<>();
+        List<Goods> goodList;
+        if (type == 0) {//返回所有类型商品集合
+            goodList = goodDao.getFuzzyList(fuzzyGoodName,limit * (page - 1), limit);
+            map = totalService.getMapByFuzzyGoodName(fuzzyGoodName,map, type, goodDao);//获取数据库中当前类型商品总数量
+            map.put("data", packToList(goodList));
+            return map;
+        }
+//        else {//返回指定类型商品集合
+//            goodList = goodDao.FuzzyByType(fuzzyGoodName,limit * (page - 1), limit, type);
+//            map = totalService.getMapByFuzzyGoodName(fuzzyGoodName,map, type, goodDao);
+//            map.put("data", packToList(goodList));
+//            return map;
+//        }
+        return null;
+    }
+
+    /**
      * 封装商品信息
      *
      * @param list
@@ -148,8 +174,13 @@ public class GoodService {
      *
      * @return
      */
-    public List<Map<String, Integer>> getMostCollectedGoodIdAndCount() {
-        return goodDao.selectMostCollectedGoodIdAndCount();
+    public List<Map<String, Integer>> getMostCollectedGoodIdAndCount(int limit) {
+        if(limit>=0){
+            return goodDao.selectMostCollectedGoodIdAndCount(limit);
+        }else{
+            limit=limit*(-1);
+            return goodDao.selectBeenCollectedGoodIdAndCount(limit);
+        }
     }
 
     /**
@@ -254,4 +285,5 @@ public class GoodService {
     public int deleteFromCart(Integer userId) {
         return goodDao.deleteFromCartByUserId(userId);
     }
+
 }

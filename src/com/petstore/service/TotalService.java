@@ -20,7 +20,21 @@ public class TotalService<T extends Total> {
         this.dao=dao;
         map.put("code", 0);
         map.put("msg", "");
-        map.put("count",this.getTotal(type));
+        map.put("count",this.getTotal(type,-1,""));
+        return map;
+    }
+    public Map<String, Object> getMapByUserId(Map<String, Object> map, byte type, T dao,int userId) {
+        this.dao=dao;
+        map.put("code", 0);
+        map.put("msg", "");
+        map.put("count",this.getTotal(type,userId,""));
+        return map;
+    }
+    public Map<String, Object> getMapByFuzzyGoodName(String fuzzyGoodName,Map<String, Object> map, byte type, T dao) {
+        this.dao=dao;
+        map.put("code", 0);
+        map.put("msg", "");
+        map.put("count",this.getTotal(type,-1,fuzzyGoodName));
         return map;
     }
     /**
@@ -28,10 +42,26 @@ public class TotalService<T extends Total> {
      * @param type
      * @return
      */
-    public long getTotal(int type){
-        if(type==0){
-            return dao.getTotal();
+    public long getTotal(int type,int userId,String fuzzyGoodName){
+        if(fuzzyGoodName.equals("")){
+            if(userId==-1) {
+                if (type == 0) {
+                    return dao.getTotal();
+                }
+                return dao.getTotalByType((byte) type);
+            }else{
+                if (type == 0) {
+                    return dao.getTotalByUserId(userId);
+                }
+                return dao.getTotalByTypeAndUserId((byte) type,userId);
+            }
+        }else{
+            if(type==0){
+                return dao.getTotalByFuzzyGoodName(fuzzyGoodName);
+            }
         }
-        return dao.getTotalByType((byte)type);
+        return 0;
     }
+
+
 }

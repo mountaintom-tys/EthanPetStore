@@ -54,4 +54,18 @@ public class UserService {
             return -1;
         }
     }
+
+    /**
+     * 用户是否存在
+     * @param userNew
+     * @return
+     */
+    public boolean isExist(Users userNew) {
+        Users userdb=userDao.selectUserByPhone(userNew.getPhone());
+        if(userdb!=null){
+            return !userdb.getId().equals(userNew.getId());
+        }else{
+            return false;
+        }
+    }
 }

@@ -49,11 +49,14 @@
         var type='${type}';//商品类型
         var goodListType='${goodListType}';//商品列表类型
         var tyeps='${types}';
+        var fuzzyGoodName='${fuzzyGoodName}';
         if(tyeps!=""){
             layui.$(".crumb")[0].innerHTML=layui.$("#navigate")[0].innerHTML;
         }else if(goodListType!=""){
             if(goodListType=="collected"){
                 layui.$(".crumb a")[0].innerText='我的收藏';
+            }else if(goodListType=="fuzzy"){
+                layui.$(".crumb a")[0].innerText='搜索结果';
             }
         }
         //手动加载
@@ -66,7 +69,7 @@
                 var lis = [];
                 var limit=8;
                 layui.$.ajax({
-                    url: 'goodList?type='+type+'&page=' + page + '&limit='+limit+'&goodListType='+goodListType,
+                    url: 'goodList?type='+type+'&page=' + page + '&limit='+limit+'&goodListType='+goodListType+'&fuzzyGoodName='+fuzzyGoodName,
                     type: 'get',
                     async: true,
                     success: function (result) {

@@ -47,6 +47,11 @@ public class AdminService {
      */
     public boolean isExist(Admins adminNew) {
         Admins admindb=adminDao.getByUserName(adminNew.getUsername());
-        return !admindb.getId().equals(adminNew.getId());
+        if(admindb!=null){
+            return !admindb.getId().equals(adminNew.getId());
+        }else{
+            return false;
+        }
+
     }
 }

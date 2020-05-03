@@ -12,6 +12,11 @@
     <title><%=Constants.FRONT_WEB_TITLE_NAME%>
     </title>
     <link rel="stylesheet" type="text/css" href="../../resources/static/css/main.css">
+    <%
+        response.setHeader("Cache-Control","no-store");
+        response.setDateHeader("Expires", 0);
+        response.setHeader("Pragma","no-cache");
+    %>
 </head>
 <body>
 <%@include file="header.jsp" %>
@@ -30,7 +35,7 @@
         <p>全场包邮&nbsp;品质保证</p>
     </div>
     <div class="cart w1200">
-        <form action="settlement" method="post">
+        <form action="settlement" method="post" onsubmit="return checkFormData(this)">
             <div class="cart-table-th">
                 <div class="th th-chk">
                     <div class="select-all">
@@ -218,6 +223,15 @@
                 }
             }
         })
+    }
+
+    function checkFormData(form){
+        var size=layui.$(form).find(".CheckBoxShop:checked").size();
+        if(size<=0){
+            layui.layer.msg("未选择任何商品！",{offset:'30%',icon:5});
+            return false;
+        }
+        return true;
     }
 </script>
 </body>

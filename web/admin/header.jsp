@@ -17,7 +17,7 @@
     <li id="orderList" class="layui-nav-item layui-this"><a href="orderList">订单管理</a></li>
     <li id="goodList" class="layui-nav-item"><a href="goodList">商品管理</a></li>
     <li id="typeList" class="layui-nav-item"><a href="typeList">类目管理</a></li>
-    <li id="newsList" class="layui-nav-item"><a href="javascript:;">新消息<span class="layui-badge">9</span></a></li>
+<%--    <li id="newsList" class="layui-nav-item"><a href="javascript:;">新消息<span class="layui-badge">9</span></a></li>--%>
     <li id="adminRe" class="layui-nav-item">
         <a href="javascript:;"><img src="//t.cn/RCzsdCq" class="layui-nav-img">我</a>
         <dl class="layui-nav-child">

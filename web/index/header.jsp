@@ -49,45 +49,29 @@
     <li id="register" class="layui-nav-item"><a onclick="userRegister()" href="javascript:;">注册</a></li>
     <li id="login" class="layui-nav-item"><a onclick="userLogin()" href="javascript:;">登录</a></li>
     <li id="admin" class="layui-nav-item"><a href="../admin/orderList">后台管理</a></li>
-    <li id="typeList3" class="layui-nav-itemp">
+    <li id="typeList3" class="layui-nav-itemp" style="margin-left: 60px">
         <div class="layui-form" style="display: inline-block;color: black">
             <div class="">
                 <div class="layui-input-inline">
-                    <select name="city" lay-verify="required" lay-search="">
+                    <select name="fuzzyGoodSelect" lay-verify="required" lay-search="" lay-filter="fuzzyGoodSelect">
                         <option value="">带搜索的选择框</option>
-                        <option value="1">layer</option>
-                        <option value="2">form</option>
-                        <option value="3">layim</option>
-                        <option value="4">element</option>
-                        <option value="5">laytpl</option>
-                        <option value="6">upload</option>
-                        <option value="7">laydate</option>
-                        <option value="8">laypage</option>
-                        <option value="9">flow</option>
-                        <option value="10">util</option>
-                        <option value="11">code</option>
-                        <option value="12">tree</option>
-                        <option value="13">layedit</option>
-                        <option value="14">nav</option>
-                        <option value="15">tab</option>
-                        <option value="16">table</option>
-                        <option value="17">select</option>
-                        <option value="18">checkbox</option>
-                        <option value="19">switch</option>
-                        <option value="20">radio</option>
+                        <c:forEach var="good" items="${fuzzyGoodList}">
+                            <option value="${good.name}">${good.name}</option>
+                        </c:forEach>
                     </select>
+                    <a href="" id="fuzzyGoodLink" style="visibility: hidden"></a>
                 </div>
             </div>
         </div>
     </li>
-    <li id="newsList" class="layui-nav-item"><a href="javascript:;">新消息<span class="layui-badge">9</span></a></li>
-    <li id="adminRe" class="layui-nav-item">
-        <a href="javascript:;"><img src="//t.cn/RCzsdCq" class="layui-nav-img">我</a>
-        <dl class="layui-nav-child">
-            <dd><a href="adminRe">修改信息</a></dd>
-            <dd><a href="logout">退出</a></dd>
-        </dl>
-    </li>
+<%--    <li id="newsList" class="layui-nav-item"><a href="javascript:;">新消息<span class="layui-badge">9</span></a></li>--%>
+<%--    <li id="adminRe" class="layui-nav-item">--%>
+<%--        <a href="javascript:;"><img src="//t.cn/RCzsdCq" class="layui-nav-img">我</a>--%>
+<%--        <dl class="layui-nav-child">--%>
+<%--            <dd><a href="adminRe">修改信息</a></dd>--%>
+<%--            <dd><a href="logout">退出</a></dd>--%>
+<%--        </dl>--%>
+<%--    </li>--%>
 </ul>
 
 <script type="text/javascript" src="../resources/layui/layui.js"></script>
@@ -115,6 +99,25 @@
         } else {
             $("#orderList").addClass("layui-this")
         }
+        var fuzzy="";
+        //输入框的值改变时触发
+        $(".layui-select-title .layui-input").on("input",function(e){
+            //获取input输入的值
+            fuzzy=e.delegateTarget.value
+        });
+        form.on('select(fuzzyGoodSelect)',function(data){
+            var fuzzyGoodName;
+            if(data.value==""){
+                fuzzyGoodName=fuzzy;
+            }else{
+                fuzzyGoodName=data.value;
+            }
+
+            var url="${pageContext.request.contextPath}/index/goodList?goodListType=fuzzy&fuzzyGoodName="+fuzzyGoodName;
+            var a=$("#fuzzyGoodLink")[0];
+            a.href=url;
+            a.click();
+        })
         layer.config({
             offset: '25%',
             extend: 'myskin/style.css'

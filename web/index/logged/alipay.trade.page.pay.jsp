@@ -22,9 +22,9 @@
 	//付款金额，必填
 	String total_amount = new String(request.getParameter("WIDtotal_amount").getBytes("ISO-8859-1"),"UTF-8");
 	//订单名称，必填
-	String subject = new String(request.getParameter("WIDsubject").getBytes("ISO-8859-1"),"UTF-8");
+	String subject = new String(request.getParameter("WIDsubject").getBytes("UTF-8"),"UTF-8");
 	//商品描述，可空
-	String body = new String(request.getParameter("WIDbody").getBytes("ISO-8859-1"),"UTF-8");
+	String body = new String(request.getParameter("WIDbody").getBytes("UTF-8"),"UTF-8");
 	
 	alipayRequest.setBizContent("{\"out_trade_no\":\""+ out_trade_no +"\"," 
 			+ "\"total_amount\":\""+ total_amount +"\"," 

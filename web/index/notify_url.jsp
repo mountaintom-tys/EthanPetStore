@@ -1,10 +1,13 @@
 <%@ page language="java" contentType="text/html; charset=utf-8"
 	pageEncoding="utf-8"%>
-<%@ page import="java.util.*"%>
-<%@ page import="java.util.Map"%>
-<%@ page import="com.alipay.config.*"%>
-<%@ page import="com.alipay.api.*"%>
-<%@ page import="com.alipay.api.internal.util.*"%>
+<%@ page import="com.alipay.api.internal.util.AlipaySignature"%>
+<%@ page import="com.alipay.config.AlipayConfig"%>
+<%@ page import="com.petstore.controller.UserController"%>
+<%@ page import="org.springframework.context.ApplicationContext"%>
+<%@ page import="org.springframework.context.support.FileSystemXmlApplicationContext"%>
+<%@ page import="java.util.HashMap" %>
+<%@ page import="java.util.Iterator" %>
+<%@ page import="java.util.Map" %>
 <%
 /* *
  * 功能：支付宝服务器异步通知页面
@@ -33,7 +36,7 @@
 					: valueStr + values[i] + ",";
 		}
 		//乱码解决，这段代码在出现乱码时使用
-		valueStr = new String(valueStr.getBytes("ISO-8859-1"), "utf-8");
+//		valueStr = new String(valueStr.getBytes("ISO-8859-1"), "utf-8");
 		params.put(name, valueStr);
 	}
 	
@@ -50,7 +53,7 @@
 	if(signVerified) {//验证成功
 		//商户订单号
 		String out_trade_no = new String(request.getParameter("out_trade_no").getBytes("ISO-8859-1"),"UTF-8");
-	
+
 		//支付宝交易号
 		String trade_no = new String(request.getParameter("trade_no").getBytes("ISO-8859-1"),"UTF-8");
 	
@@ -61,22 +64,19 @@
 			//判断该笔订单是否在商户网站中已经做过处理
 			//如果没有做过处理，根据订单号（out_trade_no）在商户网站的订单系统中查到该笔订单的详细，并执行商户的业务程序
 			//如果有做过处理，不执行商户的业务程序
-				
+
 			//注意：
 			//退款日期超过可退款期限后（如三个月可退款），支付宝系统发送该交易状态通知
 		}else if (trade_status.equals("TRADE_SUCCESS")){
 			//判断该笔订单是否在商户网站中已经做过处理
 			//如果没有做过处理，根据订单号（out_trade_no）在商户网站的订单系统中查到该笔订单的详细，并执行商户的业务程序
 			//如果有做过处理，不执行商户的业务程序
-			
 			//注意：
 			//付款完成后，支付宝系统发送该交易状态通知
 		}
 		
-		out.println("success");
-		
 	}else {//验证失败
-		out.println("fail");
+        System.out.println("交易失败！");
 	
 		//调试用，写文本函数记录程序运行情况是否正常
 		//String sWord = AlipaySignature.getSignCheckContentV1(params);

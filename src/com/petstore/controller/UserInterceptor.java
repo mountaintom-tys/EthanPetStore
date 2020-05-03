@@ -14,7 +14,7 @@ public class UserInterceptor extends HandlerInterceptorAdapter {
     @Override
     public boolean preHandle(HttpServletRequest request,
                              HttpServletResponse response, Object handler) throws Exception {
-        request.getSession().setAttribute("/EthanPetStore/index/getVerifyCode","test");//跳过验证码设置
+//        request.getSession().setAttribute("/EthanPetStore/index/getVerifyCode","test");//跳过验证码设置
         String uri = request.getRequestURI();
         if(uri.contains("/logged")) {
             Object user = request.getSession().getAttribute("user");

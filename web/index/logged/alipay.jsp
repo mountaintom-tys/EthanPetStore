@@ -192,6 +192,7 @@ h2 {
 	color: #fff;
 }
 </style>
+	<%request.setAttribute("orders",request.getAttribute("order"));%>
 </head>
 <body text=#000000 bgColor="#ffffff" leftMargin=0 topMargin=4>
 	<header class="am-header">
@@ -217,13 +218,16 @@ h2 {
 					<hr class="one_line">
 					<dt>付款金额 ：</dt>
 					<dd>
-						<input id="WIDtotal_amount" name="WIDtotal_amount" value="${order.total}" />元
+						<input id="WIDtotal_amount" name="WIDtotal_amount" value="${order.total}"/>元
 					</dd>
 					<hr class="one_line">
 					<dt>商品描述：</dt>
-					<dd>
-						<textarea id="WIDbody" name="WIDbody" value="" readonly rows="${order.itemsList.size()}" style="resize: none" >
-						</textarea>
+					<dd style="display: none">
+						<input id="WIDbody" name="WIDbody" value=""/>
+					</dd>
+					<dd style="height: auto">
+						<div id="description" style="height: auto;width: 100%">
+						</div>
 					</dd>
 					<hr class="one_line">
 					<dt></dt>
@@ -243,14 +247,18 @@ h2 {
 		</div>
 	</div>
 </body>
-<script id="goodDescription" type="text/html">
+<div id="goodDescription" type="text/html" style="display: none">
 	<c:forEach var="item" items="${order.itemsList}">
-		商品名称：${item.good.name}&nbsp;单价：${item.price}元&nbsp;数量：${item.amount}&nbsp;小计：${item.total}元<br>
+		商品名称：${item.good.name}&nbsp;单价：${item.price}元&nbsp;数量：${item.amount}&nbsp;小计：${item.total}元<br/>
 	</c:forEach>
-</script>
+</div>
 <script language="javascript">
+	var curHref=window.location.href
+	if(curHref.indexOf("page")<=0){
+		history.replaceState("", "Title", curHref+"?page=payPage");
+	}
 	var goodDescription=document.getElementById("goodDescription").innerText;
-	document.getElementById("WIDbody").value=goodDescription;
+	document.getElementById("description").innerText=goodDescription;
 	var tabs = document.getElementsByName('tab');
 	var contents = document.getElementsByName('divcontent');
 	
