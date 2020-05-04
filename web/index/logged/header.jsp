@@ -99,9 +99,22 @@
         } else {
             $("#homePage").addClass("layui-this")
         }
+        var fuzzy="";
+        //输入框的值改变时触发
+        $(".layui-select-title .layui-input").on("input",function(e){
+            //获取input输入的值
+            fuzzy=e.delegateTarget.value
+        });
         form.on('select(fuzzyGoodSelect)',function(data){
-            var url="${pageContext.request.contextPath}/index/goodList?goodListType=fuzzy&fuzzyGoodName="+data.value;
-            var a=$("#fuzzyGoodLink");
+            var fuzzyGoodName;
+            if(data.value==""){
+                fuzzyGoodName=fuzzy;
+            }else{
+                fuzzyGoodName=data.value;
+            }
+
+            var url="${pageContext.request.contextPath}/index/goodList?goodListType=fuzzy&fuzzyGoodName="+fuzzyGoodName;
+            var a=$("#fuzzyGoodLink")[0];
             a.href=url;
             a.click();
         })
