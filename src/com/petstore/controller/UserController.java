@@ -311,6 +311,15 @@ public class UserController {
                     request.setAttribute("msg","订单不存在，请重试！");
                     return "orderList";
                 }
+            }else{
+                int effects=orderService.orderUpdate(id,type);
+                if(effects>0){
+                    request.setAttribute("msg","状态更新成功！");
+                    return "orderList";
+                }else if(effects==0){
+                    request.setAttribute("msg","状态更新失败，请重试！");
+                    return "orderList";
+                }
             }
         }else {
             request.setAttribute("msg","参数错误！");

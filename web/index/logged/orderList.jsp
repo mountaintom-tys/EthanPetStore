@@ -108,6 +108,10 @@
                 <a class="layui-btn" href="orderUpdate?id={{d.id}}&type=2">付款</a>
                 <a class="layui-btn layui-btn-danger" onclick="javascript:if (confirm('确定取消{{d.user.username}}的订单吗？')) { return true;}else{return false;};" href="orderDelete?id={{d.id}}">取消</a>
                 {{# break;
+                case 3:}}
+                <a class="layui-btn" href="orderUpdate?id={{d.id}}&type=4">确认收货</a>
+                <a class="layui-btn layui-btn-danger" onclick="javascript:if (confirm('确定删除{{d.user.username}}的订单吗？')) { return true;}else{return false;};" href="orderDelete?id={{d.id}}">删除</a>
+                {{# break;
                 default:}}
                 <a class="layui-btn layui-btn-danger" onclick="javascript:if (confirm('确定删除{{d.user.username}}的订单吗？')) { return true;}else{return false;};" href="orderDelete?id={{d.id}}">删除</a>
                 {{# break;
