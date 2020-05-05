@@ -9,7 +9,7 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
 <head>
-    <title><%=Constants.WEB_TITLE_NAME%></title>
+    <title><%=Constants.FRONT_WEB_TITLE_NAME%></title>
     <link rel="stylesheet" type="text/css" href="../resources/static/css/main.css">
 </head>
 <body onload="layui.$('i').load()">
