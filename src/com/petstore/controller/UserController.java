@@ -300,18 +300,24 @@ public class UserController {
      * @return
      */
     @RequestMapping("/logged/orderUpdate")
-    public String orderUpdate(Integer id,Integer type,HttpServletRequest request){
+    public String orderUpdate(Integer id,Integer type,@RequestParam(required = false, defaultValue = "0") int payType,HttpServletRequest request){
         if(id!=null&&type!=null){
-            if(type==2){//付款操作
+            if(payType!=0){//付款操作
                 Orders order=orderService.getOrder(id);
                 if(order!=null){
-                    request.setAttribute("order",order);
-                    return "alipay.jsp";
+                    if(payType==2){//支付宝方式付款
+                        request.setAttribute("order",order);
+                        return "alipay.jsp";
+                    }else if(payType==3){//货到付款
+                        orderService.orderUpdate(id,type);
+                        orderService.orderPayTypeUpdate(id,payType);
+                        return  "redirect:orderList";
+                    }
                 }else{
                     request.setAttribute("msg","订单不存在，请重试！");
                     return "orderList";
                 }
-            }else{
+            }else{//非付款操作
                 int effects=orderService.orderUpdate(id,type);
                 if(effects>0){
                     request.setAttribute("msg","状态更新成功！");

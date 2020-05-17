@@ -61,7 +61,7 @@
                         </div>
                     </div>
                     <div class="choose-btns">
-                        <button class="layui-btn layui-btn-primary purchase-btn">立刻购买</button>
+<%--                        <button class="layui-btn layui-btn-primary purchase-btn">立刻购买</button>--%>
                         <button onclick="addToCart(${good.id},layui.$('#amount')[0].value)" class="layui-btn  layui-btn-danger car-btn"><i
                                 class="layui-icon layui-icon-cart-simple"></i>加入购物车
                         </button>

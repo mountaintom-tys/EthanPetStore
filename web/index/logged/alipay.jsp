@@ -73,6 +73,14 @@ h2 {
 	font-size: 16px;
 }
 
+.new-btn-login-sp a{
+	margin-left: -10%;
+	padding: 1px;
+	display: inline-block;
+	width: 107%;
+}
+
+
 #main {
 	width: 100%;
 	margin: 0 auto;
@@ -143,6 +151,10 @@ h2 {
 }
 
 #btn-dd {
+	margin: 20px;
+	text-align: center;
+}
+.btn-dd {
 	margin: 20px;
 	text-align: center;
 }
@@ -234,8 +246,13 @@ h2 {
 					<dd id="btn-dd">
 						<span class="new-btn-login-sp">
 							<button class="new-btn-login" type="submit"
-								style="text-align: center;">付 款</button>
-						</span> <span class="note-help">如果您点击“付款”按钮，即表示您同意该次的执行操作。</span>
+								style="text-align: center;">支付宝支付</button>
+						</span> <span class="note-help">如果您点击“支付宝支付”按钮，即表示您同意该次的执行操作。</span>
+					</dd>
+					<dd class="btn-dd">
+						<span class="new-btn-login-sp">
+							<a class="new-btn-login" style="text-align: center;" href="orderUpdate?id=${order.id}&type=2&payType=3">货到付款</a>
+						</span>
 					</dd>
 				</dl>
 			</div>
