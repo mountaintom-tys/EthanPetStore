@@ -1,0 +1,27 @@
+version: "3.7"
+
+services:
+  EthanPetStore:
+    image: tomcat
+    command: sh -c "./catalina.sh run"
+    ports:
+      - 3000:8080
+    working_dir: /usr/local/tomcat/bin
+    volumes:
+      - ./out/artifacts/EthanPetStoreArchive:/usr/local/tomcat/webapps
+    environment:
+      MYSQL_HOST: mysql
+      MYSQL_USER: root
+      MYSQL_PASSWORD: 123456
+      MYSQL_DB: ethanpetstore
+  mysql:
+    image: mysql:5.5.56
+    volumes:
+      - ethan-mysql-data:/var/lib/mysql
+      - ./data:/mnt
+    environment:
+      MYSQL_ROOT_PASSWORD: 123456
+      MYSQL_DATABASE: ethanpetstore
+      command: sh -c "mysql -p 123456;create database ethanpetstore;use ethanpetstore;source /mnt/ethanpetstore.sql"
+volumes:
+  ethan-mysql-data: 
