@@ -22,6 +22,6 @@ services:
     environment:
       MYSQL_ROOT_PASSWORD: 123456
       MYSQL_DATABASE: ethanpetstore
-      command: sh -c "mysql -p 123456;create database ethanpetstore;use ethanpetstore;source /mnt/ethanpetstore.sql"
+      command: sh -c "mysql -p123456;create database ethanpetstore;use ethanpetstore;source /mnt/ethanpetstore.sql"
 volumes:
   ethan-mysql-data: 
