@@ -67,7 +67,7 @@
         <a href="javascript:;"><img src="//t.cn/RCzsdCq" class="layui-nav-img">我</a>
         <dl class="layui-nav-child">
             <dd><a href="${pageContext.request.contextPath}/index/logged/userRe">修改信息</a></dd>
-            <dd><a href="logout">退出</a></dd>
+            <dd><a href="${pageContext.request.contextPath}/index/logged/logout">退出</a></dd>
         </dl>
     </li>
 </ul>
