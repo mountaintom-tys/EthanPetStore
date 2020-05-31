@@ -27,10 +27,10 @@ public class AlipayConfig {
     public static String alipay_public_key = "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAuEH+C5NST5YtB9au2jM9oVDN+4fDWveFnfkFRdxSNy0mNmoFTnX313c8hiwvTD6RCp67rzYDLRFHLdVFz0+C5AK2drc2vewQhP58CoDJVnPexdMY6W4JEIhWDjX1XLKC69RCCHg6bWWs27YWFxtjj+pKRypACHsd1zxxmy2xYdyoZ7MfhKSgNnat5mMScQpmin9/bjFQBX7DrUSksjdAOe+QYPSDXI4WxIgLrG92m7Sy3t9veZQm6GsKqL5669OKurHujffEGOUZ/6Eps8Mw80mgV+/kn+WXLyfT31kx7FRe8Q/G1dUdgnwR5zIMgunvS1sNnWmUWJKrNPI1dbPpLQIDAQAB";
 
     // �������첽֪ͨҳ��·��  ��http://��ʽ������·�������ܼ�?id=123�����Զ����������������������������
-    public static String notify_url = "http://mountaintom.uicp.net/index/orderAlipayNotify";
+    public static String notify_url = "http://mountaintom.uicp.net/EthanPetStoreArchive/index/orderAlipayNotify";
 
     // ҳ����תͬ��֪ͨҳ��·�� ��http://��ʽ������·�������ܼ�?id=123�����Զ����������������������������
-    public static String return_url = "http://mountaintom.uicp.net/index/return_url.jsp";
+    public static String return_url = "http://mountaintom.uicp.net/EthanPetStoreArchive/index/return_url.jsp";
 
     // ǩ����ʽ
     public static String sign_type = "RSA2";
