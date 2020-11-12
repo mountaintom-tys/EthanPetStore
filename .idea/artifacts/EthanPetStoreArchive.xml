@@ -1,8 +1,0 @@
-<component name="ArtifactManager">
-  <artifact type="war" name="EthanPetStoreArchive">
-    <output-path>$PROJECT_DIR$/out/artifacts/EthanPetStoreArchive</output-path>
-    <root id="archive" name="EthanPetStoreArchive.war">
-      <element id="artifact" artifact-name="EthanPetStore" />
-    </root>
-  </artifact>
-</component>
