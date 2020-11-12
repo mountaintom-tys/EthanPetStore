@@ -2,13 +2,10 @@ version: "3.7"
 
 services:
   EthanPetStore:
-    image: tomcat
-    command: sh -c "./catalina.sh run"
+    image: ethanpetstore:lasted
+    container_name: EthanPetStore
     ports:
-      - 3000:8080
-    working_dir: /usr/local/tomcat/bin
-    volumes:
-      - ./out/artifacts/EthanPetStore:/usr/local/tomcat/webapps
+      - 3000:8081
     environment:
       MYSQL_HOST: mysql
       MYSQL_USER: root

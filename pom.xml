@@ -9,8 +9,9 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.ethant</groupId>
-    <artifactId>EthanPetStore</artifactId>
+    <artifactId>ethanpetstore</artifactId>
     <version>0.0.1-SNAPSHOT</version>
+    <packaging>war</packaging>
     <name>EthanPetStore</name>
     <description>online pet store</description>
 
@@ -111,6 +112,21 @@
             <artifactId>commons-logging</artifactId>
             <version>1.2</version>
         </dependency>
+        <dependency>
+            <groupId>alipay-sdk-java</groupId>
+            <artifactId>alipay-sdk-java</artifactId>
+            <version>0.0.1</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/libs/alipay-sdk-java20170324180803.jar</systemPath>
+        </dependency>
+        <dependency>
+            <groupId>alipay-sdk-javasource</groupId>
+            <artifactId>alipay-sdk-javasource</artifactId>
+            <version>0.0.1</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/libs/alipay-sdk-java20170324180803-source.jar</systemPath>
+        </dependency>
+
     </dependencies>
 
     <build>
@@ -118,7 +134,26 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+                    <includeSystemScope>true</includeSystemScope>
+                </configuration>
             </plugin>
         </plugins>
+        <resources>
+            <resource>
+                <directory>src/main/webapp</directory>
+                <includes>
+                    <include>**/**</include>
+                </includes>
+                <filtering>true</filtering>
+            </resource>
+            <resource>
+                <directory>src/main/resources</directory>
+                <includes>
+                    <include>**/**</include>
+                </includes>
+                <filtering>true</filtering>
+            </resource>
+        </resources>
     </build>
 </project>
