@@ -1,0 +1,72 @@
+.subscribe {
+    background: url(../../img/index/cat3.jpg) no-repeat 50% 0px fixed;
+    background-size: cover;
+    text-align: center;
+    padding: 10em 0;
+}
+
+input:-webkit-autofill,
+textarea:-webkit-autofill,
+select:-webkit-autofill {
+    -webkit-box-shadow: 0 0 0px 1000px #fff inset;
+}
+
+.site-banner {
+    position: relative;
+    height: 550px;
+    text-align: center;
+    overflow: hidden;
+    background-color: #f2f2f2;
+}
+
+.bannerInfo{
+    position: absolute;
+    left: 20%;
+    top:25%;
+    text-align: left;
+}
+
+.bannerImg{
+    position: absolute;
+    right: 20%;
+    top:20%;
+}
+
+.banner h2.hdng {
+    font-size: 6em;
+    font-family: 'Marvel-Regular';
+    color: #5D4B33;
+    font-weight: 800;
+    text-align: left;
+}
+.banner a {
+    color: #5D4B33;
+}
+
+.banner a:hover {
+    border-color: #F07818;
+    color: #F07818;
+}
+
+.banner p {
+    font-size: 1.3em;
+    margin: 1em 0 3em;
+    letter-spacing: 7px;
+    font-weight: 700;
+    color: #F07818;
+    text-align: left;
+}
+
+a:focus {
+    outline: thin dotted;
+    outline: 5px auto -webkit-focus-ring-color;
+    outline-offset: -2px;
+}
+
+.banner_a {
+    font-size: 1.5em;
+    color: #5D4B33;
+    font-weight: 800;
+    padding: 0.5em 3em;
+    border: 7px solid #5D4B33;
+}
