@@ -71,6 +71,7 @@
                             <i class="layui-icon">&#xe67c;</i>上传图片
                         </button>
                         <input type="hidden" id="img_url" name="cover" value="${good.cover}"/>
+                        <input type="hidden" id="org_img_url" name="orgCover" value="${good.cover}"/>
                         <div class="layui-upload-list">
                             <img class="layui-upload-img" src="../${good.cover}" width="100px" height="80px" id="demo1"/>
                             <p id="demoText"></p>
@@ -111,8 +112,10 @@
         }
         var uploadInst = upload.render({
             elem: '#img' //绑定元素
-            ,url: '../admin/uploadFile' //上传接口
+            ,url: '../admin/uploadFile?orgCover='+$("#org_img_url")[0].value//上传接口
+            ,data: {oldImgUrl:$("#img_url")[0].value}
             ,before:function (obj) {
+                this.data.oldImgUrl=$("#img_url")[0].value;
                 //预读本地文件实例，不支持ie8
                 obj.preview(function (index,file,result) {
                     $("#demo1").attr("src",result);//图片链接

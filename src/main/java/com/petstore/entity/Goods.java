@@ -9,6 +9,7 @@ public class Goods {
     private Integer id;
     private String name;
     private String cover;
+    private String orgCover;
     private Integer price;
     private String intro;
     private Integer stock;
@@ -86,6 +87,14 @@ public class Goods {
 
     public void setStatus(Integer status) {
         this.status = status;
+    }
+
+    public String getOrgCover() {
+        return orgCover;
+    }
+
+    public void setOrgCover(String orgCover) {
+        this.orgCover = orgCover;
     }
 
     @Override

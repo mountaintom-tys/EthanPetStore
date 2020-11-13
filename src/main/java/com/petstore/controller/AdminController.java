@@ -20,6 +20,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
@@ -229,7 +230,15 @@ public class AdminController {
      */
     @RequestMapping("/uploadFile")
     public void uploadFile(MultipartFile file, HttpServletResponse res,HttpServletRequest req) throws Exception {
+        String oldFile = req.getParameter("oldImgUrl");
+        String orgCover = req.getParameter("orgCover");
         String contextPath = req.getSession().getServletContext().getRealPath("");
+        File deleFile = new File(contextPath+oldFile);
+        if(!oldFile.equals(orgCover)){
+            if(deleFile.exists()){
+                deleFile.delete();
+            }
+        }
         String savaPath = UploadUtil.fileUpload(file,contextPath);
         res.setCharacterEncoding("UTF-8");
         res.setContentType("application/json;charset=utf-8");
@@ -270,6 +279,14 @@ public class AdminController {
         } else {
             if (goodService.update(good)) {
                 request.setAttribute("msg", "更新成功！");
+                String orgCover = good.getOrgCover();
+                if(orgCover!=null&&!"".equals(orgCover)){
+                    File deleteFile = new File(request.getSession().getServletContext().getRealPath("")+orgCover);
+                    if(deleteFile.exists()){
+                        boolean delete = deleteFile.delete();
+                        System.out.println(delete);
+                    }
+                }
             } else {
                 request.setAttribute("msg", "更新失败！");
             }

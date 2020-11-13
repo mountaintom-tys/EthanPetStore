@@ -106,7 +106,9 @@
         var uploadInst = upload.render({
             elem: '#img' //绑定元素
             ,url: '../admin/uploadFile' //上传接口
+            ,data: {oldImgUrl:$("#img_url")[0].value}
             ,before:function (obj) {
+                this.data.oldImgUrl=$("#img_url")[0].value;
                 //预读本地文件实例，不支持ie8
                 obj.preview(function (index,file,result) {
                     $("#demo1").attr("src",result);//图片链接
