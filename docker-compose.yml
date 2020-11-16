@@ -21,4 +21,4 @@ services:
       MYSQL_DATABASE: ethanpetstore
       command: sh -c "mysql -p123456;create database ethanpetstore;use ethanpetstore;source /mnt/ethanpetstore.sql"
 volumes:
-  ethan-mysql-data: 
+  ethan-mysql-data:

@@ -1,7 +1,7 @@
 /*
  Navicat Premium Data Transfer
 
- Source Server         : MySql
+ Source Server         : Mysql
  Source Server Type    : MySQL
  Source Server Version : 50556
  Source Host           : localhost:3306
@@ -11,7 +11,7 @@
  Target Server Version : 50556
  File Encoding         : 65001
 
- Date: 04/05/2020 02:39:23
+ Date: 16/11/2020 14:58:41
 */
 
 SET NAMES utf8mb4;
@@ -47,7 +47,7 @@ CREATE TABLE `carts`  (
   `good_id` int(11) NOT NULL COMMENT '商品id',
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE INDEX `Carts_unique_userIdAndGoodId`(`user_id`, `good_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 62 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Compact;
+) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Compact;
 
 -- ----------------------------
 -- Table structure for collections
@@ -59,21 +59,33 @@ CREATE TABLE `collections`  (
   `good_id` int(11) NOT NULL COMMENT '商品id',
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE INDEX `collections_unique_uid_gid`(`user_id`, `good_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 37 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '用户收藏表' ROW_FORMAT = Compact;
+) ENGINE = InnoDB AUTO_INCREMENT = 40 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '用户收藏表' ROW_FORMAT = Compact;
 
 -- ----------------------------
 -- Records of collections
 -- ----------------------------
-INSERT INTO `collections` VALUES (32, 22, 15);
-INSERT INTO `collections` VALUES (35, 22, 17);
-INSERT INTO `collections` VALUES (30, 22, 18);
-INSERT INTO `collections` VALUES (34, 22, 19);
-INSERT INTO `collections` VALUES (36, 22, 20);
-INSERT INTO `collections` VALUES (20, 23, 14);
-INSERT INTO `collections` VALUES (22, 23, 17);
-INSERT INTO `collections` VALUES (13, 23, 19);
-INSERT INTO `collections` VALUES (17, 24, 17);
-INSERT INTO `collections` VALUES (16, 24, 18);
+INSERT INTO `collections` VALUES (39, 25, 25);
+INSERT INTO `collections` VALUES (38, 25, 26);
+INSERT INTO `collections` VALUES (37, 25, 27);
+
+-- ----------------------------
+-- Table structure for good_type
+-- ----------------------------
+DROP TABLE IF EXISTS `good_type`;
+CREATE TABLE `good_type`  (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `name` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 6 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Compact;
+
+-- ----------------------------
+-- Records of good_type
+-- ----------------------------
+INSERT INTO `good_type` VALUES (1, '宠物周边');
+INSERT INTO `good_type` VALUES (2, '猫星人');
+INSERT INTO `good_type` VALUES (3, '大型犬');
+INSERT INTO `good_type` VALUES (4, '中型犬');
+INSERT INTO `good_type` VALUES (5, '小型犬');
 
 -- ----------------------------
 -- Table structure for goods
@@ -89,19 +101,17 @@ CREATE TABLE `goods`  (
   `type_id` int(11) NULL DEFAULT NULL COMMENT '分类',
   `status` int(11) NULL DEFAULT 1 COMMENT '产品状态：上线1，下架2',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 21 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Compact;
+) ENGINE = InnoDB AUTO_INCREMENT = 28 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Compact;
 
 -- ----------------------------
 -- Records of goods
 -- ----------------------------
-INSERT INTO `goods` VALUES (10, '哈士奇', 'upload/20041751187.jpg', 100, '可爱的很', 20, 2, 1);
-INSERT INTO `goods` VALUES (14, '阿斯蒂', 'upload/20041742117.jpg', 20, '这是一个很神奇的dog，带给你快乐，哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈，怎么样是不是很搞笑哈哈哈哈哈哈哈哈哈哇哈哈哈哈哈哈哈哈哈', 10, 3, 1);
-INSERT INTO `goods` VALUES (15, '这是什么狗', 'upload/20041733242.jpg', 20, 'asdf', 10, 4, 1);
-INSERT INTO `goods` VALUES (16, '周静儿', 'upload/20031511552.jpg', 20, '猪', 1, 3, 2);
-INSERT INTO `goods` VALUES (17, '泰迪单身狗', 'upload/20041746728.jpg', 12, 'qwerf', 1, 5, 1);
-INSERT INTO `goods` VALUES (18, '小金毛', 'upload/20041729720.jpg', 12, '1212', 1, 5, 1);
-INSERT INTO `goods` VALUES (19, '泰迪情侣', 'upload/20041754644.jpg', 32, '232', 1, 5, 1);
-INSERT INTO `goods` VALUES (20, '一包狗粮', 'upload/20041916220.jpg', 20, '好吃不胖', 10, 1, 1);
+INSERT INTO `goods` VALUES (22, '单身狗', '/static/upload/20111621570.jpg', 1111, '单身的狗', 11, 5, 1);
+INSERT INTO `goods` VALUES (23, '猫猫', '/static/upload/20111657606.jpg', 22, 'cute', 12, 2, 1);
+INSERT INTO `goods` VALUES (24, '一包狗粮', '/static/upload/20111303342.jpg', 100, '好吃极了', 20, 1, 1);
+INSERT INTO `goods` VALUES (25, '情侣装', '/static/upload/20111650985.jpg', 520, '不是穿上情侣装就可以装情侣', 1314, 1, 1);
+INSERT INTO `goods` VALUES (26, '金毛', '/static/upload/20111602283.jpg', 1000, '金毛狮王', 500, 3, 1);
+INSERT INTO `goods` VALUES (27, '狗粮2', '/static/upload/20111651357.jpg', 10, '好吃不腻', 10, 4, 1);
 
 -- ----------------------------
 -- Table structure for items
@@ -115,13 +125,13 @@ CREATE TABLE `items`  (
   `cart_id` int(11) NULL DEFAULT NULL COMMENT '购物车id',
   `good_id` int(11) NULL DEFAULT NULL COMMENT '蛋糕id',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 45 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '订单项表，每个订单可能有多个商品，由此表关联' ROW_FORMAT = Compact;
+) ENGINE = InnoDB AUTO_INCREMENT = 47 CHARACTER SET = utf8 COLLATE = utf8_general_ci COMMENT = '订单项表，每个订单可能有多个商品，由此表关联' ROW_FORMAT = Compact;
 
 -- ----------------------------
 -- Records of items
 -- ----------------------------
-INSERT INTO `items` VALUES (43, 12, 1, 35, 60, 17);
-INSERT INTO `items` VALUES (44, 12, 1, 35, 61, 18);
+INSERT INTO `items` VALUES (45, 10, 1, 36, 1, 27);
+INSERT INTO `items` VALUES (46, 520, 1, 37, 2, 25);
 
 -- ----------------------------
 -- Table structure for orders
@@ -139,31 +149,13 @@ CREATE TABLE `orders`  (
   `systime` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '下单时间',
   `user_id` int(11) NULL DEFAULT NULL COMMENT '下单用户',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 36 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Compact;
+) ENGINE = InnoDB AUTO_INCREMENT = 38 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Compact;
 
 -- ----------------------------
 -- Records of orders
 -- ----------------------------
-INSERT INTO `orders` VALUES (35, 24, 2, 2, 2, 'ethant', '15181777983', '暂未选择地址', '2020-05-03 21:39:34', 22);
-
--- ----------------------------
--- Table structure for types
--- ----------------------------
-DROP TABLE IF EXISTS `types`;
-CREATE TABLE `types`  (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `name` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
-  PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 6 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Compact;
-
--- ----------------------------
--- Records of types
--- ----------------------------
-INSERT INTO `types` VALUES (1, '宠物周边');
-INSERT INTO `types` VALUES (2, '猫星人');
-INSERT INTO `types` VALUES (3, '大型犬');
-INSERT INTO `types` VALUES (4, '中型犬');
-INSERT INTO `types` VALUES (5, '小型犬');
+INSERT INTO `orders` VALUES (36, 10, 1, 1, NULL, '123', '15181777983', '暂未选择地址', '2020-11-16 14:05:38', 25);
+INSERT INTO `orders` VALUES (37, 520, 1, 1, NULL, '123', '15181777983', '暂未选择地址', '2020-11-16 14:08:09', 25);
 
 -- ----------------------------
 -- Table structure for users
@@ -180,13 +172,11 @@ CREATE TABLE `users`  (
   `address` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '收获地址',
   PRIMARY KEY (`id`) USING BTREE,
   UNIQUE INDEX `users_unique_phone`(`phone`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 25 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Compact;
+) ENGINE = InnoDB AUTO_INCREMENT = 26 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Compact;
 
 -- ----------------------------
 -- Records of users
 -- ----------------------------
-INSERT INTO `users` VALUES (22, 'ethant', '15181777983', 'a0oXLKopgPh2Emu56MC12Q==', '123?', 'j7yS+chZnjnv9pPf3uqaMA==', '唐意山', '成都');
-INSERT INTO `users` VALUES (23, '123', '15181777984', 'a0oXLKopgPh2Emu56MC12Q==', '123?', 'yJOXpxCuYkm+zIQrRHPdpQ==', NULL, NULL);
-INSERT INTO `users` VALUES (24, '321', '15181777985', 'a0oXLKopgPh2Emu56MC12Q==', '123?', 'yJOXpxCuYkm+zIQrRHPdpQ==', NULL, NULL);
+INSERT INTO `users` VALUES (25, '123', '15181777983', 'F6YKH0yuxcnyFb4GQnX4Yg==', '123', 'yJOXpxCuYkm+zIQrRHPdpQ==', NULL, NULL);
 
 SET FOREIGN_KEY_CHECKS = 1;

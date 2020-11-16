@@ -9,23 +9,23 @@
         id, name
     </sql>
     <update id="updateById" parameterType="com.petstore.entity.Types">
-        update types set name=#{name,jdbcType=VARCHAR} where id=#{id}
+        update good_type set name=#{name,jdbcType=VARCHAR} where id=#{id}
     </update>
     <select id="selectById" resultMap="BaseResultMap" parameterType="java.lang.Integer">
         select
         <include refid="Base_Column_List"/>
-        from types
+        from good_type
         where id = #{id,jdbcType=INTEGER}
     </select>
     <delete id="deleteById" parameterType="java.lang.Integer">
-        delete from types
+        delete from good_type
         where id = #{id,jdbcType=INTEGER}
     </delete>
     <insert id="insert" parameterType="com.petstore.entity.Types">
         <selectKey resultType="java.lang.Integer" keyProperty="id" order="AFTER">
             SELECT LAST_INSERT_ID()
         </selectKey>
-        insert into types (name)
+        insert into good_type (name)
         values (#{name,jdbcType=VARCHAR})
     </insert>
     <insert id="insertSelective" parameterType="com.petstore.entity.Types">

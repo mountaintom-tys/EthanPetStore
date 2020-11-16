@@ -28,14 +28,14 @@ public interface TypesDao extends Total{
      * 获取分页列表
      * @return
      */
-    @Select("select * from types order by id desc limit #{begin},#{size}")
+    @Select("select * from good_type order by id desc limit #{begin},#{size}")
     List<Types> getList(@Param("begin")int begin,@Param("size")int size);
 
     /**
      * 获取所有列表
      * @return
      */
-    @Select("select * from types order by id desc")
+    @Select("select * from good_type order by id desc")
     List<Types> getListTotal();
     /**
      * 获取总数
@@ -49,7 +49,7 @@ public interface TypesDao extends Total{
      * @param type
      * @return
      */
-    @Select("select count(*) from types where status=#{status}")
+    @Select("select count(*) from good_type where status=#{status}")
     long getTotalByType(byte type);
 
 }
