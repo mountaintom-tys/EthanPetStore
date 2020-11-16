@@ -280,7 +280,7 @@ public class AdminController {
             if (goodService.update(good)) {
                 request.setAttribute("msg", "更新成功！");
                 String orgCover = good.getOrgCover();
-                if(orgCover!=null&&!"".equals(orgCover)){
+                if(orgCover!=null&&!"".equals(orgCover)&&!good.getCover().equals(orgCover)){
                     File deleteFile = new File(request.getSession().getServletContext().getRealPath("")+orgCover);
                     if(deleteFile.exists()){
                         boolean delete = deleteFile.delete();

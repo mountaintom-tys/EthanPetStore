@@ -11,7 +11,7 @@
 <head>
     <title><%=Constants.FRONT_WEB_TITLE_NAME%>
     </title>
-    <link rel="stylesheet" type="text/css" href="../../static/css/main.css">
+    <link rel="stylesheet" type="text/css" href="../../static/static/css/main.css">
     <%
         response.setHeader("Cache-Control","no-store");
         response.setDateHeader("Expires", 0);
@@ -183,7 +183,7 @@
 
 <script type="text/javascript">
     layui.config({
-        base: '../../resources/static/js/util/' //你存放新模块的目录，注意，不是layui的模块目录
+        base: '../../static/static/js/util/' //你存放新模块的目录，注意，不是layui的模块目录
     }).use(['mm', 'jquery', 'element', 'car'], function () {
         var mm = layui.mm, $ = layui.$, element = layui.element, car = layui.car;
 

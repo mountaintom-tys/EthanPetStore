@@ -178,7 +178,7 @@ public class UserController {
         List<Carts> cartList = goodService.getShopCart(user.getId());
         request.setAttribute("cartList", cartList);
         request.setAttribute("typeList", typeService.getList());
-        return "index/shopCart.jsp";
+        return "index/logged/shopCart.jsp";
     }
 
     /**
@@ -282,7 +282,7 @@ public class UserController {
             request.setAttribute("order", order);
             request.getSession().setAttribute("orderInSession",order);
         }
-        return "index/alipay.jsp";
+        return "index/logged/alipay.jsp";
     }
 
     /**
@@ -300,7 +300,7 @@ public class UserController {
             WebUtil.reponseToJson(response, map);
         }
         request.setAttribute("typeList", typeService.getList());
-        return "index/orderList.jsp";
+        return "index/logged/orderList.jsp";
     }
 
     /**
@@ -318,7 +318,7 @@ public class UserController {
                 if(order!=null){
                     if(payType==2){//支付宝方式付款
                         request.setAttribute("order",order);
-                        return "index/alipay.jsp";
+                        return "index/logged/alipay.jsp";
                     }else if(payType==3){//货到付款
                         orderService.orderUpdate(id,type);
                         orderService.orderPayTypeUpdate(id,payType);
@@ -460,7 +460,7 @@ public class UserController {
     public List<Goods> getMostCollectedGoods(int limit) {
         List<Map<String, Integer>> goodIdAndCountList = goodService.getMostCollectedGoodIdAndCount(limit);
         List<Goods> mostCollectedGoodList = new ArrayList<>();
-        if (goodIdAndCountList != null) {
+        if (goodIdAndCountList != null&&goodIdAndCountList.size()>0) {
             for (Map<String, Integer> goodIdAndCount : goodIdAndCountList) {
                 mostCollectedGoodList.add(goodService.get(goodIdAndCount.get("good_id")));
             }
@@ -598,7 +598,7 @@ public class UserController {
      */
     @RequestMapping("/logged/userRe")
     public String userRe(HttpServletRequest request,HttpSession session){
-        return "index/userReset.jsp";
+        return "index/logged/userReset.jsp";
     }
 
     /**
